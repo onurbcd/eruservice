@@ -6,17 +6,19 @@ import com.onurbcd.eruservice.service.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public interface CrudService {
 
-    Dtoable save(Dtoable dto, String id);
+    Dtoable save(Dtoable dto, UUID id);
 
-    void validate(Dtoable dto, Documentable doc, String id);
+    void validate(Dtoable dto, Documentable doc, UUID id);
 
     Documentable fillValues(Dtoable dto, Documentable doc);
 
-    void delete(String id);
+    void delete(UUID id);
 
-    Dtoable getById(String id);
+    Dtoable getById(UUID id);
 
     Page<Dtoable> getAll(Pageable pageable, Filterable filter);
 }

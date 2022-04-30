@@ -4,19 +4,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Document(collation = "{ locale: 'pt', strength: 2 }")
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
 public class Secret extends Identifier implements Documentable {
 
-    @Indexed(unique = true)
+    @Column(unique = true)
     @NotNull
     @Size(min = 3, max = 50)
     private String name;

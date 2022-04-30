@@ -19,6 +19,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class SecretServiceImpl implements SecretService {
 
@@ -43,7 +45,7 @@ public class SecretServiceImpl implements SecretService {
     }
 
     @Override
-    public SecretDto save(Dtoable dto, String id) {
+    public SecretDto save(Dtoable dto, UUID id) {
         var secretDto = (SecretDto) dto;
         var currentSecret = id != null ? repository.findById(id).orElse(null) : null;
         validate(secretDto, currentSecret, id);
@@ -53,7 +55,7 @@ public class SecretServiceImpl implements SecretService {
     }
 
     @Override
-    public void validate(Dtoable dto, Documentable doc, String id) {
+    public void validate(Dtoable dto, Documentable doc, UUID id) {
         Action.checkIf(id == null || doc != null).orElseThrowNotFound(id);
         var secretDto = (SecretDto) dto;
 
@@ -70,18 +72,22 @@ public class SecretServiceImpl implements SecretService {
         secret.setDescription(StringUtils.isNotBlank(secret.getDescription()) ? secret.getDescription() : null);
         secret.setLink(StringUtils.isNotBlank(secret.getLink()) ? secret.getLink() : null);
         secret.setPassword(secret.getPassword() != null ? cryptoable.encrypt(secret.getPassword()) : null);
-        secret.setCreatedDate(currentSecret != null ? currentSecret.getCreatedDate() : null);
+
+        if (currentSecret != null) {
+            secret.setCreatedDate(currentSecret.getCreatedDate());
+        }
+
         return secret;
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(UUID id) {
         Action.checkIf(repository.existsById(id)).orElseThrowNotFound(id);
         repository.deleteById(id);
     }
 
     @Override
-    public SecretDto getById(String id) {
+    public SecretDto getById(UUID id) {
         var secret = repository.findById(id).orElse(null);
         Action.checkIfNotNull(secret).orElseThrowNotFound(id);
         return toDtoMapper.apply(secret);
@@ -92,7 +98,7 @@ public class SecretServiceImpl implements SecretService {
         var secretFilter = (SecretFilter) filter;
 
         return StringUtils.isNotBlank(secretFilter.getSearch())
-                ? repository.getAll(secretFilter.getSearch().trim(), pageable).map(toDtoMapper)
+                ? repository.getAll(secretFilter.getSearch().trim().toLowerCase(), pageable).map(toDtoMapper)
                 : repository.findAll(pageable).map(toDtoMapper);
     }
 }

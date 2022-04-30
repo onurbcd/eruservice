@@ -12,20 +12,16 @@ public class Action {
         this.checkConditionNotTrue = checkConditionNotTrue;
     }
 
-    public Action orElseThrow(Error error, Object... args) {
+    public void orElseThrow(Error error, Object... args) {
         if (checkConditionNotTrue) {
             throw new ApiException(error, HttpStatus.CONFLICT, args);
         }
-
-        return this;
     }
 
-    public Action orElseThrowNotFound(Object... args) {
+    public void orElseThrowNotFound(Object... args) {
         if (checkConditionNotTrue) {
             throw new ApiException(Error.DOCUMENT_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
         }
-
-        return this;
     }
 
     public static Action checkIf(boolean checkCondition) {

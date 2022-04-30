@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/secret")
 public class SecretController {
@@ -29,18 +31,18 @@ public class SecretController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Dtoable> put(@PathVariable("id") String id, @RequestBody SecretDto secretDto) {
+    public ResponseEntity<Dtoable> put(@PathVariable("id") UUID id, @RequestBody SecretDto secretDto) {
         return ResponseEntity.ok(service.save(secretDto, id));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable("id") String id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Dtoable> get(@PathVariable("id") String id) {
+    public ResponseEntity<Dtoable> get(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(service.getById(id));
     }
 

@@ -13,6 +13,7 @@ import com.onurbcd.eruservice.service.helper.Cryptoable;
 import com.onurbcd.eruservice.service.mapper.SecretToDocMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
 import com.onurbcd.eruservice.service.validation.Action;
+import com.onurbcd.eruservice.service.validation.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,8 +24,6 @@ import java.util.UUID;
 
 @Service
 public class SecretServiceImpl implements SecretService {
-
-    private static final int PASSWORD_MIN_LENGTH = 3;
 
     private final SecretRepository repository;
 
@@ -59,8 +58,8 @@ public class SecretServiceImpl implements SecretService {
         Action.checkIf(id == null || doc != null).orElseThrowNotFound(id);
         var secretDto = (SecretDto) dto;
 
-        Action.checkIfSizeGE(secretDto.getPassword(), PASSWORD_MIN_LENGTH)
-                .orElseThrow(Error.SIZE_LESS_THAN, "password", PASSWORD_MIN_LENGTH);
+        Action.checkIfSizeBetween(secretDto.getPassword(), Constants.SIZE_3, Constants.SIZE_50)
+                .orElseThrow(Error.SIZE_NOT_BETWEEN, "password", Constants.SIZE_3, Constants.SIZE_50);
     }
 
     @Override

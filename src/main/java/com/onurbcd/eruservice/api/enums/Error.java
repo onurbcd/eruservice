@@ -11,11 +11,11 @@ public enum Error {
 
     CONSTRAINT_VIOLATION("Constraint Violation"),
 
-    DUPLICATE_KEY("Duplicate Key"),
+    PSQL("PSQL Exception"),
 
     DOCUMENT_DOES_NOT_EXIST("Document with id '%s' does not exist in the database"),
 
-    SIZE_LESS_THAN("%s: size must be greater or equal to %d");
+    SIZE_NOT_BETWEEN("%s: size must be between %d and %d");
 
     private final String message;
 

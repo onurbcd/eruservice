@@ -28,8 +28,8 @@ public class Action {
         return new Action(!checkCondition);
     }
 
-    public static Action checkIfSizeGE(String value, int size) {
-        return new Action(!(value == null || value.length() >= size));
+    public static Action checkIfSizeBetween(String value, int min, int max) {
+        return new Action(!(value == null || (value.length() >= min && value.length() <= max)));
     }
 
     public static <T> Action checkIfNotNull(T value) {

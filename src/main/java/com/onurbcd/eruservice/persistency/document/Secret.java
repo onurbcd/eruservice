@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.persistency.document;
 
+import com.onurbcd.eruservice.service.validation.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,17 +19,18 @@ public class Secret extends Identifier implements Documentable {
 
     @Column(unique = true)
     @NotNull
-    @Size(min = 3, max = 50)
+    @Size(min = Constants.SIZE_3, max = Constants.SIZE_50)
     private String name;
 
-    @Size(min = 5, max = 250)
+    @Size(min = Constants.SIZE_5, max = Constants.SIZE_250)
     private String description;
 
     @URL(regexp = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+    @Size(min = Constants.SIZE_7, max = Constants.SIZE_2048)
     private String link;
 
     @NotNull
-    @Size(min = 3)
+    @Size(min = Constants.SIZE_3, max = Constants.SIZE_50)
     private String username;
 
     @NotNull

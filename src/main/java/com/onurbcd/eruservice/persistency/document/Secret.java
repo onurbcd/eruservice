@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -15,12 +14,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Secret extends Identifier implements Documentable {
-
-    @Column(unique = true)
-    @NotNull
-    @Size(min = Constants.SIZE_3, max = Constants.SIZE_50)
-    private String name;
+public class Secret extends Prime {
 
     @Size(min = Constants.SIZE_5, max = Constants.SIZE_250)
     private String description;

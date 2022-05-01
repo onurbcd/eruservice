@@ -10,12 +10,10 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Getter
 @Setter
-public class SecretDto extends IdentifierDto implements Dtoable, Serializable {
+public class SecretDto extends PrimeDto implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -3994423959939585870L;
-
-    private String name;
 
     private String description;
 

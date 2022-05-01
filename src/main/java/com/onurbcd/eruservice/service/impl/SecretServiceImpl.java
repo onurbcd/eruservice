@@ -72,13 +72,6 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     }
 
     @Override
-    public SecretDto getById(UUID id) {
-        var secret = repository.findById(id).orElse(null);
-        Action.checkIfNotNull(secret).orElseThrowNotFound(id);
-        return toDtoMapper.apply(secret);
-    }
-
-    @Override
     public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
         var secretFilter = (SecretFilter) filter;
 

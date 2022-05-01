@@ -12,20 +12,27 @@ public abstract class AbstractCrudService<T extends Documentable, D extends Dtoa
 
     private final JpaRepository<T, UUID> repository;
 
-    private final ToDtoMappable<T, D> toDtoMappable;
+    private final ToDtoMappable<T, D> toDtoMapper;
 
-    protected AbstractCrudService(JpaRepository<T, UUID> repository, ToDtoMappable<T, D> toDtoMappable) {
+    protected AbstractCrudService(JpaRepository<T, UUID> repository, ToDtoMappable<T, D> toDtoMapper) {
         this.repository = repository;
-        this.toDtoMappable = toDtoMappable;
+        this.toDtoMapper = toDtoMapper;
     }
 
     @Override
     public Dtoable save(Dtoable dto, UUID id) {
-        var currentSecret = id != null ? repository.findById(id).orElse(null) : null;
-        validate(dto, currentSecret, id);
-        @SuppressWarnings("unchecked") var secret = (T) fillValues(dto, currentSecret);
-        secret = repository.save(secret);
-        return toDtoMappable.apply(secret);
+        var currentDoc = id != null ? repository.findById(id).orElse(null) : null;
+        validate(dto, currentDoc, id);
+        @SuppressWarnings("unchecked") var newDoc = (T) fillValues(dto, currentDoc);
+        newDoc = repository.save(newDoc);
+        return toDtoMapper.apply(newDoc);
+    }
+
+    @Override
+    public Dtoable getById(UUID id) {
+        var doc = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(doc).orElseThrowNotFound(id);
+        return toDtoMapper.apply(doc);
     }
 
     @Override

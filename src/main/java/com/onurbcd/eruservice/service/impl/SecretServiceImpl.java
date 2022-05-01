@@ -6,6 +6,7 @@ import com.onurbcd.eruservice.api.enums.Error;
 import com.onurbcd.eruservice.persistency.document.Documentable;
 import com.onurbcd.eruservice.persistency.document.Secret;
 import com.onurbcd.eruservice.persistency.repository.SecretRepository;
+import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.SecretService;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.filter.SecretFilter;
@@ -23,7 +24,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class SecretServiceImpl implements SecretService {
+public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> implements SecretService {
 
     private final SecretRepository repository;
 
@@ -37,20 +38,11 @@ public class SecretServiceImpl implements SecretService {
     public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
                              SecretToDocMapper toDocMapper) {
 
+        super(repository, toDtoMapper);
         this.repository = repository;
         this.cryptoable = cryptoable;
         this.toDtoMapper = toDtoMapper;
         this.toDocMapper = toDocMapper;
-    }
-
-    @Override
-    public SecretDto save(Dtoable dto, UUID id) {
-        var secretDto = (SecretDto) dto;
-        var currentSecret = id != null ? repository.findById(id).orElse(null) : null;
-        validate(secretDto, currentSecret, id);
-        var secret = fillValues(secretDto, currentSecret);
-        secret = repository.save(secret);
-        return toDtoMapper.apply(secret);
     }
 
     @Override
@@ -77,12 +69,6 @@ public class SecretServiceImpl implements SecretService {
         }
 
         return secret;
-    }
-
-    @Override
-    public void delete(UUID id) {
-        Action.checkIf(repository.existsById(id)).orElseThrowNotFound(id);
-        repository.deleteById(id);
     }
 
     @Override

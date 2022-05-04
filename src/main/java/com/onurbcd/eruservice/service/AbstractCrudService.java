@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.api.dto.Dtoable;
-import com.onurbcd.eruservice.persistency.document.Documentable;
+import com.onurbcd.eruservice.persistency.entity.Documentable;
 import com.onurbcd.eruservice.service.mapper.ToDtoMappable;
 import com.onurbcd.eruservice.service.validation.Action;
 import org.springframework.data.jpa.repository.JpaRepository;

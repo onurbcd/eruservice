@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.persistency.document;
+package com.onurbcd.eruservice.persistency.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

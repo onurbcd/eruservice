@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.persistency.repository;
 
-import com.onurbcd.eruservice.persistency.document.Secret;
+import com.onurbcd.eruservice.persistency.entity.Secret;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

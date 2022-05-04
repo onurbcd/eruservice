@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.persistency.document;
+package com.onurbcd.eruservice.persistency.entity;
 
 import com.onurbcd.eruservice.service.validation.Constants;
 import lombok.EqualsAndHashCode;

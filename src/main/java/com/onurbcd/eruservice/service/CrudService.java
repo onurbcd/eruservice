@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.api.dto.Dtoable;
-import com.onurbcd.eruservice.persistency.entity.Documentable;
+import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,9 +12,9 @@ public interface CrudService {
 
     Dtoable save(Dtoable dto, UUID id);
 
-    void validate(Dtoable dto, Documentable doc, UUID id);
+    void validate(Dtoable dto, Entityable entity, UUID id);
 
-    Documentable fillValues(Dtoable dto, Documentable doc);
+    Entityable fillValues(Dtoable dto, Entityable entity);
 
     void delete(UUID id);
 

@@ -19,7 +19,7 @@ import java.util.UUID;
 @Setter
 @EqualsAndHashCode(of = "id", callSuper = false)
 @MappedSuperclass
-public class Prime extends Audit implements Documentable {
+public class Prime extends Audit implements Entityable {
 
     @Id
     @GeneratedValue(generator = "uuid")

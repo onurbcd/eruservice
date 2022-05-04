@@ -3,7 +3,7 @@ package com.onurbcd.eruservice.service.impl;
 import com.onurbcd.eruservice.api.dto.Dtoable;
 import com.onurbcd.eruservice.api.dto.SecretDto;
 import com.onurbcd.eruservice.api.enums.Error;
-import com.onurbcd.eruservice.persistency.entity.Documentable;
+import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.entity.Secret;
 import com.onurbcd.eruservice.persistency.repository.SecretRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
@@ -46,8 +46,8 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     }
 
     @Override
-    public void validate(Dtoable dto, Documentable doc, UUID id) {
-        Action.checkIf(id == null || doc != null).orElseThrowNotFound(id);
+    public void validate(Dtoable dto, Entityable entity, UUID id) {
+        Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
         var secretDto = (SecretDto) dto;
 
         Action.checkIfSizeBetween(secretDto.getPassword(), Constants.SIZE_3, Constants.SIZE_50)
@@ -55,9 +55,9 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     }
 
     @Override
-    public Secret fillValues(Dtoable dto, Documentable doc) {
+    public Secret fillValues(Dtoable dto, Entityable entity) {
         var secretDto = (SecretDto) dto;
-        var currentSecret = (Secret) doc;
+        var currentSecret = (Secret) entity;
         var secret = toDocMapper.apply(secretDto);
         secret.setId(currentSecret != null ? currentSecret.getId() : null);
         secret.setDescription(StringUtils.isNotBlank(secret.getDescription()) ? secret.getDescription() : null);

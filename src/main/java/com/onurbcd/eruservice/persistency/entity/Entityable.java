@@ -1,4 +1,4 @@
 package com.onurbcd.eruservice.persistency.entity;
 
-public interface Documentable {
+public interface Entityable {
 }

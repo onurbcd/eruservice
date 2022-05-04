@@ -1,14 +1,14 @@
 package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.api.dto.Dtoable;
-import com.onurbcd.eruservice.persistency.entity.Documentable;
+import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.service.mapper.ToDtoMappable;
 import com.onurbcd.eruservice.service.validation.Action;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public abstract class AbstractCrudService<T extends Documentable, D extends Dtoable> implements CrudService {
+public abstract class AbstractCrudService<T extends Entityable, D extends Dtoable> implements CrudService {
 
     private final JpaRepository<T, UUID> repository;
 
@@ -21,18 +21,18 @@ public abstract class AbstractCrudService<T extends Documentable, D extends Dtoa
 
     @Override
     public Dtoable save(Dtoable dto, UUID id) {
-        var currentDoc = id != null ? repository.findById(id).orElse(null) : null;
-        validate(dto, currentDoc, id);
-        @SuppressWarnings("unchecked") var newDoc = (T) fillValues(dto, currentDoc);
-        newDoc = repository.save(newDoc);
-        return toDtoMapper.apply(newDoc);
+        var currentEntity = id != null ? repository.findById(id).orElse(null) : null;
+        validate(dto, currentEntity, id);
+        @SuppressWarnings("unchecked") var newEntity = (T) fillValues(dto, currentEntity);
+        newEntity = repository.save(newEntity);
+        return toDtoMapper.apply(newEntity);
     }
 
     @Override
     public Dtoable getById(UUID id) {
-        var doc = repository.findById(id).orElse(null);
-        Action.checkIfNotNull(doc).orElseThrowNotFound(id);
-        return toDtoMapper.apply(doc);
+        var entity = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(entity).orElseThrowNotFound(id);
+        return toDtoMapper.apply(entity);
     }
 
     @Override

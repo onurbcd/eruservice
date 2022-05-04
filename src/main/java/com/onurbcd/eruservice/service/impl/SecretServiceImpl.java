@@ -11,7 +11,7 @@ import com.onurbcd.eruservice.service.SecretService;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.filter.SecretFilter;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
-import com.onurbcd.eruservice.service.mapper.SecretToDocMapper;
+import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.Constants;
@@ -32,17 +32,17 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
 
     private final SecretToDtoMapper toDtoMapper;
 
-    private final SecretToDocMapper toDocMapper;
+    private final SecretToEntityMapper toEntityMapper;
 
     @Autowired
     public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
-                             SecretToDocMapper toDocMapper) {
+                             SecretToEntityMapper toEntityMapper) {
 
         super(repository, toDtoMapper);
         this.repository = repository;
         this.cryptoable = cryptoable;
         this.toDtoMapper = toDtoMapper;
-        this.toDocMapper = toDocMapper;
+        this.toEntityMapper = toEntityMapper;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     public Secret fillValues(Dtoable dto, Entityable entity) {
         var secretDto = (SecretDto) dto;
         var currentSecret = (Secret) entity;
-        var secret = toDocMapper.apply(secretDto);
+        var secret = toEntityMapper.apply(secretDto);
         secret.setId(currentSecret != null ? currentSecret.getId() : null);
         secret.setDescription(StringUtils.isNotBlank(secret.getDescription()) ? secret.getDescription() : null);
         secret.setLink(StringUtils.isNotBlank(secret.getLink()) ? secret.getLink() : null);

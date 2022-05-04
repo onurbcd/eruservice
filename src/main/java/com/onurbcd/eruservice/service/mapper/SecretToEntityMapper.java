@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import java.util.function.Function;
 
 @Mapper(componentModel = "spring")
-public interface SecretToDocMapper extends Function<SecretDto, Secret> {
+public interface SecretToEntityMapper extends Function<SecretDto, Secret> {
 
     @Override
     Secret apply(SecretDto secretDto);

@@ -32,4 +32,9 @@ public class Prime extends Audit implements Entityable {
 
     @NotNull
     private boolean active;
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

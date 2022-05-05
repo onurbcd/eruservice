@@ -40,4 +40,13 @@ public abstract class AbstractCrudService<T extends Entityable, D extends Dtoabl
         Action.checkIf(repository.existsById(id)).orElseThrowNotFound(id);
         repository.deleteById(id);
     }
+
+    @Override
+    public void update(Dtoable dto, UUID id) {
+        var entity = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(entity).orElseThrowNotFound(id);
+        assert entity != null;
+        entity.setActive(dto.isActive());
+        repository.save(entity);
+    }
 }

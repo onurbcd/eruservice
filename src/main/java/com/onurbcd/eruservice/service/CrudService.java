@@ -21,4 +21,6 @@ public interface CrudService {
     Dtoable getById(UUID id);
 
     Page<Dtoable> getAll(Pageable pageable, Filterable filter);
+
+    void update(Dtoable dto, UUID id);
 }

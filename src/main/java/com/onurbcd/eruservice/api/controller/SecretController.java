@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
+import com.onurbcd.eruservice.api.Constants;
 import com.onurbcd.eruservice.api.dto.Dtoable;
 import com.onurbcd.eruservice.api.dto.SecretDto;
 import com.onurbcd.eruservice.service.SecretService;
@@ -30,18 +31,18 @@ public class SecretController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(secretDto, null));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(Constants.PATH_ID)
     public ResponseEntity<Dtoable> put(@PathVariable("id") UUID id, @RequestBody SecretDto secretDto) {
         return ResponseEntity.ok(service.save(secretDto, id));
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping(Constants.PATH_ID)
     public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(Constants.PATH_ID)
     public ResponseEntity<Dtoable> get(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(service.getById(id));
     }
@@ -49,5 +50,11 @@ public class SecretController {
     @GetMapping
     public ResponseEntity<Page<Dtoable>> getAll(@PageableDefault(sort = "name") Pageable pageable, SecretFilter filter) {
         return ResponseEntity.ok(service.getAll(pageable, filter));
+    }
+
+    @PatchMapping(Constants.PATH_ID)
+    public ResponseEntity<Void> patch(@PathVariable("id") UUID id, @RequestBody SecretDto secretDto) {
+        service.update(secretDto, id);
+        return ResponseEntity.noContent().build();
     }
 }

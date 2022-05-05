@@ -13,7 +13,7 @@ public enum Error {
 
     PSQL("PSQL Exception"),
 
-    DOCUMENT_DOES_NOT_EXIST("Document with id '%s' does not exist in the database"),
+    ENTITY_DOES_NOT_EXIST("Entity with id '%s' does not exist in the database"),
 
     SIZE_NOT_BETWEEN("%s: size must be between %d and %d");
 

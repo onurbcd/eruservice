@@ -20,7 +20,7 @@ public class Action {
 
     public void orElseThrowNotFound(Object... args) {
         if (checkConditionNotTrue) {
-            throw new ApiException(Error.DOCUMENT_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
+            throw new ApiException(Error.ENTITY_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
         }
     }
 

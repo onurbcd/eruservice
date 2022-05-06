@@ -5,6 +5,7 @@ import com.onurbcd.eruservice.api.dto.SecretDto;
 import com.onurbcd.eruservice.api.enums.Error;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.entity.Secret;
+import com.onurbcd.eruservice.persistency.predicate.SecretPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.SecretRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.SecretService;
@@ -15,6 +16,7 @@ import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.Constants;
+import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -78,8 +80,12 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
         var secretFilter = (SecretFilter) filter;
 
-        return StringUtils.isNotBlank(secretFilter.getSearch())
-                ? repository.getAll(secretFilter.getSearch().trim().toLowerCase(), pageable).map(toDtoMapper)
-                : repository.findAll(pageable).map(toDtoMapper);
+        Predicate predicate = SecretPredicateBuilder
+                .of()
+                .search(secretFilter.getSearch())
+                .active(secretFilter.isActive())
+                .build();
+
+        return repository.findAll(predicate, pageable).map(toDtoMapper);
     }
 }

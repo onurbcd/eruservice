@@ -62,7 +62,10 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
         secret.setId(currentSecret != null ? currentSecret.getId() : null);
         secret.setDescription(StringUtils.isNotBlank(secret.getDescription()) ? secret.getDescription() : null);
         secret.setLink(StringUtils.isNotBlank(secret.getLink()) ? secret.getLink() : null);
-        secret.setPassword(secret.getPassword() != null ? cryptoable.encrypt(secret.getPassword()) : null);
+
+        if (StringUtils.isNotBlank(secret.getPassword())) {
+            secret.setPassword(cryptoable.encrypt(secret.getPassword()));
+        }
 
         if (currentSecret != null) {
             secret.setCreatedDate(currentSecret.getCreatedDate());

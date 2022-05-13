@@ -1,6 +1,5 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.api.Constants;
 import com.onurbcd.eruservice.api.dto.Dtoable;
 import com.onurbcd.eruservice.api.dto.SecretDto;
 import com.onurbcd.eruservice.service.CrudService;
@@ -13,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
+
+import static com.onurbcd.eruservice.api.Constants.*;
 
 public class EruController {
 
@@ -27,29 +28,31 @@ public class EruController {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(secretDto, null));
     }
 
-    @PutMapping(Constants.PATH_ID)
-    public ResponseEntity<Dtoable> put(@PathVariable("id") UUID id, @RequestBody SecretDto secretDto) {
+    @PutMapping(PATH_ID)
+    public ResponseEntity<Dtoable> put(@PathVariable(ID) UUID id, @RequestBody SecretDto secretDto) {
         return ResponseEntity.ok(service.save(secretDto, id));
     }
 
-    @DeleteMapping(Constants.PATH_ID)
-    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
+    @DeleteMapping(PATH_ID)
+    public ResponseEntity<Void> delete(@PathVariable(ID) UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(Constants.PATH_ID)
-    public ResponseEntity<Dtoable> get(@PathVariable("id") UUID id) {
+    @GetMapping(PATH_ID)
+    public ResponseEntity<Dtoable> get(@PathVariable(ID) UUID id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<Page<Dtoable>> getAll(@PageableDefault(sort = "name") Pageable pageable, SecretFilter filter) {
+    public ResponseEntity<Page<Dtoable>> getAll(@PageableDefault(sort = NAME) Pageable pageable,
+                                                SecretFilter filter) {
+
         return ResponseEntity.ok(service.getAll(pageable, filter));
     }
 
-    @PatchMapping(Constants.PATH_ID)
-    public ResponseEntity<Void> patch(@PathVariable("id") UUID id, @RequestBody SecretDto secretDto) {
+    @PatchMapping(PATH_ID)
+    public ResponseEntity<Void> patch(@PathVariable(ID) UUID id, @RequestBody SecretDto secretDto) {
         service.update(secretDto, id);
         return ResponseEntity.noContent().build();
     }

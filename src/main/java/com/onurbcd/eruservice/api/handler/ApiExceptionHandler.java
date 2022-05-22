@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.api.handler;
 
 import com.onurbcd.eruservice.service.enums.Error;
-import com.onurbcd.eruservice.api.exception.ApiException;
+import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.api.resource.ApiError;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;

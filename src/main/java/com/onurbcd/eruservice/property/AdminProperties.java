@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.config.property;
+package com.onurbcd.eruservice.property;
 
 import lombok.Getter;
 import lombok.Setter;

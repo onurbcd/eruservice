@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.service.validation;
+package com.onurbcd.eruservice.persistency;
 
 public class Constants {
 

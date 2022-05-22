@@ -15,7 +15,7 @@ import com.onurbcd.eruservice.service.helper.Cryptoable;
 import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
 import com.onurbcd.eruservice.service.validation.Action;
-import com.onurbcd.eruservice.service.validation.Constants;
+import com.onurbcd.eruservice.persistency.Constants;
 import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

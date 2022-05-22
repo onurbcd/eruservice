@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.onurbcd.eruservice.api.Constants.PATH_BILL_TYPE;
+import static com.onurbcd.eruservice.api.ApiConstants.PATH_BILL_TYPE;
 
 @RestController
 @RequestMapping(PATH_BILL_TYPE)

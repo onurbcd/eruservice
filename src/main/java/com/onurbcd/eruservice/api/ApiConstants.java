@@ -1,8 +1,8 @@
 package com.onurbcd.eruservice.api;
 
-public class Constants {
+public class ApiConstants {
 
-    private Constants() {
+    private ApiConstants() {
     }
 
     public static final String PATH_SECRET = "/secret";

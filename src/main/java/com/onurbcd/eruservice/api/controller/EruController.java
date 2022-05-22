@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
-import static com.onurbcd.eruservice.api.Constants.*;
+import static com.onurbcd.eruservice.api.ApiConstants.*;
 
 public class EruController<D extends Dtoable, F extends Filterable> {
 

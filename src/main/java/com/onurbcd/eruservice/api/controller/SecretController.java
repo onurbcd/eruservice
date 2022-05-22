@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.onurbcd.eruservice.api.Constants.PATH_SECRET;
+import static com.onurbcd.eruservice.api.ApiConstants.PATH_SECRET;
 
 @RestController
 @RequestMapping(PATH_SECRET)

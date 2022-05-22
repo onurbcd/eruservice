@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.api.dto.Dtoable;
+import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.service.CrudService;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import org.springframework.data.domain.Page;

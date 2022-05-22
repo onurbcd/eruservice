@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.service;
 
-import com.onurbcd.eruservice.api.dto.Dtoable;
+import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.service.mapper.ToDtoMappable;
 import com.onurbcd.eruservice.service.validation.Action;

@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.api.dto.BillTypeDto;
+import com.onurbcd.eruservice.dto.BillTypeDto;
 import com.onurbcd.eruservice.service.BillTypeService;
 import com.onurbcd.eruservice.service.filter.BillTypeFilter;
 import org.springframework.beans.factory.annotation.Autowired;

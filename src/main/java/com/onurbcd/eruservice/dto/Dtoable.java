@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.api.dto;
+package com.onurbcd.eruservice.dto;
 
 public interface Dtoable {
 

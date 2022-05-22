@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
-import com.onurbcd.eruservice.api.dto.Dtoable;
-import com.onurbcd.eruservice.api.dto.SecretDto;
+import com.onurbcd.eruservice.dto.Dtoable;
+import com.onurbcd.eruservice.dto.SecretDto;
 import com.onurbcd.eruservice.api.enums.Error;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.entity.Secret;

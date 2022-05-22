@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.api.dto.SecretDto;
+import com.onurbcd.eruservice.dto.SecretDto;
 import com.onurbcd.eruservice.service.SecretService;
 import com.onurbcd.eruservice.service.filter.SecretFilter;
 import org.springframework.beans.factory.annotation.Autowired;

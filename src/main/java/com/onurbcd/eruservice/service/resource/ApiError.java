@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.api.resource;
+package com.onurbcd.eruservice.service.resource;
 
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;

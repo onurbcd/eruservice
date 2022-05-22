@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.api.enums;
+package com.onurbcd.eruservice.service.enums;
 
 import lombok.AllArgsConstructor;
 

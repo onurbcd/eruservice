@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.exception;
 
-import com.onurbcd.eruservice.api.enums.Error;
+import com.onurbcd.eruservice.service.enums.Error;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 

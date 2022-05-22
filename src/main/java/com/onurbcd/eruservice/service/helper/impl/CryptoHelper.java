@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.service.helper.impl;
 
-import com.onurbcd.eruservice.api.enums.Error;
+import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.api.exception.ApiException;
 import com.onurbcd.eruservice.config.property.AdminProperties;
 import com.onurbcd.eruservice.service.helper.Cryptoable;

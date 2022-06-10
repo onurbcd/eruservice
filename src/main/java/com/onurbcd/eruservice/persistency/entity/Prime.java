@@ -1,10 +1,11 @@
 package com.onurbcd.eruservice.persistency.entity;
 
 import com.onurbcd.eruservice.persistency.Constants;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id", callSuper = false)
 @MappedSuperclass
 public class Prime extends Audit implements Entityable {
 
@@ -36,5 +36,21 @@ public class Prime extends Audit implements Entityable {
     @Override
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Prime prime = (Prime) o;
+
+        return new EqualsBuilder().append(id, prime.id).isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37).append(id).toHashCode();
     }
 }

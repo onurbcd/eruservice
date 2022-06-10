@@ -67,9 +67,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ResponseEntity<Object> controlException(Exception e, WebRequest request) {
         logger.error("internal server error", e);
+        var rootCause = ExceptionUtils.getRootCause(e);
 
-        return handleExceptionInternal(e, new ApiError(Error.INTERNAL_SERVER_ERROR, e.toString(),
-                HttpStatus.INTERNAL_SERVER_ERROR), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+        return handleExceptionInternal(rootCause != null ? (Exception) rootCause : e,
+                new ApiError(Error.INTERNAL_SERVER_ERROR, rootCause != null ? rootCause.toString() : e.toString(),
+                        HttpStatus.INTERNAL_SERVER_ERROR), new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
     }
 
     private String getConstraintViolationExceptionMessage(ConstraintViolationException ex) {

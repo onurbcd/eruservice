@@ -71,4 +71,6 @@ public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeD
 
         return repository.findAll(predicate, pageable).map(toDtoMapper);
     }
+
+    // TODO: ao remover tem que validar se não está a ser usado em nenhum Budget
 }

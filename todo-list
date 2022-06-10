@@ -1,0 +1,6 @@
+TODO: adicionar flyway
+TODO: aprender a injectar beans nos contraints validators
+TODO: implementar uma versão genérica do getAll
+TODO: alterar o EruStringDeserializer para remover mais do que um espaço branco entre palavras
+TODO: adicionar lógica para ter um validate ao deletar (AbstractCrudService)
+TODO: implementar um alterador de sequencia genérico

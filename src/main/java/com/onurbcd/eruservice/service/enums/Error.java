@@ -15,7 +15,9 @@ public enum Error {
 
     ENTITY_DOES_NOT_EXIST("Entity with id '%s' does not exist in the database"),
 
-    SIZE_NOT_BETWEEN("%s: size must be between %d and %d");
+    SIZE_NOT_BETWEEN("%s: size must be between %d and %d"),
+
+    SEQUENCE_CHANGED("the sequence cannot be changed by a PUT request; use PATCH instead; current value: '%d'; new value: '%d'");
 
     private final String message;
 

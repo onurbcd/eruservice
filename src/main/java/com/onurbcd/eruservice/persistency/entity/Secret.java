@@ -29,4 +29,14 @@ public class Secret extends Prime {
 
     @NotNull
     private String password;
+
+    @Override
+    public boolean equals(Object o) {
+        return super.equals(o);
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

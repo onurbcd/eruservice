@@ -7,12 +7,10 @@ import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
-import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
-import com.onurbcd.eruservice.service.validation.Action;
-import com.onurbcd.eruservice.util.NumberUtil;
+import com.onurbcd.eruservice.service.validation.BudgetValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,27 +28,24 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     private final BudgetToEntityMapper toEntityMapper;
 
+    private final BudgetValidationService validationService;
+
     @Autowired
     public BudgetServiceImpl(BudgetRepository repository, BudgetToDtoMapper toDtoMapper,
-                             BudgetToEntityMapper toEntityMapper) {
+                             BudgetToEntityMapper toEntityMapper, BudgetValidationService validationService) {
 
         super(repository, toDtoMapper);
         this.repository = repository;
         this.toDtoMapper = toDtoMapper;
         this.toEntityMapper = toEntityMapper;
+        this.validationService = validationService;
     }
 
     @Override
     public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
-        Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
         var budgetDto = (BudgetDto) dto;
         var budget = (Budget) entity;
-        var sequence = budget != null ? budget.getSequence() : null;
-
-        Action.checkIf(id == null || NumberUtil.equals(budgetDto.getSequence(), sequence))
-                .orElseThrow(Error.SEQUENCE_CHANGED, sequence, budgetDto.getSequence());
-
-        // TODO: se for um update não pode alterar o ano e mês
+        validationService.validate(budgetDto, budget, id);
     }
 
     @Override

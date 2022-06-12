@@ -17,7 +17,9 @@ public enum Error {
 
     SIZE_NOT_BETWEEN("%s: size must be between %d and %d"),
 
-    SEQUENCE_CHANGED("the sequence cannot be changed by a PUT request; use PATCH instead; current value: '%d'; new value: '%d'");
+    SEQUENCE_CHANGED("the sequence cannot be changed by a PUT request; use PATCH instead; current value: '%d'; new value: '%d'"),
+
+    REFERENCE_CHANGED("reference year and month cannot be changed");
 
     private final String message;
 

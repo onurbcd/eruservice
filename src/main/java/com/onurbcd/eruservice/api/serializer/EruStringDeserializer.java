@@ -17,7 +17,7 @@ public class EruStringDeserializer extends StringDeserializer {
 
     @Override
     public String deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
-        var deserializedValue = super.deserialize(p, ctxt);
-        return StringUtils.isNotBlank(deserializedValue) ? deserializedValue.trim() : null;
+        var value = super.deserialize(p, ctxt);
+        return StringUtils.isNotBlank(value) ? StringUtils.normalizeSpace(value) : null;
     }
 }

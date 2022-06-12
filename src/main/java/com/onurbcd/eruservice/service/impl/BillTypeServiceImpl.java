@@ -17,6 +17,7 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -41,7 +42,7 @@ public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeD
     }
 
     @Override
-    public void validate(Dtoable dto, Entityable entity, UUID id) {
+    public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
         Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
     }
 

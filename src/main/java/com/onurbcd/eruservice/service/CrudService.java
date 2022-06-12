@@ -5,14 +5,15 @@ import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 
 import java.util.UUID;
 
 public interface CrudService {
 
-    Dtoable save(Dtoable dto, UUID id);
+    Dtoable save(Dtoable dto, @Nullable UUID id);
 
-    void validate(Dtoable dto, Entityable entity, UUID id);
+    void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id);
 
     Entityable fillValues(Dtoable dto, Entityable entity);
 

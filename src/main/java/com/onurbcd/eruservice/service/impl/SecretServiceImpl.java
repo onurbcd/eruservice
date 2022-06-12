@@ -21,6 +21,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -48,7 +49,7 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     }
 
     @Override
-    public void validate(Dtoable dto, Entityable entity, UUID id) {
+    public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
         Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
         var secretDto = (SecretDto) dto;
 

@@ -5,6 +5,7 @@ import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.service.mapper.ToDtoMappable;
 import com.onurbcd.eruservice.service.validation.Action;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.Nullable;
 
 import java.util.UUID;
 
@@ -20,7 +21,7 @@ public abstract class AbstractCrudService<T extends Entityable, D extends Dtoabl
     }
 
     @Override
-    public Dtoable save(Dtoable dto, UUID id) {
+    public Dtoable save(Dtoable dto, @Nullable UUID id) {
         var currentEntity = id != null ? repository.findById(id).orElse(null) : null;
         validate(dto, currentEntity, id);
         @SuppressWarnings("unchecked") var newEntity = (T) fillValues(dto, currentEntity);

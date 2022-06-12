@@ -16,6 +16,7 @@ import com.onurbcd.eruservice.util.NumberUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -40,7 +41,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
     }
 
     @Override
-    public void validate(Dtoable dto, Entityable entity, UUID id) {
+    public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
         Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
         var budgetDto = (BudgetDto) dto;
         var budget = (Budget) entity;

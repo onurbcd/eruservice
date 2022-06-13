@@ -60,8 +60,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         var currentBudget = (Budget) entity;
         var budget = toEntityMapper.apply(budgetDto);
         budget.setId(currentBudget != null ? currentBudget.getId() : null);
-        var sequence = sequenceService.getNextSequence(new BudgetSequenceParam(budget));
-        budget.setSequence(sequence);
+        budget.setSequence(getSequence(currentBudget, budget));
 
         if (currentBudget != null) {
             budget.setCreatedDate(currentBudget.getCreatedDate());
@@ -74,6 +73,10 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
     public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
         // TODO: implementar o getAll
         return null;
+    }
+
+    private Short getSequence(Budget current, Budget next) {
+        return current != null ? current.getSequence() : sequenceService.getNextSequence(new BudgetSequenceParam(next));
     }
 
     // TODO: fazer override do update, pois pode atualizar o active, o sequence e o paid

@@ -4,9 +4,11 @@ import com.onurbcd.eruservice.dto.BudgetDto;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
+import com.onurbcd.eruservice.persistency.param.BudgetSequenceParam;
 import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
+import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
@@ -30,15 +32,19 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     private final BudgetValidationService validationService;
 
+    private final SequenceService<BudgetRepository> sequenceService;
+
     @Autowired
     public BudgetServiceImpl(BudgetRepository repository, BudgetToDtoMapper toDtoMapper,
-                             BudgetToEntityMapper toEntityMapper, BudgetValidationService validationService) {
+                             BudgetToEntityMapper toEntityMapper, BudgetValidationService validationService,
+                             SequenceService<BudgetRepository> sequenceService) {
 
         super(repository, toDtoMapper);
         this.repository = repository;
         this.toDtoMapper = toDtoMapper;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;
+        this.sequenceService = sequenceService;
     }
 
     @Override
@@ -50,11 +56,12 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     @Override
     public Entityable fillValues(Dtoable dto, Entityable entity) {
-        // TODO: adicionar lógica para aumentar o número de sequência se for um insert, e não fazer nada se for udpate
         var budgetDto = (BudgetDto) dto;
         var currentBudget = (Budget) entity;
         var budget = toEntityMapper.apply(budgetDto);
         budget.setId(currentBudget != null ? currentBudget.getId() : null);
+        var sequence = sequenceService.getNextSequence(new BudgetSequenceParam(budget));
+        budget.setSequence(sequence);
 
         if (currentBudget != null) {
             budget.setCreatedDate(currentBudget.getCreatedDate());

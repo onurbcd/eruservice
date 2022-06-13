@@ -12,6 +12,7 @@ import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
+import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -75,9 +76,32 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         return null;
     }
 
+    // TODO: fazer override do update, pois pode atualizar o active, o sequence e o paid
+
+    @Override
+    public void update(Dtoable dto, UUID id) {
+        var entity = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(entity).orElseThrowNotFound(id);
+        assert entity != null;
+        var budgetDto = (BudgetDto) dto;
+        var changed = false;
+
+        if (budgetDto.isActive() != null) {
+            entity.setActive(budgetDto.isActive());
+            changed = true;
+        }
+
+        if (budgetDto.getPaid() != null) {
+            entity.setPaid(budgetDto.getPaid());
+            changed = true;
+        }
+
+        if (changed) {
+            repository.save(entity);
+        }
+    }
+
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService.getNextSequence(new BudgetSequenceParam(next));
     }
-
-    // TODO: fazer override do update, pois pode atualizar o active, o sequence e o paid
 }

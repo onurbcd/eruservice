@@ -19,10 +19,10 @@ public class PrimeDto extends AuditDto implements Dtoable {
 
     private String name;
 
-    private boolean active;
+    private Boolean active;
 
     @Override
-    public boolean isActive() {
+    public Boolean isActive() {
         return active;
     }
 }

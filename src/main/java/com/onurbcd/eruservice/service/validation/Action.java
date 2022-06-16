@@ -28,6 +28,10 @@ public class Action {
         return new Action(!checkCondition);
     }
 
+    public static Action checkIfNot(boolean checkCondition) {
+        return new Action(checkCondition);
+    }
+
     public static Action checkIfSizeBetween(String value, int min, int max) {
         return new Action(!(value == null || (value.length() >= min && value.length() <= max)));
     }

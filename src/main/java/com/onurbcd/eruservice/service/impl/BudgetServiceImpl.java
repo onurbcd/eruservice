@@ -79,30 +79,30 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     @Override
     public void update(Dtoable dto, UUID id) {
-        var entity = repository.findById(id).orElse(null);
-        Action.checkIfNotNull(entity).orElseThrowNotFound(id);
-        assert entity != null;
+        var budget = findByIdOrElseThrow(id);
         var budgetDto = (BudgetDto) dto;
         var changed = false;
 
         if (budgetDto.isActive() != null) {
-            entity.setActive(budgetDto.isActive());
+            budget.setActive(budgetDto.isActive());
             changed = true;
         }
 
         if (budgetDto.getPaid() != null) {
-            entity.setPaid(budgetDto.getPaid());
+            budget.setPaid(budgetDto.getPaid());
             changed = true;
         }
 
         if (changed) {
-            repository.save(entity);
+            repository.save(budget);
         }
     }
 
     @Override
-    public void changeSequence(UUID id, Direction direction) {
-        sequenceService.changeSequence(id, direction);
+    public void updateSequence(UUID id, Direction direction) {
+        var budget = findByIdOrElseThrow(id);
+        var sequenceParam = new SequenceParam(budget.getRefYear(), budget.getRefMonth(), budget.getSequence());
+        sequenceService.swapSequence(sequenceParam, direction);
     }
 
     // TODO: fazer override ao delete, pois precisa de alterar a sequencia dos budgets da mesma referência ano/mês
@@ -110,5 +110,13 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService
                 .getNextSequence(new SequenceParam(next.getRefYear(), next.getRefMonth()));
+    }
+
+    private Budget findByIdOrElseThrow(UUID id) {
+        // TODO: refatorar este método para o AbstractCrudService
+        var budget = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(budget).orElseThrowNotFound(id);
+        assert budget != null;
+        return budget;
     }
 }

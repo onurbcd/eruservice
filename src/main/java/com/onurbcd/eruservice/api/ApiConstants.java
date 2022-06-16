@@ -9,8 +9,6 @@ public class ApiConstants {
 
     public static final String PATH_BILL_TYPE = "/bill-type";
 
-    public static final String PATH_BUDGET = "/budget";
-
     public static final String PATH_ID = "/{id}";
 
     public static final String ID = "id";

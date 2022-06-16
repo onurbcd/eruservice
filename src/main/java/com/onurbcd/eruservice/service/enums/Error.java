@@ -19,7 +19,11 @@ public enum Error {
 
     SEQUENCE_CHANGED("the sequence cannot be changed by a PUT request; use PATCH instead; current value: '%d'; new value: '%d'"),
 
-    REFERENCE_CHANGED("reference year and month cannot be changed");
+    REFERENCE_CHANGED("reference year and month cannot be changed"),
+
+    WRONG_DIRETION_UP("The sequence cannot get any lower"),
+
+    WRONG_DIRETION_DOWN("The sequence cannot get any higher");
 
     private final String message;
 

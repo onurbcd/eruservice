@@ -1,4 +1,4 @@
 package com.onurbcd.eruservice.service;
 
-public interface BudgetService extends CrudService, Orderable {
+public interface BudgetService extends CrudService, Sequenceable {
 }

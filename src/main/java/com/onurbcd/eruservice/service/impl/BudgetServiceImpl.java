@@ -2,6 +2,7 @@ package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.BudgetDto;
 import com.onurbcd.eruservice.dto.Dtoable;
+import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.param.BudgetSequenceParam;
@@ -76,8 +77,6 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         return null;
     }
 
-    // TODO: fazer override do update, pois pode atualizar o active, o sequence e o paid
-
     @Override
     public void update(Dtoable dto, UUID id) {
         var entity = repository.findById(id).orElse(null);
@@ -100,6 +99,13 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
             repository.save(entity);
         }
     }
+
+    @Override
+    public void changeSequence(UUID id, Direction direction) {
+        sequenceService.changeSequence(id, direction);
+    }
+
+    // TODO: fazer override ao delete, pois precisa de alterar a sequencia dos budgets da mesma referência ano/mês
 
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService.getNextSequence(new BudgetSequenceParam(next));

@@ -1,10 +1,13 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.param.Sequenceable;
 import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
 import com.onurbcd.eruservice.service.SequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 public class SequenceServiceImpl<T extends SequenceRepository> implements SequenceService<T> {
@@ -20,5 +23,10 @@ public class SequenceServiceImpl<T extends SequenceRepository> implements Sequen
     public Short getNextSequence(Sequenceable sequenceable) {
         var maxSequence = repository.getMaxSequence(sequenceable);
         return maxSequence == null ? 1 : (short) (maxSequence + 1);
+    }
+
+    @Override
+    public void changeSequence(UUID id, Direction direction) {
+
     }
 }

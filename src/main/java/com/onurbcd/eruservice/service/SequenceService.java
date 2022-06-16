@@ -9,4 +9,6 @@ public interface SequenceService<T extends SequenceRepository> {
     Short getNextSequence(SequenceParam sequenceParam);
 
     void swapSequence(SequenceParam currentParam, Direction direction);
+
+    void updateNextSequences(SequenceParam sequenceParam);
 }

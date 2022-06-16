@@ -37,4 +37,12 @@ public interface BudgetRepository extends JpaRepository<Budget, UUID>, QuerydslP
             " and b.refMonth = :#{#sequenceParam.month}" +
             " and b.sequence = :#{#sequenceParam.sequence}")
     void updateSequence(SequenceParam sequenceParam);
+
+    @Override
+    @Query("select count(*)" +
+            " from Budget b" +
+            " where b.refYear = :#{#sequenceParam.year}" +
+            " and b.refMonth = :#{#sequenceParam.month}" +
+            " and b.sequence > :#{#sequenceParam.sequence}")
+    long countNextSequences(SequenceParam sequenceParam);
 }

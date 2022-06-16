@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -105,7 +106,15 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         sequenceService.swapSequence(sequenceParam, direction);
     }
 
-    // TODO: fazer override ao delete, pois precisa de alterar a sequencia dos budgets da mesma referência ano/mês
+    @Override
+    @Transactional
+    public void delete(UUID id) {
+        var budget = findByIdOrElseThrow(id);
+        repository.deleteById(budget.getId());
+
+        sequenceService.updateNextSequences(new SequenceParam(budget.getRefYear(), budget.getRefMonth(),
+                budget.getSequence()));
+    }
 
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService

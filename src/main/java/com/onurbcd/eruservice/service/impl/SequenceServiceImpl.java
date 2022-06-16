@@ -39,6 +39,17 @@ public class SequenceServiceImpl<T extends SequenceRepository> implements Sequen
         repository.updateSequence(currentParam);
     }
 
+    @Override
+    public void updateNextSequences(SequenceParam sequenceParam) {
+        long numberOfSequencesToUpdate = repository.countNextSequences(sequenceParam);
+
+        for (long i = 0; i < numberOfSequencesToUpdate; i++) {
+            sequenceParam.setTargetSequence(sequenceParam.getSequence());
+            sequenceParam.setSequence((short) (sequenceParam.getSequence() + 1));
+            repository.updateSequence(sequenceParam);
+        }
+    }
+
     private SequenceParam getTargetParam(SequenceParam currentParam, Direction direction) {
         var targetSequence = Direction.UP.equals(direction)
                 ? (short) (currentParam.getSequence() - 1)

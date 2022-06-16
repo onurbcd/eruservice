@@ -10,4 +10,6 @@ public interface SequenceRepository {
     Boolean existsSequence(@Param("sequenceParam") SequenceParam sequenceParam);
 
     void updateSequence(@Param("sequenceParam") SequenceParam sequenceParam);
+
+    long countNextSequences(@Param("sequenceParam") SequenceParam sequenceParam);
 }

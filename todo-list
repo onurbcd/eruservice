@@ -4,3 +4,5 @@ TODO: implementar uma versão genérica do getAll
 TODO: adicionar lógica para ter um validate ao deletar (AbstractCrudService)
 TODO: implementar um alterador de sequencia genérico
 TODO: criar um erro genérico de PSQL ao delelar uma entidade que é referenciada por outra, de modo à mensagem ficar mais bonita. Ex: ao remover tem que validar se não está a ser usado em nenhum Budget
+
+Sequenceable

@@ -5,7 +5,7 @@ import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
-import com.onurbcd.eruservice.persistency.param.BudgetSequenceParam;
+import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
@@ -108,6 +108,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
     // TODO: fazer override ao delete, pois precisa de alterar a sequencia dos budgets da mesma referência ano/mês
 
     private Short getSequence(Budget current, Budget next) {
-        return current != null ? current.getSequence() : sequenceService.getNextSequence(new BudgetSequenceParam(next));
+        return current != null ? current.getSequence() : sequenceService
+                .getNextSequence(new SequenceParam(next.getRefYear(), next.getRefMonth()));
     }
 }

@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.persistency.entity.Budget;
-import com.onurbcd.eruservice.persistency.param.Sequenceable;
+import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -17,7 +17,7 @@ public interface BudgetRepository extends JpaRepository<Budget, UUID>, QuerydslP
     @Override
     @Query("select max(b.sequence)" +
             " from Budget b" +
-            " where b.refYear = :#{#sequenceable.year}" +
-            " and b.refMonth = :#{#sequenceable.month}")
-    Short getMaxSequence(@Param("sequenceable") Sequenceable sequenceable);
+            " where b.refYear = :#{#sequenceParam.year}" +
+            " and b.refMonth = :#{#sequenceParam.month}")
+    Short getMaxSequence(@Param("sequenceParam") SequenceParam sequenceParam);
 }

@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.enums.Direction;
-import com.onurbcd.eruservice.persistency.param.Sequenceable;
+import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
 import com.onurbcd.eruservice.service.SequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +20,8 @@ public class SequenceServiceImpl<T extends SequenceRepository> implements Sequen
     }
 
     @Override
-    public Short getNextSequence(Sequenceable sequenceable) {
-        var maxSequence = repository.getMaxSequence(sequenceable);
+    public Short getNextSequence(SequenceParam sequenceParam) {
+        var maxSequence = repository.getMaxSequence(sequenceParam);
         return maxSequence == null ? 1 : (short) (maxSequence + 1);
     }
 

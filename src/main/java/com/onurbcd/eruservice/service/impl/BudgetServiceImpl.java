@@ -6,10 +6,12 @@ import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
+import com.onurbcd.eruservice.persistency.predicate.BudgetPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.service.SequenceService;
+import com.onurbcd.eruservice.service.filter.BudgetFilter;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
@@ -70,7 +72,17 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     @Override
     protected Predicate getPredicate(Filterable filter) {
-        return null;
+        var budgetFilter = (BudgetFilter) filter;
+
+        return BudgetPredicateBuilder
+                .of()
+                .name(budgetFilter.getSearch())
+                .active(budgetFilter.isActive())
+                .refYear(budgetFilter.getRefYear())
+                .refMonth(budgetFilter.getRefMonth())
+                .billTypeId(budgetFilter.getBillTypeId())
+                .paid(budgetFilter.getPaid())
+                .build();
     }
 
     @Override

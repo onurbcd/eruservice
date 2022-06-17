@@ -15,7 +15,6 @@ import com.onurbcd.eruservice.service.filter.BudgetFilter;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
-import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -126,13 +125,5 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService
                 .getNextSequence(new SequenceParam(next.getRefYear(), next.getRefMonth()));
-    }
-
-    private Budget findByIdOrElseThrow(UUID id) {
-        // TODO: refatorar este método para o AbstractCrudService
-        var budget = repository.findById(id).orElse(null);
-        Action.checkIfNotNull(budget).orElseThrowNotFound(id);
-        assert budget != null;
-        return budget;
     }
 }

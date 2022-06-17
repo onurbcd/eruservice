@@ -62,4 +62,11 @@ public abstract class AbstractCrudService<T extends Entityable, D extends Dtoabl
         var predicate = getPredicate(filter);
         return repository.findAll(predicate, pageable).map(toDtoMapper);
     }
+
+    protected T findByIdOrElseThrow(UUID id) {
+        var entity = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(entity).orElseThrowNotFound(id);
+        assert entity != null;
+        return entity;
+    }
 }

@@ -15,8 +15,6 @@ import com.onurbcd.eruservice.service.mapper.BillTypeToEntityMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +23,6 @@ import java.util.UUID;
 @Service
 public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeDto> implements BillTypeService {
 
-    private final BillTypeRepository repository;
-
-    private final BillTypeToDtoMapper toDtoMapper;
-
     private final BillTypeToEntityMapper toEntityMapper;
 
     @Autowired
@@ -36,8 +30,6 @@ public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeD
                                BillTypeToEntityMapper toEntityMapper) {
 
         super(repository, toDtoMapper);
-        this.repository = repository;
-        this.toDtoMapper = toDtoMapper;
         this.toEntityMapper = toEntityMapper;
     }
 
@@ -61,15 +53,13 @@ public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeD
     }
 
     @Override
-    public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
+    protected Predicate getPredicate(Filterable filter) {
         var billTypeFilter = (BillTypeFilter) filter;
 
-        Predicate predicate = BillTypePredicateBuilder
+        return BillTypePredicateBuilder
                 .of()
                 .name(billTypeFilter.getSearch())
                 .active(billTypeFilter.isActive())
                 .build();
-
-        return repository.findAll(predicate, pageable).map(toDtoMapper);
     }
 }

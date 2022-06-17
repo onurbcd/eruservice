@@ -1,5 +1,6 @@
 TODO: adicionar flyway
 TODO: aprender a injectar beans nos contraints validators
-TODO: implementar uma versão genérica do getAll
 TODO: adicionar lógica para ter um validate ao deletar (AbstractCrudService)
 TODO: criar um erro genérico de PSQL ao delelar uma entidade que é referenciada por outra, de modo à mensagem ficar mais bonita. Ex: ao remover tem que validar se não está a ser usado em nenhum Budget
+TODO: alterar o delete do AbstractCrudService para deletar primeiro por id, e caso não retorne nenhuma linha deletada, dá o erro de não existir entidade, assim só se vai na base de dados uma vez
+TODO: alterar o update do AbstractCrudService para atualizar o campo active por id, e caso não retorne nenhuma linha atualizada, dá o erro por não existir entidade, assim só se vai na base de dados uma vez

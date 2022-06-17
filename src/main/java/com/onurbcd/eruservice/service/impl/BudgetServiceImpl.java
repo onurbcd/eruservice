@@ -15,9 +15,8 @@ import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
+import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,8 +27,6 @@ import java.util.UUID;
 public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> implements BudgetService {
 
     private final BudgetRepository repository;
-
-    private final BudgetToDtoMapper toDtoMapper;
 
     private final BudgetToEntityMapper toEntityMapper;
 
@@ -44,7 +41,6 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
         super(repository, toDtoMapper);
         this.repository = repository;
-        this.toDtoMapper = toDtoMapper;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;
         this.sequenceService = sequenceService;
@@ -73,8 +69,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
     }
 
     @Override
-    public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
-        // TODO: implementar o getAll
+    protected Predicate getPredicate(Filterable filter) {
         return null;
     }
 

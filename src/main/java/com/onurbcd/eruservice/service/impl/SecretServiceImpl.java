@@ -19,8 +19,6 @@ import com.onurbcd.eruservice.persistency.Constants;
 import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -29,11 +27,7 @@ import java.util.UUID;
 @Service
 public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> implements SecretService {
 
-    private final SecretRepository repository;
-
     private final Cryptoable cryptoable;
-
-    private final SecretToDtoMapper toDtoMapper;
 
     private final SecretToEntityMapper toEntityMapper;
 
@@ -42,9 +36,7 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
                              SecretToEntityMapper toEntityMapper) {
 
         super(repository, toDtoMapper);
-        this.repository = repository;
         this.cryptoable = cryptoable;
-        this.toDtoMapper = toDtoMapper;
         this.toEntityMapper = toEntityMapper;
     }
 
@@ -78,15 +70,13 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     }
 
     @Override
-    public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
+    protected Predicate getPredicate(Filterable filter) {
         var secretFilter = (SecretFilter) filter;
 
-        Predicate predicate = SecretPredicateBuilder
+        return SecretPredicateBuilder
                 .of()
                 .search(secretFilter.getSearch())
                 .active(secretFilter.isActive())
                 .build();
-
-        return repository.findAll(predicate, pageable).map(toDtoMapper);
     }
 }

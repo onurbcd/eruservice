@@ -7,7 +7,6 @@ import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.SequenceValidationService;
 import org.apache.commons.lang3.BooleanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +14,6 @@ public class SequenceValidationServiceImpl<T extends SequenceRepository> impleme
 
     private final T repository;
 
-    @Autowired
     public SequenceValidationServiceImpl(T repository) {
         this.repository = repository;
     }

@@ -4,7 +4,6 @@ import com.onurbcd.eruservice.dto.BudgetDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.service.filter.BudgetFilter;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,7 +16,6 @@ public class BudgetController extends EruController<BudgetDto, BudgetFilter> imp
 
     private final BudgetService budgetService;
 
-    @Autowired
     public BudgetController(BudgetService service) {
         super(service);
         this.budgetService = service;

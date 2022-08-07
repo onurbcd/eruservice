@@ -18,7 +18,6 @@ import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.persistency.Constants;
 import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +30,6 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
 
     private final SecretToEntityMapper toEntityMapper;
 
-    @Autowired
     public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
                              SecretToEntityMapper toEntityMapper) {
 

@@ -17,7 +17,6 @@ import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
 import com.querydsl.core.types.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,7 +34,6 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     private final SequenceService<BudgetRepository> sequenceService;
 
-    @Autowired
     public BudgetServiceImpl(BudgetRepository repository, BudgetToDtoMapper toDtoMapper,
                              BudgetToEntityMapper toEntityMapper, BudgetValidationService validationService,
                              SequenceService<BudgetRepository> sequenceService) {

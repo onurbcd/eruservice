@@ -6,7 +6,6 @@ import com.onurbcd.eruservice.property.AdminProperties;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -27,7 +26,6 @@ public class CryptoHelper implements Cryptoable {
 
     private final AdminProperties config;
 
-    @Autowired
     public CryptoHelper(AdminProperties config) {
         this.config = config;
     }

@@ -14,7 +14,6 @@ import com.onurbcd.eruservice.service.mapper.BillTypeToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BillTypeToEntityMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.querydsl.core.types.Predicate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,6 @@ public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeD
 
     private final BillTypeToEntityMapper toEntityMapper;
 
-    @Autowired
     public BillTypeServiceImpl(BillTypeRepository repository, BillTypeToDtoMapper toDtoMapper,
                                BillTypeToEntityMapper toEntityMapper) {
 

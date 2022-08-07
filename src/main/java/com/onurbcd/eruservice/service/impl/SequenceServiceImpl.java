@@ -5,7 +5,6 @@ import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
 import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.validation.SequenceValidationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +14,6 @@ public class SequenceServiceImpl<T extends SequenceRepository> implements Sequen
 
     private final SequenceValidationService<T> validationService;
 
-    @Autowired
     public SequenceServiceImpl(T repository, SequenceValidationService<T> validationService) {
         this.repository = repository;
         this.validationService = validationService;

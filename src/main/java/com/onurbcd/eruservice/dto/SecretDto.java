@@ -5,12 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serial;
-import java.io.Serializable;
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class SecretDto extends PrimeDto implements Serializable {
+public class SecretDto extends PrimeDto {
 
     @Serial
     private static final long serialVersionUID = -3994423959939585870L;

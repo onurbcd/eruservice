@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
@@ -21,7 +22,9 @@ public class BudgetDto extends PrimeDto {
 
     private Short refMonth;
 
-    private BillTypeDto billType;
+    private UUID billTypeId;
+
+    private String billTypeName;
 
     private BigDecimal amount;
 

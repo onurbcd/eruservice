@@ -1,13 +1,16 @@
 package com.onurbcd.eruservice.api.controller;
 
 import com.onurbcd.eruservice.dto.BudgetDto;
+import com.onurbcd.eruservice.dto.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.service.filter.BudgetFilter;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -25,5 +28,10 @@ public class BudgetController extends EruController<BudgetDto, BudgetFilter> imp
     public ResponseEntity<Void> updateSequence(UUID id, Direction direction) {
         budgetService.updateSequence(id, direction);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/sum-month")
+    public ResponseEntity<Set<SumDto>> getSumByMonth(BudgetFilter filter) {
+        return ResponseEntity.ok(budgetService.getSumByMonth(filter));
     }
 }

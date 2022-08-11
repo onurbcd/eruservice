@@ -23,7 +23,11 @@ public enum Error {
 
     WRONG_DIRETION_UP("The sequence cannot get any lower"),
 
-    WRONG_DIRETION_DOWN("The sequence cannot get any higher");
+    WRONG_DIRETION_DOWN("The sequence cannot get any higher"),
+
+    BUDGET_REF_YEAR_IS_NULL("Reference year is mandatory"),
+
+    BUDGET_REF_MONTH_IS_NULL("Reference month is mandatory");
 
     private final String message;
 

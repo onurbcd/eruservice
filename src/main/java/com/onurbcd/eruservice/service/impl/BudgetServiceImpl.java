@@ -1,7 +1,9 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.BudgetDto;
+import com.onurbcd.eruservice.dto.BudgetSumDto;
 import com.onurbcd.eruservice.dto.Dtoable;
+import com.onurbcd.eruservice.dto.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
@@ -11,16 +13,21 @@ import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.service.SequenceService;
+import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.filter.BudgetFilter;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
+import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
+import com.onurbcd.eruservice.util.CollectionUtil;
+import com.onurbcd.eruservice.util.NumberUtil;
 import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -118,6 +125,18 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
         sequenceService.updateNextSequences(new SequenceParam(budget.getRefYear(), budget.getRefMonth(),
                 budget.getSequence()));
+    }
+
+    @Override
+    public Set<SumDto> getSumByMonth(BudgetFilter filter) {
+        Action.checkIfNotNull(filter.getRefYear()).orElseThrow(Error.BUDGET_REF_YEAR_IS_NULL);
+        Action.checkIfNotNull(filter.getRefMonth()).orElseThrow(Error.BUDGET_REF_MONTH_IS_NULL);
+        var sumSet = repository.getSumByMonth(filter.getRefYear(), filter.getRefMonth());
+        var paidSum = CollectionUtil.getValue(sumSet, BudgetSumDto::getPaid, BudgetSumDto::getAmount);
+        var unpaidSum = CollectionUtil.getValue(sumSet, p -> !p.getPaid(), BudgetSumDto::getAmount);
+        var totalSum = NumberUtil.add(paidSum, unpaidSum);
+        var size = sumSet.stream().mapToLong(BudgetSumDto::getSize).sum();
+        return Set.of(SumDto.total(totalSum), SumDto.paid(paidSum), SumDto.unpaid(unpaidSum), SumDto.size(size));
     }
 
     private Short getSequence(Budget current, Budget next) {

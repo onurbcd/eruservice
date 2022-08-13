@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.UUID;
 
-import static com.onurbcd.eruservice.api.ApiConstants.*;
-
 public class EruController<D extends Dtoable, F extends Filterable> {
 
     protected final CrudService service;
@@ -33,29 +31,29 @@ public class EruController<D extends Dtoable, F extends Filterable> {
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(dto, null));
     }
 
-    @PutMapping(PATH_ID)
-    public ResponseEntity<Dtoable> put(@PathVariable(ID) UUID id, @RequestBody D dto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Dtoable> put(@PathVariable("id") UUID id, @RequestBody D dto) {
         return ResponseEntity.ok(service.save(dto, id));
     }
 
-    @DeleteMapping(PATH_ID)
-    public ResponseEntity<Void> delete(@PathVariable(ID) UUID id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable("id") UUID id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(PATH_ID)
-    public ResponseEntity<Dtoable> get(@PathVariable(ID) UUID id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Dtoable> get(@PathVariable("id") UUID id) {
         return ResponseEntity.ok(service.getById(id));
     }
 
     @GetMapping
-    public ResponseEntity<Page<Dtoable>> getAll(@PageableDefault(sort = NAME) Pageable pageable, F filter) {
+    public ResponseEntity<Page<Dtoable>> getAll(@PageableDefault(sort = "name") Pageable pageable, F filter) {
         return ResponseEntity.ok(service.getAll(pageable, filter));
     }
 
-    @PatchMapping(PATH_ID)
-    public ResponseEntity<Void> patch(@PathVariable(ID) UUID id, @RequestBody D dto) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> patch(@PathVariable("id") UUID id, @RequestBody D dto) {
         service.update(dto, id);
         return ResponseEntity.noContent().build();
     }

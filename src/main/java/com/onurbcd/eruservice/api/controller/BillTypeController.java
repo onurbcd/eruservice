@@ -6,10 +6,8 @@ import com.onurbcd.eruservice.service.filter.BillTypeFilter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.onurbcd.eruservice.api.ApiConstants.PATH_BILL_TYPE;
-
 @RestController
-@RequestMapping(PATH_BILL_TYPE)
+@RequestMapping("/bill-type")
 public class BillTypeController extends EruController<BillTypeDto, BillTypeFilter> {
 
     public BillTypeController(BillTypeService service) {

@@ -2,6 +2,7 @@ package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.BudgetDto;
 import com.onurbcd.eruservice.dto.BudgetSumDto;
+import com.onurbcd.eruservice.dto.CopyBudgetDto;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
@@ -14,6 +15,7 @@ import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.enums.Error;
+import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.BudgetFilter;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
@@ -45,7 +47,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
                              BudgetToEntityMapper toEntityMapper, BudgetValidationService validationService,
                              SequenceService<BudgetRepository> sequenceService) {
 
-        super(repository, toDtoMapper);
+        super(repository, toDtoMapper, QueryType.CUSTOM);
         this.repository = repository;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;
@@ -137,6 +139,17 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         var totalSum = NumberUtil.add(paidSum, unpaidSum);
         var size = sumSet.stream().mapToLong(BudgetSumDto::getSize).sum();
         return Set.of(SumDto.total(totalSum), SumDto.paid(paidSum), SumDto.unpaid(unpaidSum), SumDto.size(size));
+    }
+
+    @Override
+    public void copy(CopyBudgetDto copyBudgetDto) {
+        validationService.validateCopy(copyBudgetDto);
+        var fromBudget = repository.getAllByRef(copyBudgetDto.getFrom());
+        Action.checkIfNotEmpty(fromBudget).orElseThrow(Error.COPY_BUDGET_FROM_IS_EMPTY,
+                copyBudgetDto.getFrom().getMonth(), copyBudgetDto.getFrom().getYear());
+        var toBudgetExists = repository.exists(BudgetPredicateBuilder.ref(copyBudgetDto.getTo()));
+        Action.checkIfNot(toBudgetExists).orElseThrow(Error.COPY_BUDGET_TO_ALREADY_EXISTS,
+                copyBudgetDto.getTo().getMonth(), copyBudgetDto.getTo().getYear());
     }
 
     private Short getSequence(Budget current, Budget next) {

@@ -3,6 +3,7 @@ package com.onurbcd.eruservice.service;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.repository.EruRepository;
+import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.ToDtoMappable;
 import com.onurbcd.eruservice.service.validation.Action;
@@ -13,15 +14,18 @@ import org.springframework.lang.Nullable;
 
 import java.util.UUID;
 
-public abstract class AbstractCrudService<T extends Entityable, D extends Dtoable> implements CrudService {
+public abstract class AbstractCrudService<E extends Entityable, D extends Dtoable> implements CrudService {
 
-    private final EruRepository<T> repository;
+    private final EruRepository<E, D> repository;
 
-    private final ToDtoMappable<T, D> toDtoMapper;
+    private final ToDtoMappable<E, D> toDtoMapper;
 
-    protected AbstractCrudService(EruRepository<T> repository, ToDtoMappable<T, D> toDtoMapper) {
+    private final QueryType queryType;
+
+    protected AbstractCrudService(EruRepository<E, D> repository, ToDtoMappable<E, D> toDtoMapper, QueryType queryType) {
         this.repository = repository;
         this.toDtoMapper = toDtoMapper;
+        this.queryType = queryType;
     }
 
     protected abstract Predicate getPredicate(Filterable filter);
@@ -30,16 +34,22 @@ public abstract class AbstractCrudService<T extends Entityable, D extends Dtoabl
     public Dtoable save(Dtoable dto, @Nullable UUID id) {
         var currentEntity = id != null ? repository.findById(id).orElse(null) : null;
         validate(dto, currentEntity, id);
-        @SuppressWarnings("unchecked") var newEntity = (T) fillValues(dto, currentEntity);
+        @SuppressWarnings("unchecked") var newEntity = (E) fillValues(dto, currentEntity);
         newEntity = repository.save(newEntity);
         return toDtoMapper.apply(newEntity);
     }
 
     @Override
     public Dtoable getById(UUID id) {
-        var entity = repository.findById(id).orElse(null);
-        Action.checkIfNotNull(entity).orElseThrowNotFound(id);
-        return toDtoMapper.apply(entity);
+        if (QueryType.JPA.equals(queryType)) {
+            var entity = repository.findById(id).orElse(null);
+            Action.checkIfNotNull(entity).orElseThrowNotFound(id);
+            return toDtoMapper.apply(entity);
+        }
+
+        var dto = repository.getSingle(id);
+        Action.checkIfNotNull(dto).orElseThrowNotFound(id);
+        return dto;
     }
 
     @Override
@@ -58,12 +68,16 @@ public abstract class AbstractCrudService<T extends Entityable, D extends Dtoabl
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Page<Dtoable> getAll(Pageable pageable, Filterable filter) {
         var predicate = getPredicate(filter);
-        return repository.findAll(predicate, pageable).map(toDtoMapper);
+
+        return QueryType.JPA.equals(queryType)
+                ? repository.findAll(predicate, pageable).map(toDtoMapper)
+                : (Page<Dtoable>) repository.getAll(predicate, pageable);
     }
 
-    protected T findByIdOrElseThrow(UUID id) {
+    protected E findByIdOrElseThrow(UUID id) {
         var entity = repository.findById(id).orElse(null);
         Action.checkIfNotNull(entity).orElseThrowNotFound(id);
         assert entity != null;

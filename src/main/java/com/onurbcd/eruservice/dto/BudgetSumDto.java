@@ -5,18 +5,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-public class BudgetSumDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -8813036559937890225L;
+public class BudgetSumDto {
 
     private BigDecimal amount;
 

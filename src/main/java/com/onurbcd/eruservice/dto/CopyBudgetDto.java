@@ -4,14 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @NoArgsConstructor
 @Getter
 @Setter
-public class AuditDto {
+public class CopyBudgetDto {
 
-    private LocalDateTime createdDate;
+    private RefDto from;
 
-    private LocalDateTime lastModifiedDate;
+    private RefDto to;
 }

@@ -17,4 +17,8 @@ public class CollectionUtil {
 
         return collection.stream().filter(predicate).findFirst().map(func).orElse(null);
     }
+
+    public static <T> boolean isEmpty(Collection<T> collection) {
+        return collection == null || collection.isEmpty();
+    }
 }

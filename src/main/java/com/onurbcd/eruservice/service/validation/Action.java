@@ -2,7 +2,11 @@ package com.onurbcd.eruservice.service.validation;
 
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;
+import com.onurbcd.eruservice.util.CollectionUtil;
 import org.springframework.http.HttpStatus;
+
+import java.util.Collection;
+import java.util.Collections;
 
 public class Action {
 
@@ -38,5 +42,9 @@ public class Action {
 
     public static <T> Action checkIfNotNull(T value) {
         return new Action(value == null);
+    }
+
+    public static <T> Action checkIfNotEmpty(Collection<T> collection) {
+        return new Action(CollectionUtil.isEmpty(collection));
     }
 }

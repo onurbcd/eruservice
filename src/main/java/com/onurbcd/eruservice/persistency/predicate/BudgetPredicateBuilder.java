@@ -1,6 +1,8 @@
 package com.onurbcd.eruservice.persistency.predicate;
 
+import com.onurbcd.eruservice.dto.RefDto;
 import com.onurbcd.eruservice.persistency.entity.QBudget;
+import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
@@ -61,5 +63,14 @@ public class BudgetPredicateBuilder extends BasePredicateBuilder {
         }
 
         return this;
+    }
+
+    public BudgetPredicateBuilder id(UUID id) {
+        builder().and(QBudget.budget.id.eq(id));
+        return this;
+    }
+
+    public static Predicate ref(RefDto refDto) {
+        return BudgetPredicateBuilder.of().refYear(refDto.getYear()).refMonth(refDto.getMonth()).build();
     }
 }

@@ -8,6 +8,7 @@ import com.onurbcd.eruservice.persistency.predicate.BillTypePredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BillTypeRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BillTypeService;
+import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.BillTypeFilter;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.BillTypeToDtoMapper;
@@ -27,7 +28,7 @@ public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeD
     public BillTypeServiceImpl(BillTypeRepository repository, BillTypeToDtoMapper toDtoMapper,
                                BillTypeToEntityMapper toEntityMapper) {
 
-        super(repository, toDtoMapper);
+        super(repository, toDtoMapper, QueryType.JPA);
         this.toEntityMapper = toEntityMapper;
     }
 

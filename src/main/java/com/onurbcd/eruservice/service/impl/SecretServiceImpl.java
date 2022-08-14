@@ -9,6 +9,7 @@ import com.onurbcd.eruservice.persistency.predicate.SecretPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.SecretRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.SecretService;
+import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.Filterable;
 import com.onurbcd.eruservice.service.filter.SecretFilter;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
@@ -33,7 +34,7 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
     public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
                              SecretToEntityMapper toEntityMapper) {
 
-        super(repository, toDtoMapper);
+        super(repository, toDtoMapper, QueryType.JPA);
         this.cryptoable = cryptoable;
         this.toEntityMapper = toEntityMapper;
     }

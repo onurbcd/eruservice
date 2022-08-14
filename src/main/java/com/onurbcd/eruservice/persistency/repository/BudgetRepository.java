@@ -1,6 +1,8 @@
 package com.onurbcd.eruservice.persistency.repository;
 
+import com.onurbcd.eruservice.dto.BudgetDto;
 import com.onurbcd.eruservice.dto.BudgetSumDto;
+import com.onurbcd.eruservice.dto.RefDto;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,10 +10,11 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface BudgetRepository extends EruRepository<Budget>, SequenceRepository {
+public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, SequenceRepository {
 
     @Override
     @Query("select max(b.sequence)" +
@@ -51,4 +54,10 @@ public interface BudgetRepository extends EruRepository<Budget>, SequenceReposit
             " and b.refMonth = :refMonth" +
             " group by b.paid")
     Set<BudgetSumDto> getSumByMonth(@Param("refYear") Short refYear, @Param("refMonth") Short refMonth);
+
+    @Query("select b" +
+            " from Budget b" +
+            " where b.refYear = :#{#refDto.year}" +
+            " and b.refMonth = :#{#refDto.month}")
+    List<Budget> getAllByRef(@Param("refDto") RefDto refDto);
 }

@@ -6,17 +6,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.lang.Nullable;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class SumDto implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -903140787821015446L;
+public class SumDto {
 
     private SumType type;
 

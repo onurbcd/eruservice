@@ -2,5 +2,4 @@ TODO: aprender a injectar beans nos contraints validators
 TODO: adicionar lógica para ter um validate ao deletar (AbstractCrudService)
 TODO: alterar o delete do AbstractCrudService para deletar primeiro por id, e caso não retorne nenhuma linha deletada, dá o erro de não existir entidade, assim só se vai na base de dados uma vez
 TODO: alterar o update do AbstractCrudService para atualizar o campo active por id, e caso não retorne nenhuma linha atualizada, dá o erro por não existir entidade, assim só se vai na base de dados uma vez
-TODO: alterar os posts, puts e patchs para retornarem void, de modo a não precisar retornar dados desnecessários pela rede, pois o front end não usa esse retorno
 TODO: completar o copy budget

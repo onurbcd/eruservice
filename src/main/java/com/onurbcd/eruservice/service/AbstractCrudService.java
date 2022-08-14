@@ -18,7 +18,7 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
 
     private final EruRepository<E, D> repository;
 
-    private final ToDtoMappable<E, D> toDtoMapper;
+    private ToDtoMappable<E, D> toDtoMapper;
 
     private final QueryType queryType;
 
@@ -28,22 +28,25 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
         this.queryType = queryType;
     }
 
+    protected AbstractCrudService(EruRepository<E, D> repository, QueryType queryType) {
+        this.repository = repository;
+        this.queryType = queryType;
+    }
+
     protected abstract Predicate getPredicate(Filterable filter);
 
     @Override
-    public Dtoable save(Dtoable dto, @Nullable UUID id) {
+    public void save(Dtoable dto, @Nullable UUID id) {
         var currentEntity = id != null ? repository.findById(id).orElse(null) : null;
         validate(dto, currentEntity, id);
         @SuppressWarnings("unchecked") var newEntity = (E) fillValues(dto, currentEntity);
-        newEntity = repository.save(newEntity);
-        return toDtoMapper.apply(newEntity);
+        repository.save(newEntity);
     }
 
     @Override
     public Dtoable getById(UUID id) {
         if (QueryType.JPA.equals(queryType)) {
-            var entity = repository.findById(id).orElse(null);
-            Action.checkIfNotNull(entity).orElseThrowNotFound(id);
+            var entity = findByIdOrElseThrow(id);
             return toDtoMapper.apply(entity);
         }
 
@@ -80,7 +83,6 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
     protected E findByIdOrElseThrow(UUID id) {
         var entity = repository.findById(id).orElse(null);
         Action.checkIfNotNull(entity).orElseThrowNotFound(id);
-        assert entity != null;
         return entity;
     }
 }

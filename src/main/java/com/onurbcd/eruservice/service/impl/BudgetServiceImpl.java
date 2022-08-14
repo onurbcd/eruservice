@@ -18,7 +18,6 @@ import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.BudgetFilter;
 import com.onurbcd.eruservice.service.filter.Filterable;
-import com.onurbcd.eruservice.service.mapper.BudgetToDtoMapper;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
@@ -43,11 +42,11 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     private final SequenceService<BudgetRepository> sequenceService;
 
-    public BudgetServiceImpl(BudgetRepository repository, BudgetToDtoMapper toDtoMapper,
-                             BudgetToEntityMapper toEntityMapper, BudgetValidationService validationService,
+    public BudgetServiceImpl(BudgetRepository repository, BudgetToEntityMapper toEntityMapper,
+                             BudgetValidationService validationService,
                              SequenceService<BudgetRepository> sequenceService) {
 
-        super(repository, toDtoMapper, QueryType.CUSTOM);
+        super(repository, QueryType.CUSTOM);
         this.repository = repository;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;

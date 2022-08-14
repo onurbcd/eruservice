@@ -2,7 +2,6 @@ package com.onurbcd.eruservice.api.controller;
 
 import com.onurbcd.eruservice.dto.BudgetDto;
 import com.onurbcd.eruservice.dto.CopyBudgetDto;
-import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.service.BudgetService;
@@ -37,8 +36,9 @@ public class BudgetController extends EruController<BudgetDto, BudgetFilter> imp
     }
 
     @GetMapping("/sum-month")
-    public ResponseEntity<Set<SumDto>> getSumByMonth(BudgetFilter filter) {
-        return ResponseEntity.ok(budgetService.getSumByMonth(filter));
+    @ResponseStatus(HttpStatus.OK)
+    public Set<SumDto> getSumByMonth(BudgetFilter filter) {
+        return budgetService.getSumByMonth(filter);
     }
 
     @PostMapping("/copy")

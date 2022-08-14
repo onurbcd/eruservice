@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public interface CrudService {
 
-    Dtoable save(Dtoable dto, @Nullable UUID id);
+    void save(Dtoable dto, @Nullable UUID id);
 
     void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id);
 

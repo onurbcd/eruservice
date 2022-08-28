@@ -142,13 +142,14 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     @Override
     public void copy(CopyBudgetDto copyBudgetDto) {
-        validationService.validateCopy(copyBudgetDto);
-        var fromBudget = repository.getAllByRef(copyBudgetDto.getFrom());
-        Action.checkIfNotEmpty(fromBudget).orElseThrow(Error.COPY_BUDGET_FROM_IS_EMPTY,
-                copyBudgetDto.getFrom().getMonth(), copyBudgetDto.getFrom().getYear());
-        var toBudgetExists = repository.exists(BudgetPredicateBuilder.ref(copyBudgetDto.getTo()));
-        Action.checkIfNot(toBudgetExists).orElseThrow(Error.COPY_BUDGET_TO_ALREADY_EXISTS,
-                copyBudgetDto.getTo().getMonth(), copyBudgetDto.getTo().getYear());
+        var fromBudget = validationService.validateCopy(copyBudgetDto);
+
+        var toBudget = fromBudget
+                .stream()
+                .map(b -> toEntityMapper.copy(b, copyBudgetDto.getTo().getYear(), copyBudgetDto.getTo().getMonth()))
+                .toList();
+
+        repository.saveAll(toBudget);
     }
 
     private Short getSequence(Budget current, Budget next) {

@@ -43,7 +43,9 @@ public enum Error {
 
     COPY_BUDGET_FROM_IS_EMPTY("There is no budget for the source month %02d/%d"),
 
-    COPY_BUDGET_TO_ALREADY_EXISTS("There is already a budget for the target month %02d/%d")
+    COPY_BUDGET_TO_ALREADY_EXISTS("There is already a budget for the target month %02d/%d"),
+
+    COPY_BUDGET_EQUAL_MONTH("Origin and destination months cannot be the same")
 
     ;
 

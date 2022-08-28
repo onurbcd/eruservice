@@ -14,6 +14,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.UUID;
 
 public class BudgetRepositoryImpl implements CustomRepository<BudgetDto> {
@@ -36,6 +37,7 @@ public class BudgetRepositoryImpl implements CustomRepository<BudgetDto> {
                 .where(predicate)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(orderBy(pageable.getSort(), QBudget.budget.getMetadata().getName()))
                 .fetch();
 
         final var totalSupplier = content.size() < pageable.getPageSize()
@@ -44,6 +46,16 @@ public class BudgetRepositoryImpl implements CustomRepository<BudgetDto> {
                 .fetchCount();
 
         return PageableExecutionUtils.getPage(content, pageable, () -> totalSupplier);
+    }
+
+    @Override
+    public List<BudgetDto> getAll(Predicate predicate) {
+        return new JPAQuery<>(manager)
+                .select(COLUMNS)
+                .from(QBudget.budget)
+                .innerJoin(QBudget.budget.billType)
+                .where(predicate)
+                .fetch();
     }
 
     @Override

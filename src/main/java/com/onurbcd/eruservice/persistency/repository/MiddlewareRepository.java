@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 @NoRepositoryBean
@@ -15,6 +17,11 @@ public interface MiddlewareRepository<E extends Entityable, D extends Dtoable> e
     @Override
     default Page<D> getAll(Predicate predicate, Pageable pageable) {
         return Page.empty();
+    }
+
+    @Override
+    default List<D> getAll(Predicate predicate) {
+        return Collections.emptyList();
     }
 
     @Override

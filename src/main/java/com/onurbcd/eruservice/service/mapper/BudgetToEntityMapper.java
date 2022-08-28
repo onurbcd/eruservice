@@ -14,4 +14,14 @@ public interface BudgetToEntityMapper extends Function<BudgetDto, Budget> {
     @Mapping(source = "billTypeId", target = "billType.id")
     @Mapping(source = "billTypeName", target = "billType.name")
     Budget apply(BudgetDto budgetDto);
+
+    @Mapping(source = "budgetDto.billTypeId", target = "billType.id")
+    @Mapping(target = "createdDate", expression = "java(null)")
+    @Mapping(target = "lastModifiedDate", expression = "java(null)")
+    @Mapping(target = "id", expression = "java(null)")
+    @Mapping(target = "active", expression = "java(Boolean.TRUE)")
+    @Mapping(target = "refYear", expression = "java(refYear)")
+    @Mapping(target = "refMonth", expression = "java(refMonth)")
+    @Mapping(target = "paid", expression = "java(Boolean.FALSE)")
+    Budget copy(BudgetDto budgetDto, Short refYear, Short refMonth);
 }

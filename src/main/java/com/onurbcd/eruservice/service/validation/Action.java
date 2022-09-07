@@ -6,7 +6,6 @@ import com.onurbcd.eruservice.util.CollectionUtil;
 import org.springframework.http.HttpStatus;
 
 import java.util.Collection;
-import java.util.Collections;
 
 public class Action {
 

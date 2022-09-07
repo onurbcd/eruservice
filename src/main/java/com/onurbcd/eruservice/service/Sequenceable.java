@@ -9,4 +9,7 @@ public interface Sequenceable {
 
     @Transactional
     void updateSequence(UUID id, Direction direction);
+
+    @Transactional
+    void swapPosition(UUID id, Short targetSequence);
 }

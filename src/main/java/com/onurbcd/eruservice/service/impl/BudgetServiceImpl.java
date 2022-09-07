@@ -152,6 +152,13 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         repository.saveAll(toBudget);
     }
 
+    @Override
+    public void swapPosition(UUID id, Short targetSequence) {
+        var budget = findByIdOrElseThrow(id);
+        var param = new SequenceParam(budget.getRefYear(), budget.getRefMonth(), budget.getSequence(), targetSequence);
+        sequenceService.swapPosition(param);
+    }
+
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService
                 .getNextSequence(new SequenceParam(next.getRefYear(), next.getRefMonth()));

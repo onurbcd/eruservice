@@ -7,4 +7,6 @@ import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
 public interface SequenceValidationService<T extends SequenceRepository> {
 
     void validate(SequenceParam currentParam, SequenceParam targetParam, Direction direction);
+
+    void validateSwapPosition(SequenceParam param);
 }

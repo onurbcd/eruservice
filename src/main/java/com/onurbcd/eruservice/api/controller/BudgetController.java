@@ -46,4 +46,9 @@ public class BudgetController extends EruController<BudgetDto, BudgetFilter> imp
     public void copy(@RequestBody CopyBudgetDto copyBudgetDto) {
         budgetService.copy(copyBudgetDto);
     }
+
+    @Override
+    public void swapPosition(UUID id, Short targetSequence) {
+        budgetService.swapPosition(id, targetSequence);
+    }
 }

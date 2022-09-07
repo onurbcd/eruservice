@@ -48,6 +48,22 @@ public class SequenceServiceImpl<T extends SequenceRepository> implements Sequen
         }
     }
 
+    @Override
+    public void swapPosition(SequenceParam param) {
+        validationService.validateSwapPosition(param);
+        // change current to max
+        var paramMax = new SequenceParam(param.getYear(), param.getMonth(), param.getSequence(), Short.MAX_VALUE);
+        repository.updateSequence(paramMax);
+        // change middle positions
+        swapMiddlePositions(param);
+
+        // change max to target
+        var paramTarget = new SequenceParam(param.getYear(), param.getMonth(), Short.MAX_VALUE,
+                param.getTargetSequence());
+
+        repository.updateSequence(paramTarget);
+    }
+
     private SequenceParam getTargetParam(SequenceParam currentParam, Direction direction) {
         var targetSequence = Direction.UP.equals(direction)
                 ? (short) (currentParam.getSequence() - 1)
@@ -55,5 +71,31 @@ public class SequenceServiceImpl<T extends SequenceRepository> implements Sequen
 
         return new SequenceParam(currentParam.getYear(), currentParam.getMonth(), targetSequence,
                 currentParam.getSequence());
+    }
+
+    private void swapMiddlePositions(SequenceParam param) {
+        if (param.getSequence().compareTo(param.getTargetSequence()) > 0) {
+            swapMiddlePositionsUp(param);
+        } else {
+            swapMiddlePositionsDown(param);
+        }
+    }
+
+    private void swapMiddlePositionsUp(SequenceParam param) {
+        var sequence = (short) (param.getSequence() - 1);
+
+        for (short i = sequence, j = param.getSequence(); i >= param.getTargetSequence(); i--, j--) {
+            var paramSwap = new SequenceParam(param.getYear(), param.getMonth(), i, j);
+            repository.updateSequence(paramSwap);
+        }
+    }
+
+    private void swapMiddlePositionsDown(SequenceParam param) {
+        var sequence = (short) (param.getSequence() + 1);
+
+        for (short i = sequence, j = param.getSequence(); i <= param.getTargetSequence(); i++, j++) {
+            var paramSwap = new SequenceParam(param.getYear(), param.getMonth(), i, j);
+            repository.updateSequence(paramSwap);
+        }
     }
 }

@@ -11,4 +11,6 @@ public interface SequenceService<T extends SequenceRepository> {
     void swapSequence(SequenceParam currentParam, Direction direction);
 
     void updateNextSequences(SequenceParam sequenceParam);
+
+    void swapPosition(SequenceParam param);
 }

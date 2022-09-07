@@ -30,4 +30,12 @@ public class SequenceValidationServiceImpl<T extends SequenceRepository> impleme
 
         Action.checkIf(existsTargetSequence).orElseThrowNotFound("swap sequence target");
     }
+
+    @Override
+    public void validateSwapPosition(SequenceParam param) {
+        Action.checkIfNot(param.getSequence().equals(param.getTargetSequence())).orElseThrow(Error.SWAP_SAME_POSITION);
+        Action.checkIfNot(param.getTargetSequence().compareTo((short) 1) < 0).orElseThrow(Error.WRONG_DIRETION_DOWN);
+        var maxSequence = repository.getMaxSequence(param);
+        Action.checkIfNot(param.getTargetSequence().compareTo(maxSequence) > 0).orElseThrow(Error.WRONG_DIRETION_UP);
+    }
 }

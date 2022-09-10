@@ -159,6 +159,12 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
         sequenceService.swapPosition(param);
     }
 
+    @Override
+    public void deleteAll(Short refYear, Short refMonth) {
+        var count = repository.deleteAll(refYear, refMonth);
+        Action.checkIf(count > 0).orElseThrow(Error.NO_ROWS_DELETED);
+    }
+
     private Short getSequence(Budget current, Budget next) {
         return current != null ? current.getSequence() : sequenceService
                 .getNextSequence(new SequenceParam(next.getRefYear(), next.getRefMonth()));

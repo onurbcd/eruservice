@@ -52,4 +52,8 @@ public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, Sequ
             " and b.refMonth = :refMonth" +
             " group by b.paid")
     Set<BudgetSumDto> getSumByMonth(@Param("refYear") Short refYear, @Param("refMonth") Short refMonth);
+
+    @Modifying
+    @Query("delete from Budget b where b.refYear = :refYear and b.refMonth = :refMonth")
+    int deleteAll(@Param("refYear") Short refYear, @Param("refMonth") Short refMonth);
 }

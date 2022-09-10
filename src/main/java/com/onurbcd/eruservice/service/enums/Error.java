@@ -47,7 +47,9 @@ public enum Error {
 
     COPY_BUDGET_EQUAL_MONTH("Origin and destination months cannot be the same"),
 
-    SWAP_SAME_POSITION("The current and target positions are the same")
+    SWAP_SAME_POSITION("The current and target positions are the same"),
+
+    NO_ROWS_DELETED("No rows were deleted")
 
     ;
 

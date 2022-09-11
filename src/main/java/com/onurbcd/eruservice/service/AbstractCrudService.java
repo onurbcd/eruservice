@@ -21,7 +21,7 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
 
     private Function<E, D> toDtoMapper;
 
-    private EntityMapper<D, E> toEntityMapper;
+    private final EntityMapper<D, E> toEntityMapper;
 
     private final QueryType queryType;
 

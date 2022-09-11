@@ -9,21 +9,18 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.EntityListeners;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
-@Getter
-@Setter
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@Getter
+@Setter
 public abstract class Audit {
 
     @CreatedDate
-    @NotNull
     private LocalDateTime createdDate;
 
     @LastModifiedDate
-    @NotNull
     private LocalDateTime lastModifiedDate;
 }

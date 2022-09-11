@@ -5,10 +5,8 @@ import com.onurbcd.eruservice.persistency.entity.Budget;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import java.util.function.Function;
-
 @Mapper(config = DefaultMapperConfig.class)
-public interface BudgetToEntityMapper extends Function<BudgetDto, Budget> {
+public interface BudgetToEntityMapper extends EntityMapper<BudgetDto, Budget> {
 
     @Override
     @Mapping(source = "billTypeId", target = "billType.id")

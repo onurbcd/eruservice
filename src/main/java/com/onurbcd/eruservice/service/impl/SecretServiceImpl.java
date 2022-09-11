@@ -29,14 +29,11 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
 
     private final Cryptoable cryptoable;
 
-    private final SecretToEntityMapper toEntityMapper;
-
     public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
                              SecretToEntityMapper toEntityMapper) {
 
-        super(repository, toDtoMapper, QueryType.JPA);
+        super(repository, toDtoMapper, toEntityMapper, QueryType.JPA);
         this.cryptoable = cryptoable;
-        this.toEntityMapper = toEntityMapper;
     }
 
     @Override
@@ -50,19 +47,10 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
 
     @Override
     public Secret fillValues(Dtoable dto, Entityable entity) {
-        var secretDto = (SecretDto) dto;
-        var currentSecret = (Secret) entity;
-        var secret = toEntityMapper.apply(secretDto);
-        secret.setId(currentSecret != null ? currentSecret.getId() : null);
-        secret.setDescription(StringUtils.isNotBlank(secret.getDescription()) ? secret.getDescription() : null);
-        secret.setLink(StringUtils.isNotBlank(secret.getLink()) ? secret.getLink() : null);
+        var secret = (Secret) super.fillValues(dto, entity);
 
         if (StringUtils.isNotBlank(secret.getPassword())) {
             secret.setPassword(cryptoable.encrypt(secret.getPassword()));
-        }
-
-        if (currentSecret != null) {
-            secret.setCreatedDate(currentSecret.getCreatedDate());
         }
 
         return secret;

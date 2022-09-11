@@ -4,8 +4,6 @@ import com.onurbcd.eruservice.dto.BillTypeDto;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import org.mapstruct.Mapper;
 
-import java.util.function.Function;
-
 @Mapper(config = DefaultMapperConfig.class)
-public interface BillTypeToEntityMapper extends Function<BillTypeDto, BillType> {
+public interface BillTypeToEntityMapper extends EntityMapper<BillTypeDto, BillType> {
 }

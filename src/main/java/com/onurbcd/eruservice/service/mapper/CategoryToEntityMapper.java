@@ -4,8 +4,6 @@ import com.onurbcd.eruservice.dto.CategoryDto;
 import com.onurbcd.eruservice.persistency.entity.Category;
 import org.mapstruct.Mapper;
 
-import java.util.function.Function;
-
 @Mapper(config = DefaultMapperConfig.class)
-public interface CategoryToEntityMapper extends Function<CategoryDto, Category> {
+public interface CategoryToEntityMapper extends EntityMapper<CategoryDto, Category> {
 }

@@ -46,7 +46,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
                              BudgetValidationService validationService,
                              SequenceService<BudgetRepository> sequenceService) {
 
-        super(repository, QueryType.CUSTOM);
+        super(repository, toEntityMapper, QueryType.CUSTOM);
         this.repository = repository;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;
@@ -55,23 +55,13 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
     @Override
     public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
-        var budgetDto = (BudgetDto) dto;
-        var budget = (Budget) entity;
-        validationService.validate(budgetDto, budget, id);
+        validationService.validate((BudgetDto) dto, (Budget) entity, id);
     }
 
     @Override
     public Entityable fillValues(Dtoable dto, Entityable entity) {
-        var budgetDto = (BudgetDto) dto;
-        var currentBudget = (Budget) entity;
-        var budget = toEntityMapper.apply(budgetDto);
-        budget.setId(currentBudget != null ? currentBudget.getId() : null);
-        budget.setSequence(getSequence(currentBudget, budget));
-
-        if (currentBudget != null) {
-            budget.setCreatedDate(currentBudget.getCreatedDate());
-        }
-
+        var budget = (Budget) super.fillValues(dto, entity);
+        budget.setSequence(getSequence((Budget) entity, budget));
         return budget;
     }
 

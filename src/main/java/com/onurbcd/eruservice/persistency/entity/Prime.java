@@ -16,8 +16,6 @@ import javax.validation.constraints.Size;
 import java.util.UUID;
 
 @NoArgsConstructor
-@Getter
-@Setter
 @MappedSuperclass
 public class Prime extends Audit implements Entityable {
 
@@ -28,14 +26,27 @@ public class Prime extends Audit implements Entityable {
     @Column(unique = true)
     @NotNull
     @Size(min = Constants.SIZE_3, max = Constants.SIZE_50)
+    @Getter
+    @Setter
     private String name;
 
     @NotNull
+    @Getter
     private Boolean active;
 
     @Override
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    @Override
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    @Override
+    public UUID getId() {
+        return id;
     }
 
     @Override

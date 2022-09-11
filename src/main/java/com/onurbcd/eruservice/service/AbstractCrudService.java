@@ -5,6 +5,7 @@ import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.repository.EruRepository;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.Filterable;
+import com.onurbcd.eruservice.service.mapper.EntityMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
@@ -20,16 +21,24 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
 
     private Function<E, D> toDtoMapper;
 
+    private EntityMapper<D, E> toEntityMapper;
+
     private final QueryType queryType;
 
-    protected AbstractCrudService(EruRepository<E, D> repository, Function<E, D> toDtoMapper, QueryType queryType) {
+    protected AbstractCrudService(EruRepository<E, D> repository, Function<E, D> toDtoMapper,
+                                  EntityMapper<D, E> toEntityMapper, QueryType queryType) {
+
         this.repository = repository;
         this.toDtoMapper = toDtoMapper;
+        this.toEntityMapper = toEntityMapper;
         this.queryType = queryType;
     }
 
-    protected AbstractCrudService(EruRepository<E, D> repository, QueryType queryType) {
+    protected AbstractCrudService(EruRepository<E, D> repository, EntityMapper<D, E> toEntityMapper,
+                                  QueryType queryType) {
+
         this.repository = repository;
+        this.toEntityMapper = toEntityMapper;
         this.queryType = queryType;
     }
 
@@ -46,6 +55,18 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
     @Override
     public void validate(Dtoable dto, Entityable entity, UUID id) {
         Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
+    }
+
+    @Override
+    public Entityable fillValues(Dtoable dto, Entityable entity) {
+        @SuppressWarnings("unchecked") var newEntity = toEntityMapper.apply((D) dto);
+        newEntity.setId(entity != null ? entity.getId() : null);
+
+        if (entity != null) {
+            newEntity.setCreatedDate(entity.getCreatedDate());
+        }
+
+        return newEntity;
     }
 
     @Override

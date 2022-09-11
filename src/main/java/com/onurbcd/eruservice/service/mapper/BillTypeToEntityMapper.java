@@ -6,9 +6,6 @@ import org.mapstruct.Mapper;
 
 import java.util.function.Function;
 
-@Mapper(componentModel = "spring")
+@Mapper(config = DefaultMapperConfig.class)
 public interface BillTypeToEntityMapper extends Function<BillTypeDto, BillType> {
-
-    @Override
-    BillType apply(BillTypeDto billTypeDto);
 }

@@ -7,8 +7,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Mapper(componentModel = "spring")
-public abstract class SecretToDtoMapper implements ToDtoMappable<Secret, SecretDto> {
+import java.util.function.Function;
+
+@Mapper(config = DefaultMapperConfig.class)
+public abstract class SecretToDtoMapper implements Function<Secret, SecretDto> {
 
     @Autowired
     protected Cryptoable cryptoable;

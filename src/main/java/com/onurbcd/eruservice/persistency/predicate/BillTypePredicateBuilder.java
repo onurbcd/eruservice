@@ -1,13 +1,13 @@
 package com.onurbcd.eruservice.persistency.predicate;
 
 import com.onurbcd.eruservice.persistency.entity.QBillType;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BillTypePredicateBuilder extends BasePredicateBuilder {
-
-    private BillTypePredicateBuilder() {
-    }
 
     public static BillTypePredicateBuilder of() {
         return new BillTypePredicateBuilder();

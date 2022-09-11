@@ -3,15 +3,15 @@ package com.onurbcd.eruservice.persistency.predicate;
 import com.onurbcd.eruservice.dto.RefDto;
 import com.onurbcd.eruservice.persistency.entity.QBudget;
 import com.querydsl.core.types.Predicate;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
 import java.util.UUID;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BudgetPredicateBuilder extends BasePredicateBuilder {
-
-    private BudgetPredicateBuilder() {
-    }
 
     public static BudgetPredicateBuilder of() {
         return new BudgetPredicateBuilder();

@@ -4,17 +4,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.UUID;
 
 @NoArgsConstructor
 @Getter
 @Setter
-public class BudgetFilter extends AbstractFilterable implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = -605941962275216278L;
+public class BudgetFilter extends AbstractFilterable {
 
     private Short refYear;
 

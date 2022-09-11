@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 import java.util.function.Function;
 
-@Mapper(componentModel = "spring")
+@Mapper(config = DefaultMapperConfig.class)
 public interface BudgetToEntityMapper extends Function<BudgetDto, Budget> {
 
     @Override

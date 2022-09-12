@@ -3,34 +3,18 @@ package com.onurbcd.eruservice.persistency.predicate;
 import com.onurbcd.eruservice.dto.RefDto;
 import com.onurbcd.eruservice.persistency.entity.QBudget;
 import com.querydsl.core.types.Predicate;
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
 import java.util.UUID;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BudgetPredicateBuilder extends BasePredicateBuilder {
+
+    public BudgetPredicateBuilder() {
+        super(QBudget.budget.name, QBudget.budget.active);
+    }
 
     public static BudgetPredicateBuilder of() {
         return new BudgetPredicateBuilder();
-    }
-
-    public BudgetPredicateBuilder name(@Nullable String name) {
-        if (StringUtils.isNotBlank(name)) {
-            builder().and(QBudget.budget.name.containsIgnoreCase(name));
-        }
-
-        return this;
-    }
-
-    public BudgetPredicateBuilder active(@Nullable Boolean active) {
-        if (active != null) {
-            builder().and(QBudget.budget.active.eq(active));
-        }
-
-        return this;
     }
 
     public BudgetPredicateBuilder refYear(@Nullable Short refYear) {

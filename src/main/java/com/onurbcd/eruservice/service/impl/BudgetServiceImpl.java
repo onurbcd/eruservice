@@ -32,7 +32,8 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> implements BudgetService {
+public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, BudgetPredicateBuilder>
+        implements BudgetService {
 
     private final BudgetRepository repository;
 
@@ -46,7 +47,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
                              BudgetValidationService validationService,
                              SequenceService<BudgetRepository> sequenceService) {
 
-        super(repository, toEntityMapper, QueryType.CUSTOM);
+        super(repository, toEntityMapper, QueryType.CUSTOM, BudgetPredicateBuilder.class);
         this.repository = repository;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;
@@ -71,12 +72,12 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto> im
 
         return BudgetPredicateBuilder
                 .of()
-                .name(budgetFilter.getSearch())
-                .active(budgetFilter.isActive())
                 .refYear(budgetFilter.getRefYear())
                 .refMonth(budgetFilter.getRefMonth())
                 .billTypeId(budgetFilter.getBillTypeId())
                 .paid(budgetFilter.getPaid())
+                .search(budgetFilter.getSearch())
+                .active(budgetFilter.isActive())
                 .build();
     }
 

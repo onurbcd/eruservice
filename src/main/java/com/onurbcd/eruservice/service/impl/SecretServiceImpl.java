@@ -10,14 +10,11 @@ import com.onurbcd.eruservice.persistency.repository.SecretRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.SecretService;
 import com.onurbcd.eruservice.service.enums.QueryType;
-import com.onurbcd.eruservice.service.filter.Filterable;
-import com.onurbcd.eruservice.service.filter.SecretFilter;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
 import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.persistency.Constants;
-import com.querydsl.core.types.Predicate;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -25,14 +22,15 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> implements SecretService {
+public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder>
+        implements SecretService {
 
     private final Cryptoable cryptoable;
 
     public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
                              SecretToEntityMapper toEntityMapper) {
 
-        super(repository, toDtoMapper, toEntityMapper, QueryType.JPA);
+        super(repository, toDtoMapper, toEntityMapper, QueryType.JPA, SecretPredicateBuilder.class);
         this.cryptoable = cryptoable;
     }
 
@@ -54,16 +52,5 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto> im
         }
 
         return secret;
-    }
-
-    @Override
-    protected Predicate getPredicate(Filterable filter) {
-        var secretFilter = (SecretFilter) filter;
-
-        return SecretPredicateBuilder
-                .of()
-                .search(secretFilter.getSearch())
-                .active(secretFilter.isActive())
-                .build();
     }
 }

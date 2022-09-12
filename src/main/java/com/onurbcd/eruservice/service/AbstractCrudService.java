@@ -2,6 +2,8 @@ package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
+import com.onurbcd.eruservice.persistency.predicate.BasePredicateBuilder;
+import com.onurbcd.eruservice.persistency.predicate.PredicateBuilderFactory;
 import com.onurbcd.eruservice.persistency.repository.EruRepository;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.filter.Filterable;
@@ -15,7 +17,8 @@ import org.springframework.lang.Nullable;
 import java.util.UUID;
 import java.util.function.Function;
 
-public abstract class AbstractCrudService<E extends Entityable, D extends Dtoable> implements CrudService {
+public abstract class AbstractCrudService<E extends Entityable, D extends Dtoable, P extends BasePredicateBuilder>
+        implements CrudService {
 
     private final EruRepository<E, D> repository;
 
@@ -25,24 +28,26 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
 
     private final QueryType queryType;
 
+    private final Class<P> predicateClass;
+
     protected AbstractCrudService(EruRepository<E, D> repository, Function<E, D> toDtoMapper,
-                                  EntityMapper<D, E> toEntityMapper, QueryType queryType) {
+                                  EntityMapper<D, E> toEntityMapper, QueryType queryType, Class<P> predicateClass) {
 
         this.repository = repository;
         this.toDtoMapper = toDtoMapper;
         this.toEntityMapper = toEntityMapper;
         this.queryType = queryType;
+        this.predicateClass = predicateClass;
     }
 
     protected AbstractCrudService(EruRepository<E, D> repository, EntityMapper<D, E> toEntityMapper,
-                                  QueryType queryType) {
+                                  QueryType queryType, Class<P> predicateClass) {
 
         this.repository = repository;
         this.toEntityMapper = toEntityMapper;
         this.queryType = queryType;
+        this.predicateClass = predicateClass;
     }
-
-    protected abstract Predicate getPredicate(Filterable filter);
 
     @Override
     public void save(Dtoable dto, @Nullable UUID id) {
@@ -110,5 +115,10 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
         var entity = repository.findById(id).orElse(null);
         Action.checkIfNotNull(entity).orElseThrowNotFound(id);
         return entity;
+    }
+
+    protected Predicate getPredicate(Filterable filter) {
+        var predicate = PredicateBuilderFactory.init(predicateClass);
+        return predicate.search(filter.getSearch()).active(filter.isActive()).build();
     }
 }

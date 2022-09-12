@@ -60,7 +60,7 @@ public class BudgetRepositoryImpl implements CustomRepository<BudgetDto> {
 
     @Override
     public BudgetDto getSingle(UUID id) {
-        var predicate = BudgetPredicateBuilder.of().id(id).build();
+        var predicate = BudgetPredicateBuilder.id(id);
 
         return new JPAQuery<>(manager).select(COLUMNS).from(QBudget.budget).innerJoin(QBudget.budget.billType)
                 .where(predicate).fetchFirst();

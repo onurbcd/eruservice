@@ -68,17 +68,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
 
     @Override
     protected Predicate getPredicate(Filterable filter) {
-        var budgetFilter = (BudgetFilter) filter;
-
-        return BudgetPredicateBuilder
-                .of()
-                .refYear(budgetFilter.getRefYear())
-                .refMonth(budgetFilter.getRefMonth())
-                .billTypeId(budgetFilter.getBillTypeId())
-                .paid(budgetFilter.getPaid())
-                .search(budgetFilter.getSearch())
-                .active(budgetFilter.isActive())
-                .build();
+        return BudgetPredicateBuilder.all((BudgetFilter) filter);
     }
 
     @Override

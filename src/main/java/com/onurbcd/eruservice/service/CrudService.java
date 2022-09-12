@@ -2,7 +2,7 @@ package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
-import com.onurbcd.eruservice.service.filter.Filterable;
+import com.onurbcd.eruservice.dto.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;

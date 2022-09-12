@@ -2,7 +2,7 @@ package com.onurbcd.eruservice.api.controller;
 
 import com.onurbcd.eruservice.dto.BillTypeDto;
 import com.onurbcd.eruservice.service.BillTypeService;
-import com.onurbcd.eruservice.service.filter.BillTypeFilter;
+import com.onurbcd.eruservice.dto.filter.BillTypeFilter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

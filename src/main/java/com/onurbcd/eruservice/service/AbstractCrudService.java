@@ -6,7 +6,7 @@ import com.onurbcd.eruservice.persistency.predicate.BasePredicateBuilder;
 import com.onurbcd.eruservice.persistency.predicate.PredicateBuilderFactory;
 import com.onurbcd.eruservice.persistency.repository.EruRepository;
 import com.onurbcd.eruservice.service.enums.QueryType;
-import com.onurbcd.eruservice.service.filter.Filterable;
+import com.onurbcd.eruservice.dto.filter.Filterable;
 import com.onurbcd.eruservice.service.mapper.EntityMapper;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.querydsl.core.types.Predicate;

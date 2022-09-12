@@ -2,7 +2,7 @@ package com.onurbcd.eruservice.api.controller;
 
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.service.CrudService;
-import com.onurbcd.eruservice.service.filter.Filterable;
+import com.onurbcd.eruservice.dto.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;

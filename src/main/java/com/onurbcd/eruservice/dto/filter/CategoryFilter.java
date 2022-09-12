@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.service.filter;
+package com.onurbcd.eruservice.dto.filter;
 
 import lombok.NoArgsConstructor;
 

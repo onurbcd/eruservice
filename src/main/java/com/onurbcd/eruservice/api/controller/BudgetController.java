@@ -5,7 +5,7 @@ import com.onurbcd.eruservice.dto.CopyBudgetDto;
 import com.onurbcd.eruservice.dto.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.service.BudgetService;
-import com.onurbcd.eruservice.service.filter.BudgetFilter;
+import com.onurbcd.eruservice.dto.filter.BudgetFilter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

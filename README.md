@@ -20,5 +20,5 @@ $ docker pull openjdk:18-alpine
 # build eru-service container
 $ docker build -t eru-service:1.0.0 .
 # run eru-service container
-$ docker run --net eru-network -p8069:8069 --name eru-service -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/eru-service-dev -d eru-service:1.0.0
+$ docker run --net eru-network -p8069:8069 --name eru-service -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/eru-service-prd -d eru-service:1.0.0
 ```

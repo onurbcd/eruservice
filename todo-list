@@ -4,3 +4,31 @@ TODO: alterar o delete do AbstractCrudService para deletar primeiro por id, e ca
 TODO: alterar o update do AbstractCrudService para atualizar o campo active por id, e caso não retorne nenhuma linha atualizada, dá o erro por não existir entidade, assim só se vai na base de dados uma vez
 TODO: adicionar SecretValidationService
 TODO: Refatorar a lógica do sequence service: não precisa ter o método de update sequence, basta ter o swap sequence
+
+- Category
+    - Criar por script o pai de todas as categorias, com level 1; é a única categoria com parentID null;
+      todas as outras categorias têm que ter um pai.
+    - Campos adicionar:
+        parentId, UUID, null
+        level, Short, not null
+        lastBranch, Boolean, not null
+    - Insert
+        parent id não pode ser nulo
+        o campo level é calculado; parent level + 1
+        last branch é sempre true
+        tem que setar o last branch do pai como false
+    - Update
+        só pode atualizar os campos nome e descrição;
+        deve descartar os valores que recebe das outras colunas, e usar os que já existem na base de dados.
+    - Delete
+        só pode remover uma categoria em que o last branch é true, e que não esteja a ser usada por outra entidade
+    - Get by id
+        deve trazer os dados da categoria, mais o id e nome da categoria pai
+    - Get all
+        Filtros:
+            search: nome + descrição
+            active
+            parentId
+            level
+            lastBranch
+        a ordenação padrão é primeiro por nome

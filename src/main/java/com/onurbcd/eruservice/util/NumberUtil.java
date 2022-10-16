@@ -22,6 +22,10 @@ public class NumberUtil {
         return NumberUtils.compare(s1, s2) == 0;
     }
 
+    public static boolean notEquals(@Nullable Short s1, @Nullable Short s2) {
+        return !equals(s1, s2);
+    }
+
     public static BigDecimal add(@Nullable BigDecimal bd1, @Nullable BigDecimal bd2) {
         if (bd1 == null && bd2 == null) {
             return BigDecimal.ZERO;

@@ -49,7 +49,15 @@ public enum Error {
 
     SWAP_SAME_POSITION("The current and target positions are the same"),
 
-    NO_ROWS_DELETED("No rows were deleted")
+    NO_ROWS_DELETED("No rows were deleted"),
+
+    CATEGORY_PARENT_IS_NULL("Category parent is mandatory"),
+
+    CATEGORY_LEVEL_ONE_IS_UNCHANGEABLE("Level 1 category cannot be changed"),
+
+    CATEGORY_DELETE_NON_LAST_BRANCH("Only the last branch can be deleted"),
+
+    CATEGORY_CANNOT_DELETE_LEVEL_ONE("Level 1 category cannot be deleted")
 
     ;
 

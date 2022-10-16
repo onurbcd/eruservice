@@ -24,4 +24,6 @@ public interface CrudService {
     Page<Dtoable> getAll(Pageable pageable, Filterable filter);
 
     void update(Dtoable dto, UUID id);
+
+    void afterSave(Entityable entity, @Nullable UUID id);
 }

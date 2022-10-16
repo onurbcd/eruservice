@@ -55,6 +55,7 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
         validate(dto, currentEntity, id);
         @SuppressWarnings("unchecked") var newEntity = (E) fillValues(dto, currentEntity);
         repository.save(newEntity);
+        afterSave(newEntity, id);
     }
 
     @Override
@@ -109,6 +110,10 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
         return QueryType.JPA.equals(queryType)
                 ? repository.findAll(predicate, pageable).map(toDtoMapper)
                 : (Page<Dtoable>) repository.getAll(predicate, pageable);
+    }
+
+    @Override
+    public void afterSave(Entityable entity, UUID id) {
     }
 
     protected E findByIdOrElseThrow(UUID id) {

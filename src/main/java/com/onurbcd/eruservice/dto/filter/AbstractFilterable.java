@@ -1,7 +1,5 @@
 package com.onurbcd.eruservice.dto.filter;
 
-import com.onurbcd.eruservice.dto.filter.Filterable;
-
 public abstract class AbstractFilterable implements Filterable {
 
     private Boolean active;

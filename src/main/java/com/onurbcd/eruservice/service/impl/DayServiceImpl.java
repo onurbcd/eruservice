@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.day.CreateMonthDto;
+import com.onurbcd.eruservice.dto.day.DayDto;
 import com.onurbcd.eruservice.persistency.entity.Day;
 import com.onurbcd.eruservice.persistency.repository.DayRepository;
 import com.onurbcd.eruservice.service.DayService;
@@ -35,8 +36,8 @@ public class DayServiceImpl implements DayService {
     }
 
     @Override
-    public Set<Short> getMonths(Short calendarYear) {
-        return repository.getMonthsInYear(calendarYear);
+    public Set<DayDto> getYearsAndMonths() {
+        return repository.getYearsAndMonths();
     }
 
     private List<Day> createDays(CreateMonthDto dto) {

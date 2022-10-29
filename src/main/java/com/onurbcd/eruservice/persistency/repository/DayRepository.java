@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.dto.day.CreateMonthDto;
+import com.onurbcd.eruservice.dto.day.DayDto;
 import com.onurbcd.eruservice.persistency.entity.Day;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,10 +19,9 @@ public interface DayRepository extends JpaRepository<Day, Integer> {
             " and d.calendarMonth = :#{#dto.calendarMonth}")
     long numberOfDaysInMonth(@Param("dto") CreateMonthDto dto);
 
-    @Query("select d.calendarMonth" +
+    @Query("select new com.onurbcd.eruservice.dto.day.DayDto(d.calendarYear, d.calendarMonth)" +
             " from Day d" +
-            " where d.calendarYear = :calendarYear" +
-            " group by d.calendarMonth" +
-            " order by d.calendarMonth")
-    Set<Short> getMonthsInYear(@Param("calendarYear") Short calendarYear);
+            " group by d.calendarYear, d.calendarMonth" +
+            " order by d.calendarYear, d.calendarMonth")
+    Set<DayDto> getYearsAndMonths();
 }

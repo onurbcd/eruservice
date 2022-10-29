@@ -57,7 +57,11 @@ public enum Error {
 
     CATEGORY_DELETE_NON_LAST_BRANCH("Only the last branch can be deleted"),
 
-    CATEGORY_CANNOT_DELETE_LEVEL_ONE("Level 1 category cannot be deleted")
+    CATEGORY_CANNOT_DELETE_LEVEL_ONE("Level 1 category cannot be deleted"),
+
+    MONTH_ALREADY_EXISTS("Month %02d/%d already exists"),
+
+    BAD_REQUEST("Invalid Arguments")
 
     ;
 

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -24,17 +25,24 @@ public class ApiError implements Serializable {
 
     private int code;
 
-    public ApiError(String name, String message, int code) {
+    private List<String> errors;
+
+    public ApiError(String name, String message, int code, List<String> errors) {
         this.name = name;
         this.message = message;
         this.code = code;
+        this.errors = errors;
     }
 
     public ApiError(ApiException e) {
-        this(e.getError().name(), e.getMessage(), e.getHttpStatus().value());
+        this(e.getError().name(), e.getMessage(), e.getHttpStatus().value(), null);
     }
 
     public ApiError(Error error, String message, HttpStatus httpStatus) {
-        this(error.name(), message, httpStatus.value());
+        this(error.name(), message, httpStatus.value(), null);
+    }
+
+    public ApiError(Error error, HttpStatus httpStatus, List<String> errors) {
+        this(error.name(), error.format(), httpStatus.value(), errors);
     }
 }

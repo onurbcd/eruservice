@@ -112,6 +112,13 @@
             <artifactId>flyway-core</artifactId>
             <version>${flyway.core.version}</version>
         </dependency>
+
+        <!-- TESTS -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

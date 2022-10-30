@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.persistency.predicate;
 
-import com.onurbcd.eruservice.dto.RefDto;
+import com.onurbcd.eruservice.dto.budget.RefDto;
 import com.onurbcd.eruservice.dto.filter.BudgetFilter;
 import com.onurbcd.eruservice.persistency.entity.QBudget;
 import com.querydsl.core.types.Predicate;

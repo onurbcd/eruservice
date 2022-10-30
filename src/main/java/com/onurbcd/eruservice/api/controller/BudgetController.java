@@ -1,8 +1,8 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.BudgetDto;
-import com.onurbcd.eruservice.dto.CopyBudgetDto;
-import com.onurbcd.eruservice.dto.SumDto;
+import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
+import com.onurbcd.eruservice.dto.budget.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.dto.filter.BudgetFilter;

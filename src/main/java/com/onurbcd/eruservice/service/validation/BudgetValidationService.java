@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service.validation;
 
-import com.onurbcd.eruservice.dto.BudgetDto;
-import com.onurbcd.eruservice.dto.CopyBudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import org.springframework.lang.Nullable;
 

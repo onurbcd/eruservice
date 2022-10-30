@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service;
 
-import com.onurbcd.eruservice.dto.CopyBudgetDto;
-import com.onurbcd.eruservice.dto.SumDto;
+import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
+import com.onurbcd.eruservice.dto.budget.SumDto;
 import com.onurbcd.eruservice.dto.filter.BudgetFilter;
 import org.springframework.transaction.annotation.Transactional;
 

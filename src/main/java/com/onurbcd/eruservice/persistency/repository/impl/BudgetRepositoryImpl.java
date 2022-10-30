@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.persistency.repository.impl;
 
-import com.onurbcd.eruservice.dto.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetDto;
 import com.onurbcd.eruservice.persistency.entity.QBudget;
 import com.onurbcd.eruservice.persistency.predicate.BudgetPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.CustomRepository;

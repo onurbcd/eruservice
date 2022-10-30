@@ -1,10 +1,10 @@
 package com.onurbcd.eruservice.service.impl;
 
-import com.onurbcd.eruservice.dto.BudgetDto;
-import com.onurbcd.eruservice.dto.BudgetSumDto;
-import com.onurbcd.eruservice.dto.CopyBudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetSumDto;
+import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
 import com.onurbcd.eruservice.dto.Dtoable;
-import com.onurbcd.eruservice.dto.SumDto;
+import com.onurbcd.eruservice.dto.budget.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;

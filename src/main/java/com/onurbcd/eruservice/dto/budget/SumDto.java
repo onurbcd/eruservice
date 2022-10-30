@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.dto;
+package com.onurbcd.eruservice.dto.budget;
 
 import com.onurbcd.eruservice.dto.enums.SumType;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.dto;
+package com.onurbcd.eruservice.dto.budget;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.persistency.repository;
 
-import com.onurbcd.eruservice.dto.BudgetDto;
-import com.onurbcd.eruservice.dto.BudgetSumDto;
+import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetSumDto;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.Modifying;
@@ -46,7 +46,7 @@ public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, Sequ
             " and b.sequence > :#{#sequenceParam.sequence}")
     long countNextSequences(SequenceParam sequenceParam);
 
-    @Query("select new com.onurbcd.eruservice.dto.BudgetSumDto(sum(b.amount), b.paid, count(*))" +
+    @Query("select new com.onurbcd.eruservice.dto.budget.BudgetSumDto(sum(b.amount), b.paid, count(*))" +
             " from Budget b" +
             " where b.refYear = :refYear" +
             " and b.refMonth = :refMonth" +

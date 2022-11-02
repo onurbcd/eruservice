@@ -17,21 +17,21 @@ import org.springframework.lang.Nullable;
 import java.util.UUID;
 import java.util.function.Function;
 
-public abstract class AbstractCrudService<E extends Entityable, D extends Dtoable, P extends BasePredicateBuilder>
+public abstract class AbstractCrudService<E extends Entityable, D extends Dtoable, P extends BasePredicateBuilder, S extends Dtoable>
         implements CrudService {
 
     private final EruRepository<E, D> repository;
 
     private Function<E, D> toDtoMapper;
 
-    private final EntityMapper<D, E> toEntityMapper;
+    private final EntityMapper<S, E> toEntityMapper;
 
     private final QueryType queryType;
 
     private final Class<P> predicateClass;
 
     protected AbstractCrudService(EruRepository<E, D> repository, Function<E, D> toDtoMapper,
-                                  EntityMapper<D, E> toEntityMapper, QueryType queryType, Class<P> predicateClass) {
+                                  EntityMapper<S, E> toEntityMapper, QueryType queryType, Class<P> predicateClass) {
 
         this.repository = repository;
         this.toDtoMapper = toDtoMapper;
@@ -40,7 +40,7 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
         this.predicateClass = predicateClass;
     }
 
-    protected AbstractCrudService(EruRepository<E, D> repository, EntityMapper<D, E> toEntityMapper,
+    protected AbstractCrudService(EruRepository<E, D> repository, EntityMapper<S, E> toEntityMapper,
                                   QueryType queryType, Class<P> predicateClass) {
 
         this.repository = repository;
@@ -64,7 +64,7 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
 
     @Override
     public Entityable fillValues(Dtoable dto, Entityable entity) {
-        @SuppressWarnings("unchecked") var newEntity = toEntityMapper.apply((D) dto);
+        @SuppressWarnings("unchecked") var newEntity = toEntityMapper.apply((S) dto);
         newEntity.setId(entity != null ? entity.getId() : null);
         newEntity.setCreatedDate(entity != null ? entity.getCreatedDate() : null);
         return newEntity;

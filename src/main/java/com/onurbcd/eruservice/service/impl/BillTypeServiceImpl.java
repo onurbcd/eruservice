@@ -12,7 +12,7 @@ import com.onurbcd.eruservice.service.mapper.BillTypeToEntityMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeDto, BillTypePredicateBuilder>
+public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeDto, BillTypePredicateBuilder, BillTypeDto>
         implements BillTypeService {
 
     public BillTypeServiceImpl(BillTypeRepository repository, BillTypeToDtoMapper toDtoMapper,

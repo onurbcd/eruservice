@@ -21,7 +21,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-public class CategoryServiceImpl extends AbstractCrudService<Category, CategoryDto, CategoryPredicateBuilder>
+public class CategoryServiceImpl extends AbstractCrudService<Category, CategoryDto, CategoryPredicateBuilder, CategoryDto>
         implements CategoryService {
 
     private final CategoryRepository repository;

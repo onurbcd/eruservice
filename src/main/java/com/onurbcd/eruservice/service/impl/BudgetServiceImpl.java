@@ -32,7 +32,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, BudgetPredicateBuilder>
+public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, BudgetPredicateBuilder, BudgetDto>
         implements BudgetService {
 
     private final BudgetRepository repository;

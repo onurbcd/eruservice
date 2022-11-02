@@ -22,7 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder>
+public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder, SecretDto>
         implements SecretService {
 
     private final Cryptoable cryptoable;

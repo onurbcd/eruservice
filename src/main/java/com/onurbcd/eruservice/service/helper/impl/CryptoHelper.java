@@ -4,12 +4,14 @@ import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.property.AdminProperties;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
-import lombok.SneakyThrows;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
@@ -21,14 +23,11 @@ import java.util.Base64;
 import java.util.function.BiFunction;
 
 @Component
+@RequiredArgsConstructor
 @Slf4j
 public class CryptoHelper implements Cryptoable {
 
     private final AdminProperties config;
-
-    public CryptoHelper(AdminProperties config) {
-        this.config = config;
-    }
 
     @Override
     public String encrypt(String plainText) {
@@ -56,16 +55,24 @@ public class CryptoHelper implements Cryptoable {
         }
     }
 
-    @SneakyThrows
     private String encrypt(Cipher cipher, String plainText) {
-        var cipherText = cipher.doFinal(plainText.getBytes());
-        return Base64.getEncoder().encodeToString(cipherText);
+        try {
+            var cipherText = cipher.doFinal(plainText.getBytes());
+            return Base64.getEncoder().encodeToString(cipherText);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            log.error("encrypt", e);
+            throw new ApiException(Error.CRYPTO, e.toString(), HttpStatus.CONFLICT);
+        }
     }
 
-    @SneakyThrows
     private String decrypt(Cipher cipher, String encodedCipherText) {
-        var cipherText = Base64.getDecoder().decode(encodedCipherText);
-        var plainText = cipher.doFinal(cipherText);
-        return new String(plainText);
+        try {
+            var cipherText = Base64.getDecoder().decode(encodedCipherText);
+            var plainText = cipher.doFinal(cipherText);
+            return new String(plainText);
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            log.error("decrypt", e);
+            throw new ApiException(Error.CRYPTO, e.toString(), HttpStatus.CONFLICT);
+        }
     }
 }

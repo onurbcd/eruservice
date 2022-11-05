@@ -129,6 +129,7 @@
                 <includes>
                     <include>application.properties</include>
                     <include>db/migration/*</include>
+                    <include>banner.txt</include>
                 </includes>
             </resource>
         </resources>

@@ -6,17 +6,15 @@ import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.SequenceValidationService;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.BooleanUtils;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SequenceValidationServiceImpl<T extends SequenceRepository> implements SequenceValidationService<T> {
 
     private final T repository;
-
-    public SequenceValidationServiceImpl(T repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void validate(SequenceParam currentParam, SequenceParam targetParam, Direction direction) {

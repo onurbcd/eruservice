@@ -5,19 +5,16 @@ import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
 import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.validation.SequenceValidationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class SequenceServiceImpl<T extends SequenceRepository> implements SequenceService<T> {
 
     private final T repository;
 
     private final SequenceValidationService<T> validationService;
-
-    public SequenceServiceImpl(T repository, SequenceValidationService<T> validationService) {
-        this.repository = repository;
-        this.validationService = validationService;
-    }
 
     @Override
     public Short getNextSequence(SequenceParam sequenceParam) {

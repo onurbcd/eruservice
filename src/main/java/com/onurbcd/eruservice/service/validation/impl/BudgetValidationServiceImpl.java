@@ -10,6 +10,7 @@ import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
 import com.onurbcd.eruservice.util.DateUtil;
 import com.onurbcd.eruservice.util.NumberUtil;
+import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
@@ -17,13 +18,10 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@RequiredArgsConstructor
 public class BudgetValidationServiceImpl implements BudgetValidationService {
 
     private final BudgetRepository repository;
-
-    public BudgetValidationServiceImpl(BudgetRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public void validate(BudgetDto budgetDto, @Nullable Budget budget, @Nullable UUID id) {

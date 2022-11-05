@@ -3,6 +3,7 @@ package com.onurbcd.eruservice.api.controller;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.service.CrudService;
 import com.onurbcd.eruservice.dto.filter.Filterable;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -18,13 +19,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.UUID;
 
+@RequiredArgsConstructor
 public class EruController<D extends Dtoable, F extends Filterable> {
 
     protected final CrudService service;
-
-    public EruController(CrudService service) {
-        this.service = service;
-    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

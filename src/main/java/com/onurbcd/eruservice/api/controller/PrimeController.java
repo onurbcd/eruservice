@@ -23,7 +23,7 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Validated
-public class PrimeController<D extends Dtoable, F extends Filterable> {
+public class PrimeController<D extends Dtoable, S extends Dtoable, F extends Filterable> {
 
     protected final CrudService service;
 
@@ -59,7 +59,7 @@ public class PrimeController<D extends Dtoable, F extends Filterable> {
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void patch(@PathVariable("id") UUID id, @Valid @RequestBody D dto) {
+    public void patch(@PathVariable("id") UUID id, @Valid @RequestBody S dto) {
         service.update(dto, id);
     }
 }

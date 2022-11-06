@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
-import com.onurbcd.eruservice.dto.BillTypeDto;
+import com.onurbcd.eruservice.dto.billtype.BillTypeDto;
+import com.onurbcd.eruservice.dto.billtype.BillTypeSaveDto;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import com.onurbcd.eruservice.persistency.predicate.BillTypePredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BillTypeRepository;
@@ -12,7 +13,8 @@ import com.onurbcd.eruservice.service.mapper.BillTypeToEntityMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class BillTypeServiceImpl extends AbstractCrudService<BillType, BillTypeDto, BillTypePredicateBuilder, BillTypeDto>
+public class BillTypeServiceImpl
+        extends AbstractCrudService<BillType, BillTypeDto, BillTypePredicateBuilder, BillTypeSaveDto>
         implements BillTypeService {
 
     public BillTypeServiceImpl(BillTypeRepository repository, BillTypeToDtoMapper toDtoMapper,

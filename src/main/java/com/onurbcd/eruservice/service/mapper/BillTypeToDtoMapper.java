@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.service.mapper;
 
-import com.onurbcd.eruservice.dto.BillTypeDto;
+import com.onurbcd.eruservice.dto.billtype.BillTypeDto;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import org.mapstruct.Mapper;
 

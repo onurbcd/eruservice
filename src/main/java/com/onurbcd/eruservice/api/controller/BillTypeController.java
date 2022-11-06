@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.BillTypeDto;
+import com.onurbcd.eruservice.dto.billtype.BillTypePatchDto;
+import com.onurbcd.eruservice.dto.billtype.BillTypeSaveDto;
 import com.onurbcd.eruservice.service.BillTypeService;
 import com.onurbcd.eruservice.dto.filter.BillTypeFilter;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/bill-type")
-public class BillTypeController extends EruController<BillTypeDto, BillTypeFilter> {
+public class BillTypeController extends PrimeController<BillTypeSaveDto, BillTypePatchDto, BillTypeFilter> {
 
     public BillTypeController(BillTypeService service) {
         super(service);

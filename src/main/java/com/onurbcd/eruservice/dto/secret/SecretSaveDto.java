@@ -1,20 +1,19 @@
-package com.onurbcd.eruservice.persistency.entity;
+package com.onurbcd.eruservice.dto.secret;
 
+import com.onurbcd.eruservice.dto.PrimeSaveDto;
 import com.onurbcd.eruservice.persistency.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.URL;
 
-import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@Entity
 @NoArgsConstructor
 @Getter
 @Setter
-public class Secret extends Prime {
+public class SecretSaveDto extends PrimeSaveDto {
 
     @Size(min = Constants.SIZE_5, max = Constants.SIZE_250)
     private String description;
@@ -29,14 +28,4 @@ public class Secret extends Prime {
 
     @NotNull
     private String password;
-
-    @Override
-    public boolean equals(Object o) {
-        return super.equals(o);
-    }
-
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-    }
 }

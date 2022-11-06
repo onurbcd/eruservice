@@ -1,7 +1,8 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.Dtoable;
-import com.onurbcd.eruservice.dto.SecretDto;
+import com.onurbcd.eruservice.dto.secret.SecretDto;
+import com.onurbcd.eruservice.dto.secret.SecretSaveDto;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.entity.Secret;
@@ -22,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.UUID;
 
 @Service
-public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder, SecretDto>
+public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder, SecretSaveDto>
         implements SecretService {
 
     private final Cryptoable cryptoable;
@@ -37,7 +38,7 @@ public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, Se
     @Override
     public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
         Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
-        var secretDto = (SecretDto) dto;
+        var secretDto = (SecretSaveDto) dto;
 
         Action.checkIfSizeBetween(secretDto.getPassword(), Constants.SIZE_3, Constants.SIZE_50)
                 .orElseThrow(Error.SIZE_NOT_BETWEEN, "password", Constants.SIZE_3, Constants.SIZE_50);

@@ -1,9 +1,10 @@
 package com.onurbcd.eruservice.persistency;
 
-public class Constants {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-    private Constants() {
-    }
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Constants {
 
     public static final int SIZE_3 = 3;
 
@@ -16,4 +17,6 @@ public class Constants {
     public static final int SIZE_250 = 250;
 
     public static final int SIZE_2048 = 2048;
+
+    public static final String REGEXP_URL = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 }

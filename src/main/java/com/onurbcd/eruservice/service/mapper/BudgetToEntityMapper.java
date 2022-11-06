@@ -1,17 +1,17 @@
 package com.onurbcd.eruservice.service.mapper;
 
 import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetSaveDto;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 @Mapper(config = DefaultMapperConfig.class)
-public interface BudgetToEntityMapper extends EntityMapper<BudgetDto, Budget> {
+public interface BudgetToEntityMapper extends EntityMapper<BudgetSaveDto, Budget> {
 
     @Override
     @Mapping(source = "billTypeId", target = "billType.id")
-    @Mapping(source = "billTypeName", target = "billType.name")
-    Budget apply(BudgetDto budgetDto);
+    Budget apply(BudgetSaveDto budgetSaveDto);
 
     @Mapping(source = "budgetDto.billTypeId", target = "billType.id")
     @Mapping(target = "createdDate", expression = "java(null)")

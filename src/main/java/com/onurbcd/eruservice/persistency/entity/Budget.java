@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.persistency.entity;
 
+import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.persistency.constraint.MaxYear;
 import com.onurbcd.eruservice.persistency.constraint.MinYear;
 import lombok.Getter;
@@ -55,8 +56,8 @@ public class Budget extends Prime {
 
     @NotNull
     @Column(precision = 19, scale = 4)
-    @DecimalMin("0.0001")
-    @DecimalMax("999999999999999")
+    @DecimalMin(Constants.BUDGET_AMOUNT_MIN)
+    @DecimalMax(Constants.AMOUNT_MAX)
     private BigDecimal amount;
 
     @NotNull

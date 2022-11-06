@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.service.validation.impl;
 
 import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetSaveDto;
 import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.predicate.BudgetPredicateBuilder;
@@ -24,14 +25,14 @@ public class BudgetValidationServiceImpl implements BudgetValidationService {
     private final BudgetRepository repository;
 
     @Override
-    public void validate(BudgetDto budgetDto, @Nullable Budget budget, @Nullable UUID id) {
+    public void validate(BudgetSaveDto budgetSaveDto, @Nullable Budget budget, @Nullable UUID id) {
         Action.checkIf(id == null || budget != null).orElseThrowNotFound(id);
         var sequence = budget != null ? budget.getSequence() : null;
 
-        Action.checkIf(id == null || NumberUtil.equals(budgetDto.getSequence(), sequence))
-                .orElseThrow(Error.SEQUENCE_CHANGED, sequence, budgetDto.getSequence());
+        Action.checkIf(id == null || NumberUtil.equals(budgetSaveDto.getSequence(), sequence))
+                .orElseThrow(Error.SEQUENCE_CHANGED, sequence, budgetSaveDto.getSequence());
 
-        Action.checkIf(id == null || equalRef(budgetDto, budget)).orElseThrow(Error.REFERENCE_CHANGED);
+        Action.checkIf(id == null || equalRef(budgetSaveDto, budget)).orElseThrow(Error.REFERENCE_CHANGED);
     }
 
     @Override
@@ -41,12 +42,12 @@ public class BudgetValidationServiceImpl implements BudgetValidationService {
         return getFromBudget(copyBudgetDto);
     }
 
-    private boolean equalRef(BudgetDto budgetDto, @Nullable Budget budget) {
+    private boolean equalRef(BudgetSaveDto budgetSaveDto, @Nullable Budget budget) {
         if (budget == null) {
             return false;
         }
 
-        return DateUtil.equalMonth(budgetDto.getRefYear(), budgetDto.getRefMonth(), budget.getRefYear(),
+        return DateUtil.equalMonth(budgetSaveDto.getRefYear(), budgetSaveDto.getRefMonth(), budget.getRefYear(),
                 budget.getRefMonth());
     }
 

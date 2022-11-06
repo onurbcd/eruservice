@@ -1,6 +1,8 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
+import com.onurbcd.eruservice.dto.budget.BudgetSaveDto;
 import com.onurbcd.eruservice.dto.budget.BudgetSumDto;
 import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
 import com.onurbcd.eruservice.dto.Dtoable;
@@ -32,7 +34,7 @@ import java.util.Set;
 import java.util.UUID;
 
 @Service
-public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, BudgetPredicateBuilder, BudgetDto>
+public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, BudgetPredicateBuilder, BudgetSaveDto>
         implements BudgetService {
 
     private final BudgetRepository repository;
@@ -56,7 +58,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
 
     @Override
     public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
-        validationService.validate((BudgetDto) dto, (Budget) entity, id);
+        validationService.validate((BudgetSaveDto) dto, (Budget) entity, id);
     }
 
     @Override
@@ -74,16 +76,16 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     @Override
     public void update(Dtoable dto, UUID id) {
         var budget = findByIdOrElseThrow(id);
-        var budgetDto = (BudgetDto) dto;
+        var budgetPatchDto = (BudgetPatchDto) dto;
         var changed = false;
 
-        if (budgetDto.isActive() != null) {
-            budget.setActive(budgetDto.isActive());
+        if (budgetPatchDto.isActive() != null) {
+            budget.setActive(budgetPatchDto.isActive());
             changed = true;
         }
 
-        if (budgetDto.getPaid() != null) {
-            budget.setPaid(budgetDto.getPaid());
+        if (budgetPatchDto.getPaid() != null) {
+            budget.setPaid(budgetPatchDto.getPaid());
             changed = true;
         }
 

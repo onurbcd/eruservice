@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.budget.BudgetDto;
+import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
+import com.onurbcd.eruservice.dto.budget.BudgetSaveDto;
 import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
 import com.onurbcd.eruservice.dto.budget.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
@@ -22,7 +23,8 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/budget")
-public class BudgetController extends EruController<BudgetDto, BudgetFilter> implements SequenceApi {
+public class BudgetController extends PrimeController<BudgetSaveDto, BudgetPatchDto, BudgetFilter>
+        implements SequenceApi {
 
     private final BudgetService budgetService;
 

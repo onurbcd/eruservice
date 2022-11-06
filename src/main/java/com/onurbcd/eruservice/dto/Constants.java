@@ -1,4 +1,4 @@
-package com.onurbcd.eruservice.persistency;
+package com.onurbcd.eruservice.dto;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,4 +19,8 @@ public final class Constants {
     public static final int SIZE_2048 = 2048;
 
     public static final String REGEXP_URL = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+
+    public static final String BUDGET_AMOUNT_MIN = "0.0001";
+
+    public static final String AMOUNT_MAX = "999999999999999";
 }

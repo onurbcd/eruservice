@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.dto.secret;
 
 import com.onurbcd.eruservice.dto.PrimeSaveDto;
-import com.onurbcd.eruservice.persistency.Constants;
+import com.onurbcd.eruservice.dto.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

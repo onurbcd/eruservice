@@ -15,7 +15,7 @@ import com.onurbcd.eruservice.service.helper.Cryptoable;
 import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
 import com.onurbcd.eruservice.service.validation.Action;
-import com.onurbcd.eruservice.persistency.Constants;
+import com.onurbcd.eruservice.dto.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;

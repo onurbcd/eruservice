@@ -1,6 +1,5 @@
 package com.onurbcd.eruservice.dto;
 
-import com.onurbcd.eruservice.persistency.Constants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

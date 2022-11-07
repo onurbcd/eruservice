@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.persistency.repository;
 
-import com.onurbcd.eruservice.dto.CategoryDto;
+import com.onurbcd.eruservice.dto.category.CategoryDto;
 import com.onurbcd.eruservice.persistency.entity.Category;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -17,4 +17,10 @@ public interface CategoryRepository extends EruRepository<Category, CategoryDto>
             " set c.lastBranch = :lastBranch" +
             " where c.id = :id")
     void updateLastBranch(@Param("lastBranch") Boolean lastBranch, @Param("id") UUID id);
+
+    @Query("select count(*)" +
+            " from Category c" +
+            " inner join c.parent p" +
+            " where p.id = :parentId")
+    long countChildren(@Param("parentId") UUID parentId);
 }

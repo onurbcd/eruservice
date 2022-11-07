@@ -1,5 +1,6 @@
-package com.onurbcd.eruservice.dto;
+package com.onurbcd.eruservice.dto.category;
 
+import com.onurbcd.eruservice.dto.PrimeDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

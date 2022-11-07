@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.service.validation.impl;
 
-import com.onurbcd.eruservice.dto.CategoryDto;
+import com.onurbcd.eruservice.dto.category.CategoryDto;
+import com.onurbcd.eruservice.dto.category.CategorySaveDto;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.CategoryValidationService;
@@ -14,7 +15,7 @@ import java.util.UUID;
 public class CategoryValidationServiceImpl implements CategoryValidationService {
 
     @Override
-    public void validate(CategoryDto dto, CategoryDto current, UUID id) {
+    public void validate(CategorySaveDto dto, CategoryDto current, UUID id) {
         Action.checkIf(id != null || dto.getParentId() != null).orElseThrow(Error.CATEGORY_PARENT_IS_NULL);
         Action.checkIf(id == null || notLevelOne(current)).orElseThrow(Error.CATEGORY_LEVEL_ONE_IS_UNCHANGEABLE);
     }

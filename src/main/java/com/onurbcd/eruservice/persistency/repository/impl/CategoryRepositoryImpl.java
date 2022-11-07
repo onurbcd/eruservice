@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.persistency.repository.impl;
 
-import com.onurbcd.eruservice.dto.CategoryDto;
+import com.onurbcd.eruservice.dto.category.CategoryDto;
 import com.onurbcd.eruservice.persistency.entity.QCategory;
 import com.onurbcd.eruservice.persistency.predicate.CategoryPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.CustomRepository;

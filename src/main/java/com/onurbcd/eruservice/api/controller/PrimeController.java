@@ -23,19 +23,19 @@ import java.util.UUID;
 
 @RequiredArgsConstructor
 @Validated
-public class PrimeController<D extends Dtoable, S extends Dtoable, F extends Filterable> {
+public class PrimeController<S extends Dtoable, P extends Dtoable, F extends Filterable> {
 
     protected final CrudService service;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void post(@Valid @RequestBody D dto) {
+    public void post(@Valid @RequestBody S dto) {
         service.save(dto, null);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void put(@PathVariable("id") UUID id, @Valid @RequestBody D dto) {
+    public void put(@PathVariable("id") UUID id, @Valid @RequestBody S dto) {
         service.save(dto, id);
     }
 
@@ -59,7 +59,7 @@ public class PrimeController<D extends Dtoable, S extends Dtoable, F extends Fil
 
     @PatchMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void patch(@PathVariable("id") UUID id, @Valid @RequestBody S dto) {
+    public void patch(@PathVariable("id") UUID id, @Valid @RequestBody P dto) {
         service.update(dto, id);
     }
 }

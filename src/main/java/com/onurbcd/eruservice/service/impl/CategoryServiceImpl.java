@@ -1,7 +1,8 @@
 package com.onurbcd.eruservice.service.impl;
 
-import com.onurbcd.eruservice.dto.CategoryDto;
+import com.onurbcd.eruservice.dto.category.CategoryDto;
 import com.onurbcd.eruservice.dto.Dtoable;
+import com.onurbcd.eruservice.dto.category.CategorySaveDto;
 import com.onurbcd.eruservice.dto.filter.CategoryFilter;
 import com.onurbcd.eruservice.dto.filter.Filterable;
 import com.onurbcd.eruservice.persistency.entity.Category;
@@ -21,7 +22,8 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Service
-public class CategoryServiceImpl extends AbstractCrudService<Category, CategoryDto, CategoryPredicateBuilder, CategoryDto>
+public class CategoryServiceImpl
+        extends AbstractCrudService<Category, CategoryDto, CategoryPredicateBuilder, CategorySaveDto>
         implements CategoryService {
 
     private final CategoryRepository repository;
@@ -42,7 +44,7 @@ public class CategoryServiceImpl extends AbstractCrudService<Category, CategoryD
     @Override
     @Transactional
     public void save(Dtoable dto, UUID id) {
-        var categoryDto = (CategoryDto) dto;
+        var categoryDto = (CategorySaveDto) dto;
         var current = id != null ? (CategoryDto) getById(id) : null;
         validationService.validate(categoryDto, current, id);
         var parent = id == null ? (CategoryDto) getById(categoryDto.getParentId()) : null;
@@ -60,7 +62,11 @@ public class CategoryServiceImpl extends AbstractCrudService<Category, CategoryD
         var category = (CategoryDto) getById(id);
         validationService.validateDelete(category);
         repository.deleteById(id);
-        repository.updateLastBranch(Boolean.TRUE, category.getParentId());
+        var childrenCount = repository.countChildren(category.getParentId());
+
+        if (childrenCount == 0) {
+            repository.updateLastBranch(Boolean.TRUE, category.getParentId());
+        }
     }
 
     @Override
@@ -68,7 +74,7 @@ public class CategoryServiceImpl extends AbstractCrudService<Category, CategoryD
         return CategoryPredicateBuilder.all((CategoryFilter) filter);
     }
 
-    private Category fillValues(CategoryDto dto, @Nullable CategoryDto current, @Nullable CategoryDto parent) {
+    private Category fillValues(CategorySaveDto dto, @Nullable CategoryDto current, @Nullable CategoryDto parent) {
         var category = toEntityMapper.apply(dto);
         category.setCreatedDate(current != null ? current.getCreatedDate() : null);
         category.setId(current != null ? current.getId() : null);

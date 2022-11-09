@@ -1,5 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.config.annotations.PrimeService;
+import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.category.CategoryDto;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.category.CategorySaveDto;
@@ -9,22 +11,19 @@ import com.onurbcd.eruservice.persistency.entity.Category;
 import com.onurbcd.eruservice.persistency.predicate.CategoryPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.CategoryRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
-import com.onurbcd.eruservice.service.CategoryService;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.mapper.CategoryToEntityMapper;
 import com.onurbcd.eruservice.service.validation.CategoryValidationService;
 import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Objects;
 import java.util.UUID;
 
-@Service
-public class CategoryServiceImpl
-        extends AbstractCrudService<Category, CategoryDto, CategoryPredicateBuilder, CategorySaveDto>
-        implements CategoryService {
+@PrimeService(Domain.CATEGORY)
+public class CategoryService
+        extends AbstractCrudService<Category, CategoryDto, CategoryPredicateBuilder, CategorySaveDto> {
 
     private final CategoryRepository repository;
 
@@ -32,8 +31,8 @@ public class CategoryServiceImpl
 
     private final CategoryValidationService validationService;
 
-    public CategoryServiceImpl(CategoryRepository repository, CategoryToEntityMapper toEntityMapper,
-                               CategoryValidationService validationService) {
+    public CategoryService(CategoryRepository repository, CategoryToEntityMapper toEntityMapper,
+                           CategoryValidationService validationService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, CategoryPredicateBuilder.class);
         this.repository = repository;

@@ -1,5 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.config.annotations.PrimeService;
+import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.secret.SecretDto;
 import com.onurbcd.eruservice.dto.secret.SecretSaveDto;
@@ -9,7 +11,6 @@ import com.onurbcd.eruservice.persistency.entity.Secret;
 import com.onurbcd.eruservice.persistency.predicate.SecretPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.SecretRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
-import com.onurbcd.eruservice.service.SecretService;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
 import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
@@ -18,18 +19,16 @@ import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.dto.Constants;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
-import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
-public class SecretServiceImpl extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder, SecretSaveDto>
-        implements SecretService {
+@PrimeService(Domain.SECRET)
+public class SecretService extends AbstractCrudService<Secret, SecretDto, SecretPredicateBuilder, SecretSaveDto> {
 
     private final Cryptoable cryptoable;
 
-    public SecretServiceImpl(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
-                             SecretToEntityMapper toEntityMapper) {
+    public SecretService(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
+                         SecretToEntityMapper toEntityMapper) {
 
         super(repository, toDtoMapper, toEntityMapper, QueryType.JPA, SecretPredicateBuilder.class);
         this.cryptoable = cryptoable;

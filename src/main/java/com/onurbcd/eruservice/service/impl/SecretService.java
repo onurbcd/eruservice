@@ -5,7 +5,6 @@ import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.secret.SecretDto;
 import com.onurbcd.eruservice.dto.secret.SecretSaveDto;
-import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.entity.Secret;
 import com.onurbcd.eruservice.persistency.predicate.SecretPredicateBuilder;
@@ -15,8 +14,7 @@ import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
 import com.onurbcd.eruservice.service.mapper.SecretToEntityMapper;
 import com.onurbcd.eruservice.service.mapper.SecretToDtoMapper;
-import com.onurbcd.eruservice.service.validation.Action;
-import com.onurbcd.eruservice.dto.Constants;
+import com.onurbcd.eruservice.service.validation.SecretValidationService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 
@@ -27,20 +25,19 @@ public class SecretService extends AbstractCrudService<Secret, SecretDto, Secret
 
     private final Cryptoable cryptoable;
 
+    private final SecretValidationService validationService;
+
     public SecretService(SecretRepository repository, Cryptoable cryptoable, SecretToDtoMapper toDtoMapper,
-                         SecretToEntityMapper toEntityMapper) {
+                         SecretToEntityMapper toEntityMapper, SecretValidationService validationService) {
 
         super(repository, toDtoMapper, toEntityMapper, QueryType.JPA, SecretPredicateBuilder.class);
         this.cryptoable = cryptoable;
+        this.validationService = validationService;
     }
 
     @Override
     public void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id) {
-        Action.checkIf(id == null || entity != null).orElseThrowNotFound(id);
-        var secretDto = (SecretSaveDto) dto;
-
-        Action.checkIfSizeBetween(secretDto.getPassword(), Constants.SIZE_3, Constants.SIZE_50)
-                .orElseThrow(Error.SIZE_NOT_BETWEEN, "password", Constants.SIZE_3, Constants.SIZE_50);
+        validationService.validate((SecretSaveDto) dto, (Secret) entity, id);
     }
 
     @Override

@@ -13,5 +13,7 @@ public class AdminProperties {
 
     private CryptoProperties crypto;
 
+    private WebProperties web;
+
     private Short minYear;
 }

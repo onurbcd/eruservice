@@ -1,14 +1,14 @@
 package com.onurbcd.eruservice.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.math.NumberUtils;
 import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 
-public class NumberUtil {
-
-    private NumberUtil() {
-    }
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class NumberUtil {
 
     public static boolean equals(@Nullable Short s1, @Nullable Short s2) {
         if (s1 == null && s2 == null) {

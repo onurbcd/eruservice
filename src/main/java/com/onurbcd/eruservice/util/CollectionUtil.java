@@ -9,7 +9,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CollectionUtil {
+public final class CollectionUtil {
 
     @Nullable
     public static <T, R> R getValue(Collection<T> collection, Predicate<? super T> predicate,

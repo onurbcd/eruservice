@@ -84,8 +84,8 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
 
     @Override
     public void delete(UUID id) {
-        Action.checkIf(repository.existsById(id)).orElseThrowNotFound(id);
-        repository.deleteById(id);
+        var deletedRowsCount = repository.deleteUsingId(id);
+        Action.checkIf(deletedRowsCount == 1).orElseThrowNotFound(id);
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.onurbcd.eruservice.dto.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public interface CrudService {
 
     Entityable fillValues(Dtoable dto, Entityable entity);
 
+    @Transactional
     void delete(UUID id);
 
     Dtoable getById(UUID id);

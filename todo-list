@@ -1,13 +1,10 @@
 1 - aprender a injectar beans nos contraints validators
 
-2 - alterar o delete do AbstractCrudService para deletar primeiro por id, e caso não retorne nenhuma linha deletada,
-    dá o erro de não existir entidade, assim só se vai na base de dados uma vez
-
-3 - alterar o update do AbstractCrudService para atualizar o campo active por id, e caso não retorne nenhuma linha
+2 - alterar o update do AbstractCrudService para atualizar o campo active por id, e caso não retorne nenhuma linha
     atualizada, dá o erro por não existir entidade, assim só se vai na base de dados uma vez
 
-4 - Refatorar a lógica do sequence service: não precisa ter o método de update sequence, basta ter o swap sequence
+3 - Refatorar a lógica do sequence service: não precisa ter o método de update sequence, basta ter o swap sequence
 
-5 - Implementar testes unitários
+4 - Implementar testes unitários
 
-6 - Implementar testes de integração, com uma base de dado real ou em memória
+5 - Implementar testes de integração, com uma base de dados real ou em memória

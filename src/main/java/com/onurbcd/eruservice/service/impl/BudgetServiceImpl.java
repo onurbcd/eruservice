@@ -28,7 +28,6 @@ import com.onurbcd.eruservice.util.NumberUtil;
 import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 import java.util.UUID;
@@ -102,7 +101,6 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
         var budget = findByIdOrElseThrow(id);
         repository.deleteById(budget.getId());

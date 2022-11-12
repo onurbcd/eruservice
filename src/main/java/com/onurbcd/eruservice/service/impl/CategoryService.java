@@ -56,7 +56,6 @@ public class CategoryService
     }
 
     @Override
-    @Transactional
     public void delete(UUID id) {
         var category = (CategoryDto) getById(id);
         validationService.validateDelete(category);

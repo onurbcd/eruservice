@@ -25,5 +25,6 @@ public interface CrudService {
 
     Page<Dtoable> getAll(Pageable pageable, Filterable filter);
 
+    @Transactional
     void update(Dtoable dto, UUID id);
 }

@@ -23,4 +23,9 @@ public interface CategoryRepository extends EruRepository<Category, CategoryDto>
             " inner join c.parent p" +
             " where p.id = :parentId")
     long countChildren(@Param("parentId") UUID parentId);
+
+    @Override
+    @Modifying
+    @Query("update Category c set c.active = :active where c.id = :id")
+    int updateActive(UUID id, Boolean active);
 }

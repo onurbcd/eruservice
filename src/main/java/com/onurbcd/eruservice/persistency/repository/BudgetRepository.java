@@ -10,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Set;
+import java.util.UUID;
 
 @Repository
 public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, SequenceRepository {
@@ -56,4 +57,13 @@ public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, Sequ
     @Modifying
     @Query("delete from Budget b where b.refYear = :refYear and b.refMonth = :refMonth")
     int deleteAll(@Param("refYear") Short refYear, @Param("refMonth") Short refMonth);
+
+    @Override
+    @Modifying
+    @Query("update Budget b set b.active = :active where b.id = :id")
+    int updateActive(UUID id, Boolean active);
+
+    @Modifying
+    @Query("update Budget b set b.paid = :paid where b.id = :id")
+    int updatePaid(@Param("id") UUID id, @Param("paid") Boolean paid);
 }

@@ -16,4 +16,6 @@ public interface EruRepository<E extends Entityable, D extends Dtoable> extends 
     default int deleteUsingId(@Param("id") UUID id) {
         return 0;
     }
+
+    int updateActive(@Param("id") UUID id, @Param("active") Boolean active);
 }

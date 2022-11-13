@@ -15,4 +15,9 @@ public interface SecretRepository extends MiddlewareRepository<Secret, SecretDto
     @Modifying
     @Query("delete from Secret s where s.id = :id")
     int deleteUsingId(UUID id);
+
+    @Override
+    @Modifying
+    @Query("update Secret s set s.active = :active where s.id = :id")
+    int updateActive(UUID id, Boolean active);
 }

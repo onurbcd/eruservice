@@ -15,4 +15,9 @@ public interface BillTypeRepository extends MiddlewareRepository<BillType, BillT
     @Modifying
     @Query("delete from BillType b where b.id = :id")
     int deleteUsingId(UUID id);
+
+    @Override
+    @Modifying
+    @Query("update BillType b set b.active = :active where b.id = :id")
+    int updateActive(UUID id, Boolean active);
 }

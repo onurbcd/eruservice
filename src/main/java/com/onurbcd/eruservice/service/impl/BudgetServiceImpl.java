@@ -74,23 +74,16 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
 
     @Override
     public void update(Dtoable dto, UUID id) {
-        var budget = findByIdOrElseThrow(id);
-        var budgetPatchDto = (BudgetPatchDto) dto;
-        var changed = false;
+        var patchDto = (BudgetPatchDto) dto;
+        var updatedRowsCount = 0;
 
-        if (budgetPatchDto.isActive() != null) {
-            budget.setActive(budgetPatchDto.isActive());
-            changed = true;
+        if (patchDto.isActive() != null) {
+            updatedRowsCount = repository.updateActive(id, patchDto.getActive());
+        } else if (patchDto.getPaid() != null) {
+            updatedRowsCount = repository.updatePaid(id, patchDto.getPaid());
         }
 
-        if (budgetPatchDto.getPaid() != null) {
-            budget.setPaid(budgetPatchDto.getPaid());
-            changed = true;
-        }
-
-        if (changed) {
-            repository.save(budget);
-        }
+        Action.checkIf(updatedRowsCount == 1).orElseThrowNotFound(id);
     }
 
     @Override

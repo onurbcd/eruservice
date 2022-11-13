@@ -15,4 +15,9 @@ public interface IncomeSourceRepository extends MiddlewareRepository<IncomeSourc
     @Modifying
     @Query("delete from IncomeSource i where i.id = :id")
     int deleteUsingId(UUID id);
+
+    @Override
+    @Modifying
+    @Query("update IncomeSource i set i.active = :active where i.id = :id")
+    int updateActive(UUID id, Boolean active);
 }

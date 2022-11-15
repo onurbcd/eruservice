@@ -22,6 +22,8 @@ public final class Constants {
 
     public static final String BUDGET_AMOUNT_MIN = "0.0001";
 
+    public static final String AMOUNT_MIN = "-999999999999999";
+
     public static final String AMOUNT_MAX = "999999999999999";
 
     public static final String FIELD_PASSWORD = "password";

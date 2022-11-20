@@ -16,6 +16,7 @@ import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.service.SequenceService;
+import com.onurbcd.eruservice.service.SourceService;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.dto.filter.BudgetFilter;
@@ -44,15 +45,18 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
 
     private final SequenceService<BudgetRepository> sequenceService;
 
+    private final SourceService sourceService;
+
     public BudgetServiceImpl(BudgetRepository repository, BudgetToEntityMapper toEntityMapper,
                              BudgetValidationService validationService,
-                             SequenceService<BudgetRepository> sequenceService) {
+                             SequenceService<BudgetRepository> sequenceService, SourceService sourceService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BudgetPredicateBuilder.class);
         this.repository = repository;
         this.toEntityMapper = toEntityMapper;
         this.validationService = validationService;
         this.sequenceService = sequenceService;
+        this.sourceService = sourceService;
     }
 
     @Override
@@ -111,7 +115,11 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
         var unpaidSum = CollectionUtil.getValue(sumSet, p -> !p.getPaid(), BudgetSumDto::getAmount);
         var totalSum = NumberUtil.add(paidSum, unpaidSum);
         var size = sumSet.stream().mapToLong(BudgetSumDto::getSize).sum();
-        return Set.of(SumDto.total(totalSum), SumDto.paid(paidSum), SumDto.unpaid(unpaidSum), SumDto.size(size));
+        var usableBalanceSum = sourceService.getUsableBalanceSum();
+        var balance = NumberUtil.subtract(usableBalanceSum, totalSum);
+
+        return Set.of(SumDto.total(totalSum), SumDto.paid(paidSum), SumDto.unpaid(unpaidSum), SumDto.size(size),
+                SumDto.balance(balance));
     }
 
     @Override

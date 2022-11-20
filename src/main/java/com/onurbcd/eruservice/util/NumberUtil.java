@@ -41,4 +41,20 @@ public final class NumberUtil {
 
         return bd1.add(bd2);
     }
+
+    public static BigDecimal subtract(@Nullable BigDecimal bd1, @Nullable BigDecimal bd2) {
+        if (bd1 == null && bd2 == null) {
+            return BigDecimal.ZERO;
+        }
+
+        if (bd1 == null) {
+            return bd2;
+        }
+
+        if (bd2 == null) {
+            return bd1;
+        }
+
+        return bd1.subtract(bd2);
+    }
 }

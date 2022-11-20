@@ -5,3 +5,5 @@
 3 - Implementar testes unitários
 
 4 - Implementar testes de integração, com uma base de dados real ou em memória
+
+5 - Criar API para retornar os somatórios de Source, por source type, currency type, por income source e o total.

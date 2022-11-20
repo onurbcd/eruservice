@@ -37,4 +37,8 @@ public class SumDto {
     public static SumDto size(@Nullable Long value) {
         return new SumDto(SumType.SIZE, value != null ? BigDecimal.valueOf(value) : null);
     }
+
+    public static SumDto balance(BigDecimal value) {
+        return new SumDto(SumType.BALANCE, value);
+    }
 }

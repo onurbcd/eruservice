@@ -116,7 +116,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
         var totalSum = NumberUtil.add(paidSum, unpaidSum);
         var size = sumSet.stream().mapToLong(BudgetSumDto::getSize).sum();
         var usableBalanceSum = sourceService.getUsableBalanceSum();
-        var balance = NumberUtil.subtract(usableBalanceSum, totalSum);
+        var balance = NumberUtil.subtract(usableBalanceSum, unpaidSum);
 
         return Set.of(SumDto.total(totalSum), SumDto.paid(paidSum), SumDto.unpaid(unpaidSum), SumDto.size(size),
                 SumDto.balance(balance));

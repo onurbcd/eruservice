@@ -2,7 +2,7 @@ package com.onurbcd.eruservice.persistency.entity;
 
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
+import jakarta.persistence.Entity;
 
 @Entity
 @NoArgsConstructor

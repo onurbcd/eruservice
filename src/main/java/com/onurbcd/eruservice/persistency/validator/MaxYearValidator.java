@@ -3,8 +3,8 @@ package com.onurbcd.eruservice.persistency.validator;
 import com.onurbcd.eruservice.persistency.constraint.MaxYear;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.time.LocalDateTime;
 
 public class MaxYearValidator implements ConstraintValidator<MaxYear, Short> {

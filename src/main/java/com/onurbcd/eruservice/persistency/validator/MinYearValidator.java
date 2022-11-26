@@ -5,8 +5,8 @@ import com.onurbcd.eruservice.property.AdminProperties;
 import com.onurbcd.eruservice.util.SpringContext;
 import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 public class MinYearValidator implements ConstraintValidator<MinYear, Short> {
 

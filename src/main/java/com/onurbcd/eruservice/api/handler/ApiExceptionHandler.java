@@ -9,6 +9,7 @@ import org.postgresql.util.PSQLException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.TransactionSystemException;
@@ -23,6 +24,7 @@ import jakarta.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,7 +84,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     @NonNull
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
                                                                   @NonNull HttpHeaders headers,
-                                                                  @NonNull HttpStatus status,
+                                                                  @NonNull HttpStatusCode status,
                                                                   @NonNull WebRequest request) {
 
         var errors = new ArrayList<String>();
@@ -95,8 +97,8 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
         }
 
-        var apiError = new ApiError(Error.BAD_REQUEST, status, errors);
-        return handleExceptionInternal(ex, apiError, headers, status, request);
+        var apiError = new ApiError(Error.BAD_REQUEST, (HttpStatus) status, errors);
+        return Objects.requireNonNull(handleExceptionInternal(ex, apiError, headers, status, request));
     }
 
     private ResponseEntity<Object> controlException(Exception e, WebRequest request) {

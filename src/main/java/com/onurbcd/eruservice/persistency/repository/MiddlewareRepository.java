@@ -3,29 +3,37 @@ package com.onurbcd.eruservice.persistency.repository;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.querydsl.core.types.Predicate;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.QBean;
+import com.querydsl.core.types.dsl.EntityPathBase;
+import com.querydsl.jpa.impl.JPAQuery;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.repository.NoRepositoryBean;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @NoRepositoryBean
 public interface MiddlewareRepository<E extends Entityable, D extends Dtoable> extends EruRepository<E, D> {
 
     @Override
-    default Page<D> getAll(Predicate predicate, Pageable pageable) {
-        return Page.empty();
-    }
-
-    @Override
-    default List<D> getAll(Predicate predicate) {
-        return Collections.emptyList();
-    }
-
-    @Override
     default D getSingle(UUID id) {
         return null;
+    }
+
+    @Override
+    default JPAQuery<Object> mainQuery(Predicate predicate) {
+        return new JPAQuery<>();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    default QBean<D> columns() {
+        return (QBean<D>) Projections.bean(Dtoable.class);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    default EntityPathBase<E> entityPathBase() {
+        return new EntityPathBase<>((Class<? extends E>) Entityable.class, StringUtils.EMPTY);
     }
 }

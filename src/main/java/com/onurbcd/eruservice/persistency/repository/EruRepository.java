@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @NoRepositoryBean
 public interface EruRepository<E extends Entityable, D extends Dtoable> extends JpaRepository<E, UUID>,
-        QuerydslPredicateExecutor<E>, CustomRepository<D> {
+        QuerydslPredicateExecutor<E>, CustomRepository<D, E> {
 
     default int deleteUsingId(@Param("id") UUID id) {
         return 0;

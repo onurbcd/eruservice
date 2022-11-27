@@ -14,6 +14,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class BudgetRepositoryImpl implements CustomRepository<BudgetDto, Budget> {
@@ -57,5 +58,10 @@ public class BudgetRepositoryImpl implements CustomRepository<BudgetDto, Budget>
     @Override
     public EntityPathBase<Budget> entityPathBase() {
         return QBudget.budget;
+    }
+
+    @Override
+    public BigDecimal getSum(Predicate predicate) {
+        return BigDecimal.ZERO;
     }
 }

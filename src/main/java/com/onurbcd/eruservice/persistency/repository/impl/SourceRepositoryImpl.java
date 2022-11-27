@@ -14,6 +14,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class SourceRepositoryImpl implements CustomRepository<SourceDto, Source> {
@@ -55,5 +56,12 @@ public class SourceRepositoryImpl implements CustomRepository<SourceDto, Source>
     @Override
     public EntityPathBase<Source> entityPathBase() {
         return QSource.source;
+    }
+
+    @Override
+    public BigDecimal getSum(Predicate predicate) {
+        return mainQuery(predicate)
+                .select(Projections.appending(QSource.source.balance.sum()))
+                .fetchFirst();
     }
 }

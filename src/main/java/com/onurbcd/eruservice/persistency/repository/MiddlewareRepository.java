@@ -10,6 +10,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @NoRepositoryBean
@@ -35,5 +36,10 @@ public interface MiddlewareRepository<E extends Entityable, D extends Dtoable> e
     @SuppressWarnings("unchecked")
     default EntityPathBase<E> entityPathBase() {
         return new EntityPathBase<>((Class<? extends E>) Entityable.class, StringUtils.EMPTY);
+    }
+
+    @Override
+    default BigDecimal getSum(Predicate predicate) {
+        return BigDecimal.ZERO;
     }
 }

@@ -28,4 +28,7 @@ public interface SourceRepository extends EruRepository<Source, SourceDto> {
             " from Source s" +
             " where s.sourceType = :sourceType")
     BigDecimal getBalanceSum(@Param("sourceType") SourceType sourceType);
+
+    @Query("select sum(s.balance) from Source s")
+    BigDecimal getBalanceSum();
 }

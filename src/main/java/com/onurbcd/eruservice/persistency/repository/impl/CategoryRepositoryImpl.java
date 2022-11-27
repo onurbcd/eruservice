@@ -15,6 +15,7 @@ import com.querydsl.jpa.impl.JPAQuery;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 public class CategoryRepositoryImpl implements CustomRepository<CategoryDto, Category> {
@@ -56,5 +57,10 @@ public class CategoryRepositoryImpl implements CustomRepository<CategoryDto, Cat
     @Override
     public EntityPathBase<Category> entityPathBase() {
         return QCategory.category;
+    }
+
+    @Override
+    public BigDecimal getSum(Predicate predicate) {
+        return BigDecimal.ZERO;
     }
 }

@@ -6,6 +6,4 @@
 
 4 - Implementar testes de integração, com uma base de dados real ou em memória
 
-5 - Criar API para retornar os somatórios de Source, por source type, currency type, por income source e o total.
-
-6 - PostgreSQL95Dialect has been deprecated; use org.hibernate.dialect.PostgreSQLDialect instead
+5 - PostgreSQL95Dialect has been deprecated; use org.hibernate.dialect.PostgreSQLDialect instead

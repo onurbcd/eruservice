@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.lang.Nullable;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,6 +49,8 @@ public interface CustomRepository<D extends Dtoable, E extends Entityable> {
     QBean<D> columns();
 
     EntityPathBase<E> entityPathBase();
+
+    BigDecimal getSum(Predicate predicate);
 
     private Long countTotalRows(List<D> dtos, Pageable pageable, Predicate predicate) {
         return dtos.size() < pageable.getPageSize()

@@ -16,4 +16,6 @@ public class AdminProperties {
     private WebProperties web;
 
     private Short minYear;
+
+    private String storagePath;
 }

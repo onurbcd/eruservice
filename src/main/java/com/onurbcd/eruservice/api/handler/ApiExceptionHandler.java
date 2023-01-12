@@ -10,17 +10,21 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.TransactionSystemException;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,7 +80,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<Object> handleInternalServerError(Exception e, WebRequest request) {
+    public ResponseEntity<Object> handleInternalServerError(Exception e, WebRequest request) {
         return controlException(e, request);
     }
 
@@ -99,6 +103,28 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         var apiError = new ApiError(Error.BAD_REQUEST, (HttpStatus) status, errors);
         return Objects.requireNonNull(handleExceptionInternal(ex, apiError, headers, status, request));
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(@NonNull HttpMediaTypeNotSupportedException ex,
+                                                                     @NonNull HttpHeaders headers,
+                                                                     @NonNull HttpStatusCode status,
+                                                                     @NonNull WebRequest request) {
+
+        var message = String.format("Supported media types: %s", MediaType.toString(ex.getSupportedMediaTypes()));
+        var errors = List.of(ex.toString());
+        var apiError = new ApiError(Error.HTTP_MEDIA_TYPE_NOT_SUPPORTED, message, (HttpStatus) status, errors);
+        return handleExceptionInternal(ex, apiError, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMissingServletRequestPart(@NonNull MissingServletRequestPartException ex,
+                                                                     @NonNull HttpHeaders headers,
+                                                                     @NonNull HttpStatusCode status,
+                                                                     @NonNull WebRequest request) {
+
+        var apiError = new ApiError(Error.MISSING_SERVLET_REQUEST_PART, ex.getMessage(), (HttpStatus) status);
+        return handleExceptionInternal(ex, apiError, headers, status, request);
     }
 
     private ResponseEntity<Object> controlException(Exception e, WebRequest request) {

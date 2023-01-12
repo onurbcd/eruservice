@@ -61,7 +61,25 @@ public enum Error {
 
     MONTH_ALREADY_EXISTS("Month %02d/%d already exists"),
 
-    BAD_REQUEST("Invalid Arguments")
+    BAD_REQUEST("Invalid Arguments"),
+
+    DOCUMENT_GENERATE_HASH("No Such Algorithm Exception"),
+
+    HTTP_MEDIA_TYPE_NOT_SUPPORTED("Http Media Type Not Supported"),
+
+    MISSING_SERVLET_REQUEST_PART("MissingServletRequestPart"),
+
+    DOCUMENT_IS_EMPTY("Document is empty"),
+
+    DOCUMENT_NAME_IS_BLANK("Document name is mandatory"),
+
+    DOCUMENT_MIME_TYPE_IS_BLANK("Document mime type is mandatory"),
+
+    DOCUMENT_SIZE_IS_ZERO("Document size is zero (empty file)"),
+
+    FILE_ALREADY_EXISTS("File %s already exists in storage"),
+
+    STORAGE_FILE_SAVE("Storage File Save")
 
     ;
 

@@ -7,3 +7,32 @@
 4 - Implementar testes de integração, com uma base de dados real ou em memória
 
 5 - PostgreSQL95Dialect has been deprecated; use org.hibernate.dialect.PostgreSQLDialect instead
+
+CREATE TABLE IF NOT EXISTS public.balance (
+    id UUID NOT NULL,
+    active BOOLEAN NOT NULL,
+    createdDate TIMESTAMP WITHOUT TIME ZONE,
+    lastModifiedDate TIMESTAMP WITHOUT TIME ZONE,
+    sequence SMALLINT NOT NULL,
+    day_id INTEGER NOT NULL,
+    source_id UUID NOT NULL,
+    category_id UUID NOT NULL,
+    amount DECIMAL(19, 4) NOT NULL,
+    code VARCHAR(150) NOT NULL,
+    description VARCHAR(250),
+    balance_type VARCHAR(7) NOT NULL,
+    CONSTRAINT pk_balance PRIMARY KEY (id),
+    CONSTRAINT uc_balance_sequence_day_id UNIQUE (sequence, day_id),
+    CONSTRAINT fk_balance_day_id FOREIGN KEY (day_id)
+        REFERENCES public.day (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT fk_balance_source_id FOREIGN KEY (source_id)
+        REFERENCES public.source (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+    CONSTRAINT fk_balance_category_id FOREIGN KEY (category_id)
+        REFERENCES public.category (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
+);

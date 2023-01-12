@@ -12,9 +12,17 @@ public final class Constants {
 
     public static final int SIZE_7 = 7;
 
+    public static final int SIZE_32 = 32;
+
     public static final int SIZE_50 = 50;
 
+    public static final int SIZE_100 = 100;
+
+    public static final int SIZE_150 = 150;
+
     public static final int SIZE_250 = 250;
+
+    public static final int SIZE_255 = 255;
 
     public static final int SIZE_2048 = 2048;
 

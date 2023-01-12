@@ -45,4 +45,8 @@ public class ApiError implements Serializable {
     public ApiError(Error error, HttpStatus httpStatus, List<String> errors) {
         this(error.name(), error.format(), httpStatus.value(), errors);
     }
+
+    public ApiError(Error error, String message, HttpStatus httpStatus, List<String> errors) {
+        this(error.name(), message, httpStatus.value(), errors);
+    }
 }

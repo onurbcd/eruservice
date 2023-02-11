@@ -10,7 +10,7 @@ import com.onurbcd.eruservice.dto.budget.SumDto;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
-import com.onurbcd.eruservice.persistency.param.SequenceParam;
+import com.onurbcd.eruservice.persistency.factory.SequenceParamFactory;
 import com.onurbcd.eruservice.persistency.predicate.BudgetPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BudgetRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
@@ -30,8 +30,10 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.function.Supplier;
 
 @Service
 public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, BudgetPredicateBuilder, BudgetSaveDto>
@@ -93,7 +95,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     @Override
     public void updateSequence(UUID id, Direction direction) {
         var budget = findByIdOrElseThrow(id);
-        var sequenceParam = new SequenceParam(budget.getRefYear(), budget.getRefMonth(), budget.getSequence());
+        var sequenceParam = SequenceParamFactory.create(budget);
         sequenceService.swapSequence(sequenceParam, direction);
     }
 
@@ -101,9 +103,8 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     public void delete(UUID id) {
         var budget = findByIdOrElseThrow(id);
         repository.deleteById(budget.getId());
-
-        sequenceService.updateNextSequences(new SequenceParam(budget.getRefYear(), budget.getRefMonth(),
-                budget.getSequence()));
+        var sequenceParam = SequenceParamFactory.create(budget);
+        sequenceService.updateNextSequences(sequenceParam);
     }
 
     @Override
@@ -137,8 +138,8 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     @Override
     public void swapPosition(UUID id, Short targetSequence) {
         var budget = findByIdOrElseThrow(id);
-        var param = new SequenceParam(budget.getRefYear(), budget.getRefMonth(), budget.getSequence(), targetSequence);
-        sequenceService.swapPosition(param);
+        var sequenceParam = SequenceParamFactory.create(budget, targetSequence);
+        sequenceService.swapPosition(sequenceParam);
     }
 
     @Override
@@ -148,7 +149,14 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     }
 
     private Short getSequence(Budget current, Budget next) {
-        return current != null ? current.getSequence() : sequenceService
-                .getNextSequence(new SequenceParam(next.getRefYear(), next.getRefMonth()));
+        return Optional
+                .ofNullable(current)
+                .map(Budget::getSequence)
+                .orElseGet(getNextSequence(next));
+    }
+
+    private Supplier<Short> getNextSequence(Budget budget) {
+        var sequenceParam = SequenceParamFactory.createNext(budget);
+        return () -> sequenceService.getNextSequence(sequenceParam);
     }
 }

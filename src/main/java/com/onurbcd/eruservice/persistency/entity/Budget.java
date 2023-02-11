@@ -34,7 +34,7 @@ import java.math.BigDecimal;
                 "sequence", "refYear", "refMonth"
         })
 })
-public class Budget extends Prime {
+public class Budget extends Prime implements SequenceEntity {
 
     @NotNull
     @Min(1)
@@ -62,6 +62,21 @@ public class Budget extends Prime {
 
     @NotNull
     private Boolean paid;
+
+    @Override
+    public Short getSequenceYear() {
+        return refYear;
+    }
+
+    @Override
+    public Short getSequenceMonth() {
+        return refMonth;
+    }
+
+    @Override
+    public Short getSequenceValue() {
+        return sequence;
+    }
 
     @Override
     public boolean equals(Object o) {

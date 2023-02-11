@@ -9,7 +9,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.DecimalMax;
@@ -22,18 +24,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
-/*@Entity
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
 @AttributeOverride(name = "name", column = @Column(insertable = false, updatable = false))
-@Table(name = "balance", uniqueConstraints = {
-        @UniqueConstraint(name = "uc_balance_sequence_day_id", columnNames = {
-                "sequence", "day_id"
-        })
-})*/
-public class Balance extends Prime {
+@Table(
+        name = "balance",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "uc_balance_sequence_day_id", columnNames = {"sequence", "day_id"})
+        }
+)
+public class Balance extends Prime implements SequenceEntity {
 
     @NotNull
     @Min(1)
@@ -74,6 +79,30 @@ public class Balance extends Prime {
     @Enumerated(EnumType.STRING)
     @Column(name = "balance_type", nullable = false, length = 7)
     private BalanceType balanceType;
+
+    @OneToMany
+    @JoinTable(
+            name = "balance_document",
+            joinColumns = {@JoinColumn(name = "balance_id", referencedColumnName = "id", nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id", nullable = false)},
+            uniqueConstraints = {@UniqueConstraint(name = "uc_balance_document_id", columnNames = {"document_id"})}
+    )
+    private Set<Document> documents = new HashSet<>();
+
+    @Override
+    public Short getSequenceYear() {
+        return day.getCalendarYear();
+    }
+
+    @Override
+    public Short getSequenceMonth() {
+        return day.getCalendarMonth();
+    }
+
+    @Override
+    public Short getSequenceValue() {
+        return sequence;
+    }
 
     @Override
     public boolean equals(Object o) {

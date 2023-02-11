@@ -1,8 +1,11 @@
 package com.onurbcd.eruservice.persistency.param;
 
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Setter
 public class SequenceParam {
@@ -15,18 +18,11 @@ public class SequenceParam {
 
     private Short targetSequence;
 
-    public SequenceParam(Short year, Short month) {
-        this.year = year;
-        this.month = month;
+    public static SequenceParam of(Short year, Short month) {
+        return new SequenceParam(year, month, null, null);
     }
 
-    public SequenceParam(Short year, Short month, Short sequence) {
-        this(year, month);
-        this.sequence = sequence;
-    }
-
-    public SequenceParam(Short year, Short month, Short sequence, Short targetSequence) {
-        this(year, month, sequence);
-        this.targetSequence = targetSequence;
+    public static SequenceParam of(Short year, Short month, Short sequence, Short targetSequence) {
+        return new SequenceParam(year, month, sequence, targetSequence);
     }
 }

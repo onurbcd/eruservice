@@ -1,20 +1,17 @@
-package com.onurbcd.eruservice.service.impl;
+package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import com.onurbcd.eruservice.persistency.repository.SequenceRepository;
-import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.validation.SequenceValidationService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
-public class SequenceServiceImpl<T extends SequenceRepository> implements SequenceService<T> {
+public abstract class AbstractSequenceService implements SequenceService {
 
-    private final T repository;
+    private final SequenceRepository repository;
 
-    private final SequenceValidationService<T> validationService;
+    private final SequenceValidationService validationService;
 
     @Override
     public Short getNextSequence(SequenceParam sequenceParam) {

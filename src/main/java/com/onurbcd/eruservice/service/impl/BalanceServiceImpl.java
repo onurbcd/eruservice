@@ -1,5 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.config.annotations.PrimeService;
+import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.balance.BalanceDto;
 import com.onurbcd.eruservice.dto.balance.BalanceSaveDto;
@@ -41,13 +43,14 @@ public class BalanceServiceImpl
 
     private final BalanceValidationService validationService;
 
-    private final SequenceService<BalanceRepository> sequenceService;
+    private final SequenceService sequenceService;
 
     private final DayService dayService;
 
     public BalanceServiceImpl(BalanceRepository repository, BalanceToEntityMapper toEntityMapper,
                               BalanceValidationService validationService,
-                              SequenceService<BalanceRepository> sequenceService, DayService dayService) {
+                              @PrimeService(Domain.BALANCE_SEQUENCE) SequenceService sequenceService,
+                              DayService dayService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BalancePredicateBuilder.class);
         this.repository = repository;

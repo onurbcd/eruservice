@@ -1,5 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.config.annotations.PrimeService;
+import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.budget.BudgetDto;
 import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
 import com.onurbcd.eruservice.dto.budget.BudgetSaveDto;
@@ -45,13 +47,14 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
 
     private final BudgetValidationService validationService;
 
-    private final SequenceService<BudgetRepository> sequenceService;
+    private final SequenceService sequenceService;
 
     private final SourceService sourceService;
 
     public BudgetServiceImpl(BudgetRepository repository, BudgetToEntityMapper toEntityMapper,
                              BudgetValidationService validationService,
-                             SequenceService<BudgetRepository> sequenceService, SourceService sourceService) {
+                             @PrimeService(Domain.BUDGET_SEQUENCE) SequenceService sequenceService,
+                             SourceService sourceService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BudgetPredicateBuilder.class);
         this.repository = repository;

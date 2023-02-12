@@ -48,4 +48,16 @@ public class BalanceSaveDto extends PrimeSaveDto {
 
     @NotNull
     private BalanceType balanceType;
+
+    public short getYear() {
+        return (short) dayCalendarDate.getYear();
+    }
+
+    public short getMonth() {
+        return (short) dayCalendarDate.getMonthValue();
+    }
+
+    public short getDay() {
+        return (short) dayCalendarDate.getDayOfMonth();
+    }
 }

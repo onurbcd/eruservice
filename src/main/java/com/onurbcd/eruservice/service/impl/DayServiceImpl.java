@@ -40,6 +40,14 @@ public class DayServiceImpl implements DayService {
         return repository.getYearsAndMonths();
     }
 
+    @Override
+    public Integer createId(LocalDate calendarDate) {
+        var strId = String.format("%d%02d%02d", calendarDate.getYear(), calendarDate.getMonthValue(),
+                calendarDate.getDayOfMonth());
+
+        return Integer.valueOf(strId);
+    }
+
     private List<Day> createDays(CreateMonthDto dto) {
         var days = new ArrayList<Day>();
         var currentDay = LocalDate.of(dto.getCalendarYear(), dto.getCalendarMonth(), 1);
@@ -69,12 +77,5 @@ public class DayServiceImpl implements DayService {
         day.setCalendarDayInMonth((short) calendarDate.getDayOfMonth());
         day.setCalendarWeekdayName(calendarDate.getDayOfWeek().name().toLowerCase());
         return day;
-    }
-
-    private Integer createId(LocalDate calendarDate) {
-        var strId = String.format("%d%02d%02d", calendarDate.getYear(), calendarDate.getMonthValue(),
-                calendarDate.getDayOfMonth());
-
-        return Integer.valueOf(strId);
     }
 }

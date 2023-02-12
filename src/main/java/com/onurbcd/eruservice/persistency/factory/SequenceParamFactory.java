@@ -15,7 +15,7 @@ public final class SequenceParamFactory {
     }
 
     public static SequenceParam create(LocalDate calendarDate) {
-        return SequenceParam.of((short) calendarDate.getYear(), (short) calendarDate.getMonth().getValue());
+        return SequenceParam.of((short) calendarDate.getYear(), (short) calendarDate.getMonthValue());
     }
 
     public static SequenceParam create(SequenceEntity sequenceEntity) {

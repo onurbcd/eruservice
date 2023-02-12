@@ -7,17 +7,20 @@ import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.dto.filter.BalanceFilter;
 import com.onurbcd.eruservice.dto.filter.Filterable;
 import com.onurbcd.eruservice.persistency.entity.Balance;
+import com.onurbcd.eruservice.persistency.entity.Day;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.predicate.BalancePredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BalanceRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BalanceService;
+import com.onurbcd.eruservice.service.DayService;
 import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.persistency.factory.SequenceParamFactory;
 import com.onurbcd.eruservice.service.mapper.BalanceToEntityMapper;
 import com.onurbcd.eruservice.service.validation.BalanceValidationService;
 import com.querydsl.core.types.Predicate;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -40,14 +43,17 @@ public class BalanceServiceImpl
 
     private final SequenceService<BalanceRepository> sequenceService;
 
+    private final DayService dayService;
+
     public BalanceServiceImpl(BalanceRepository repository, BalanceToEntityMapper toEntityMapper,
                               BalanceValidationService validationService,
-                              SequenceService<BalanceRepository> sequenceService) {
+                              SequenceService<BalanceRepository> sequenceService, DayService dayService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BalancePredicateBuilder.class);
         this.repository = repository;
         this.validationService = validationService;
         this.sequenceService = sequenceService;
+        this.dayService = dayService;
     }
 
     @Override
@@ -58,8 +64,11 @@ public class BalanceServiceImpl
     @Override
     public Balance fillValues(Dtoable dto, Entityable entity) {
         var balance = (Balance) super.fillValues(dto, entity);
-        balance.setSequence(getSequence((Balance) entity, balance.getDay().getCalendarDate()));
-        // TODO transformar o calendar date num day id
+        var current = (Balance) entity;
+        balance.setName(null);
+        balance.setSequence(getSequence(current, balance.getDay().getCalendarDate()));
+        balance.getDay().setId(getDayId(balance, current));
+        // TODO set documents
         return balance;
     }
 
@@ -89,6 +98,14 @@ public class BalanceServiceImpl
         var balance = findByIdOrElseThrow(id);
         var sequenceParam = SequenceParamFactory.create(balance, targetSequence);
         sequenceService.swapPosition(sequenceParam);
+    }
+
+    private Integer getDayId(Balance balance, @Nullable Balance current) {
+        return Optional
+                .ofNullable(current)
+                .map(Balance::getDay)
+                .map(Day::getId)
+                .orElseGet(() -> dayService.createId(balance.getDay().getCalendarDate()));
     }
 
     private Short getSequence(Balance current, LocalDate calendarDate) {

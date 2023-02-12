@@ -16,4 +16,14 @@ public final class DateUtil {
 
         return refYear.equals(oRefYear) && refMonth.equals(oRefMonth);
     }
+
+    public static boolean equalDay(@Nullable Short year, @Nullable Short month, @Nullable Short day,
+                                   @Nullable Short oYear, @Nullable Short oMonth, @Nullable Short oDay) {
+
+        if (year == null || month == null || day == null || oYear == null || oMonth == null || oDay == null) {
+            return false;
+        }
+
+        return year.equals(oYear) && month.equals(oMonth) && day.equals(oDay);
+    }
 }

@@ -2,26 +2,55 @@ package com.onurbcd.eruservice.service.validation.impl;
 
 import com.onurbcd.eruservice.dto.balance.BalanceSaveDto;
 import com.onurbcd.eruservice.persistency.entity.Balance;
-import com.onurbcd.eruservice.persistency.repository.BalanceRepository;
+import com.onurbcd.eruservice.service.enums.Error;
+import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BalanceValidationService;
-import lombok.RequiredArgsConstructor;
+import com.onurbcd.eruservice.util.DateUtil;
+import com.onurbcd.eruservice.util.NumberUtil;
+import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
 @Service
-@RequiredArgsConstructor
 public class BalanceValidationServiceImpl implements BalanceValidationService {
 
-    private final BalanceRepository repository;
-
     @Override
-    public void validate(BalanceSaveDto dto, Balance balance, UUID id) {
-        /*
-            sequence não pode ser atualizado
-            day não pode ser atualizado (transformar o calendar date num day id)
-            source não pode ser atualizado
-            balanceType não pode ser atualizado
-         */
+    public void validate(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {
+        Action.checkIf(id == null || balance != null).orElseThrowNotFound(id);
+        validateSequence(dto, balance, id);
+        validateDay(dto, balance, id);
+        validateSource(dto, balance, id);
+        validateBalanceType(dto, balance, id);
+    }
+
+    private void validateSequence(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {
+        var sequence = balance != null ? balance.getSequence() : null;
+
+        Action.checkIf(id == null || NumberUtil.equals(dto.getSequence(), sequence))
+                .orElseThrow(Error.SEQUENCE_CHANGED, sequence, dto.getSequence());
+    }
+
+    private void validateDay(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {
+        Action.checkIf(id == null || equalDay(dto, balance)).orElseThrow(Error.DAY_CHANGED);
+    }
+
+    private boolean equalDay(BalanceSaveDto dto, @Nullable Balance balance) {
+        if (balance == null) {
+            return false;
+        }
+
+        return DateUtil.equalDay(dto.getYear(), dto.getMonth(), dto.getDay(), balance.getSequenceYear(),
+                balance.getSequenceMonth(), balance.getDayInMonth());
+    }
+
+    private void validateSource(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {
+        var sourceId = balance != null ? balance.getSource().getId() : null;
+        Action.checkIf(id == null || dto.getSourceId().equals(sourceId)).orElseThrow(Error.DAY_SOURCE_CHANGED);
+    }
+
+    private void validateBalanceType(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {
+        var balanceType = balance != null ? balance.getBalanceType() : null;
+        Action.checkIf(id == null || dto.getBalanceType() == balanceType).orElseThrow(Error.DAY_BALANCE_TYPE_CHANGED);
     }
 }

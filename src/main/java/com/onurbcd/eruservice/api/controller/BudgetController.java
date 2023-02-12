@@ -8,7 +8,6 @@ import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.service.BudgetService;
 import com.onurbcd.eruservice.dto.filter.BudgetFilter;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -34,9 +33,13 @@ public class BudgetController extends PrimeController<BudgetSaveDto, BudgetPatch
     }
 
     @Override
-    public ResponseEntity<Void> updateSequence(UUID id, Direction direction) {
+    public void updateSequence(UUID id, Direction direction) {
         budgetService.updateSequence(id, direction);
-        return ResponseEntity.noContent().build();
+    }
+
+    @Override
+    public void swapPosition(UUID id, Short targetSequence) {
+        budgetService.swapPosition(id, targetSequence);
     }
 
     @GetMapping("/sum-month")
@@ -49,11 +52,6 @@ public class BudgetController extends PrimeController<BudgetSaveDto, BudgetPatch
     @ResponseStatus(HttpStatus.CREATED)
     public void copy(@RequestBody CopyBudgetDto copyBudgetDto) {
         budgetService.copy(copyBudgetDto);
-    }
-
-    @Override
-    public void swapPosition(UUID id, Short targetSequence) {
-        budgetService.swapPosition(id, targetSequence);
     }
 
     @DeleteMapping("/{year}/{month}/all")

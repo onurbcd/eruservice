@@ -89,6 +89,10 @@ public class Balance extends Prime implements SequenceEntity {
     )
     private Set<Document> documents = new HashSet<>();
 
+    public Short getDayInMonth() {
+        return day.getCalendarDayInMonth();
+    }
+
     @Override
     public Short getSequenceYear() {
         return day.getCalendarYear();

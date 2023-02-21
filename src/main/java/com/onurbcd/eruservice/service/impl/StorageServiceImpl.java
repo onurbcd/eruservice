@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -25,13 +26,14 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public void saveFile(Document document, MultipartFile multipartFile) {
-        try {
-            var storagePath = Paths.get(config.getStoragePath()).toAbsolutePath().normalize();
-            var filePath = storagePath.resolve(document.getHash());
+        try (var inputStream = multipartFile.getInputStream()) {
+            var storagePath = Paths.get(config.getStoragePath(), document.getPath()).toAbsolutePath().normalize();
+            var extension = StringUtils.getFilenameExtension(document.getName());
+            var fileName = document.getHash() + "." + extension;
+            var filePath = storagePath.resolve(fileName);
             Action.checkIf(Files.notExists(filePath)).orElseThrow(Error.FILE_ALREADY_EXISTS, filePath.toString());
-            var inputStream = multipartFile.getInputStream();
+            Files.createDirectories(storagePath);
             Files.copy(inputStream, filePath);
-            inputStream.close();
         } catch (IOException e) {
             log.error("Storage File Save", e);
             throw new ApiException(Error.STORAGE_FILE_SAVE, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);

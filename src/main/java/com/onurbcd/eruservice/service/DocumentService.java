@@ -1,13 +1,21 @@
 package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.dto.document.DocumentDto;
+import com.onurbcd.eruservice.dto.document.MultipartFileDto;
+import com.onurbcd.eruservice.persistency.entity.Document;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.lang.Nullable;
+
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 public interface DocumentService {
 
-    void saveAll(MultipartFile[] multipartFiles);
+    Set<Document> save(MultipartFileDto dto);
 
     Page<DocumentDto> getAll(Pageable pageable);
+
+    List<Document> getAllById(@Nullable Iterable<UUID> ids);
 }

@@ -80,7 +80,7 @@ public class Balance extends Prime implements SequenceEntity {
     @Column(name = "balance_type", nullable = false, length = 7)
     private BalanceType balanceType;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "balance_document",
             joinColumns = {@JoinColumn(name = "balance_id", referencedColumnName = "id", nullable = false)},

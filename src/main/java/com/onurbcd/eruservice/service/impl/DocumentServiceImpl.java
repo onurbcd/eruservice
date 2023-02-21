@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.document.DocumentDto;
+import com.onurbcd.eruservice.dto.document.MultipartFileDto;
 import com.onurbcd.eruservice.persistency.entity.Document;
 import com.onurbcd.eruservice.persistency.repository.DocumentRepository;
 import com.onurbcd.eruservice.service.DocumentService;
@@ -10,11 +11,9 @@ import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.service.mapper.DocumentToDtoMapper;
 import com.onurbcd.eruservice.service.validation.DocumentValidationService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,7 +21,13 @@ import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -39,15 +44,16 @@ public class DocumentServiceImpl implements DocumentService {
     private final DocumentValidationService validationService;
 
     @Override
-    public void saveAll(@Nullable MultipartFile[] multipartFiles) {
-        if (multipartFiles == null || multipartFiles.length < 1) {
-            return;
+    public Set<Document> save(MultipartFileDto dto) {
+        var documents = new ArrayList<Document>();
+
+        for (var multipartFile : dto.getMultipartFiles()) {
+            validationService.validate(multipartFile);
+            var document = create(multipartFile, dto.getPath());
+            documents.add(document);
         }
 
-        for (var multipartFile : multipartFiles) {
-            validationService.validate(multipartFile);
-            create(multipartFile);
-        }
+        return Set.copyOf(repository.saveAll(documents));
     }
 
     @Override
@@ -55,16 +61,24 @@ public class DocumentServiceImpl implements DocumentService {
         return repository.findAll(pageable).map(toDtoMapper);
     }
 
-    private void create(MultipartFile multipartFile) {
+    @Override
+    public List<Document> getAllById(Iterable<UUID> ids) {
+        return Optional
+                .ofNullable(ids)
+                .map(repository::findAllById)
+                .orElse(Collections.emptyList());
+    }
+
+    private Document create(MultipartFile multipartFile, String path) {
         var document = new Document();
         document.setName(multipartFile.getOriginalFilename());
-        document.setPath(StringUtils.EMPTY);
+        document.setPath(path);
         document.setMimeType(multipartFile.getContentType());
         document.setSize(multipartFile.getSize());
         var hash = generateHash(document);
         document.setHash(hash);
         storageService.saveFile(document, multipartFile);
-        repository.save(document);
+        return document;
     }
 
     private String generateHash(Document document) {

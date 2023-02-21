@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -36,4 +37,6 @@ public class BalanceDto extends PrimeDto {
     private String description;
 
     private BalanceType balanceType;
+
+    private Set<UUID> documentsIds;
 }

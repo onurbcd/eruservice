@@ -102,6 +102,10 @@ public class Day implements Persistable<Integer> {
     @Column(name = "calendar_weekday_name", nullable = false, length = 9, updatable = false)
     private String calendarWeekdayName;
 
+    public Day(Integer id) {
+        this.id = id;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

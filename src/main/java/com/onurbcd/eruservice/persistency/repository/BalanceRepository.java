@@ -5,8 +5,10 @@ import com.onurbcd.eruservice.persistency.entity.Balance;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Repository
@@ -60,4 +62,10 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " and d.calendarMonth = :#{#sequenceParam.month}" +
             " and b.sequence > :#{#sequenceParam.sequence}")
     long countNextSequences(SequenceParam sequenceParam);
+
+    @Query("select d.id" +
+            " from Balance b" +
+            " left join b.documents d" +
+            " where b.id = :id")
+    Set<UUID> getDocumentsIds(@Param("id") UUID id);
 }

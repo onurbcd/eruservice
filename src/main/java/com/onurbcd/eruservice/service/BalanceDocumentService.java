@@ -1,11 +1,17 @@
 package com.onurbcd.eruservice.service;
 
 import com.onurbcd.eruservice.dto.balance.BalanceSaveDto;
-import com.onurbcd.eruservice.dto.document.CreateDocumentDto;
+import com.onurbcd.eruservice.persistency.entity.Document;
+import com.onurbcd.eruservice.service.resource.CreateDocument;
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Set;
+import java.util.UUID;
+
 public interface BalanceDocumentService {
 
-    CreateDocumentDto createDocuments(BalanceSaveDto saveDto, @Nullable MultipartFile[] multipartFiles);
+    CreateDocument createDocuments(BalanceSaveDto saveDto, @Nullable MultipartFile[] multipartFiles, @Nullable UUID id);
+
+    void deleteDocuments(Set<Document> documents);
 }

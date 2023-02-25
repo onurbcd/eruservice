@@ -2,8 +2,8 @@ package com.onurbcd.eruservice.dto.budget;
 
 import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.dto.PrimeSaveDto;
-import com.onurbcd.eruservice.persistency.constraint.MaxYear;
-import com.onurbcd.eruservice.persistency.constraint.MinYear;
+import com.onurbcd.eruservice.validation.constraint.MaxYear;
+import com.onurbcd.eruservice.validation.constraint.MinYear;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

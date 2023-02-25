@@ -22,12 +22,9 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -62,11 +59,11 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public List<Document> getAllById(Iterable<UUID> ids) {
-        return Optional
-                .ofNullable(ids)
-                .map(repository::findAllById)
-                .orElse(Collections.emptyList());
+    public void delete(Set<Document> documents) {
+        for (var document : documents) {
+            storageService.deleteFile(document);
+            repository.deleteUsingId(Objects.requireNonNull(document.getId()));
+        }
     }
 
     private Document create(MultipartFile multipartFile, String path) {

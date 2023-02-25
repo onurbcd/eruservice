@@ -22,7 +22,9 @@ import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.persistency.factory.SequenceParamFactory;
 import com.onurbcd.eruservice.service.mapper.BalanceToEntityMapper;
+import com.onurbcd.eruservice.service.resource.CreateBalance;
 import com.onurbcd.eruservice.service.validation.BalanceValidationService;
+import com.onurbcd.eruservice.util.CollectionUtil;
 import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -33,9 +35,6 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-/*
-    TODO ao salvar ou atualizar, se o amount for diferente, precisa atualizar o balance do source, conforme o balanceType
- */
 @Service
 public class BalanceServiceImpl
         extends AbstractCrudService<Balance, BalanceDto, BalancePredicateBuilder, BalanceSaveDto>
@@ -68,8 +67,10 @@ public class BalanceServiceImpl
     public void save(BalanceSaveDto saveDto, MultipartFile[] multipartFiles, UUID id) {
         var currentBalance = id != null ? repository.findById(id).orElse(null) : null;
         validate(saveDto, currentBalance, id);
-        var newBalance = fillValues(saveDto, multipartFiles, currentBalance);
-        repository.save(newBalance);
+        var createBalance = fillValues(saveDto, multipartFiles, currentBalance);
+        repository.saveAndFlush(createBalance.getBalance());
+        balanceDocumentService.deleteDocuments(createBalance.getDeleteDocuments());
+        // TODO atualizar o balance do source, conforme o balanceType
     }
 
     @Override
@@ -86,7 +87,7 @@ public class BalanceServiceImpl
     public BalanceDto getById(UUID id) {
         var balanceDto = (BalanceDto) super.getById(id);
         var documentsIds = repository.getDocumentsIds(id);
-        balanceDto.setDocumentsIds(documentsIds);
+        balanceDto.setDocumentsIds(CollectionUtil.isEmpty(documentsIds) ? null : documentsIds);
         return balanceDto;
     }
 
@@ -114,18 +115,19 @@ public class BalanceServiceImpl
         sequenceService.swapPosition(sequenceParam);
     }
 
-    private Balance fillValues(BalanceSaveDto saveDto, @Nullable MultipartFile[] multipartFiles,
-                               @Nullable Balance currentBalance) {
+    private CreateBalance fillValues(BalanceSaveDto saveDto, @Nullable MultipartFile[] multipartFiles,
+                                     @Nullable Balance currentBalance) {
 
         var balance = (Balance) super.fillValues(saveDto, currentBalance);
-        var createDocumentDto = balanceDocumentService.createDocuments(saveDto, multipartFiles);
-        balance.setDocuments(createDocumentDto.getNewDocuments());
+        var id = Optional.ofNullable(currentBalance).map(Balance::getId).orElse(null);
+        var createDocument = balanceDocumentService.createDocuments(saveDto, multipartFiles, id);
+        balance.setDocuments(createDocument.getSaveDocuments());
         balance.setName(EruConstants.BALANCE_NAME);
         balance.setSequence(getSequence(currentBalance, saveDto.getDayCalendarDate()));
         var dayId = getDayId(saveDto, currentBalance);
         // TODO: setar o day id com o esquema que não faz pesquisa na base de dados
         balance.setDay(new Day(dayId));
-        return balance;
+        return CreateBalance.builder().balance(balance).deleteDocuments(createDocument.getDeleteDocuments()).build();
     }
 
     private Short getSequence(@Nullable Balance current, LocalDate calendarDate) {

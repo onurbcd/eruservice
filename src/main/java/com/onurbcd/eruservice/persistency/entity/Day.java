@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.persistency.entity;
 
-import com.onurbcd.eruservice.persistency.constraint.MaxYear;
-import com.onurbcd.eruservice.persistency.constraint.MinYear;
+import com.onurbcd.eruservice.validation.constraint.MaxYear;
+import com.onurbcd.eruservice.validation.constraint.MinYear;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.onurbcd.eruservice.service;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.persistency.entity.Entityable;
 import com.onurbcd.eruservice.persistency.predicate.BasePredicateBuilder;
-import com.onurbcd.eruservice.persistency.predicate.PredicateBuilderFactory;
+import com.onurbcd.eruservice.service.factory.PredicateBuilderFactory;
 import com.onurbcd.eruservice.persistency.repository.EruRepository;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.dto.filter.Filterable;

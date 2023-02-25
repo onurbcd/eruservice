@@ -1,14 +1,16 @@
-package com.onurbcd.eruservice.persistency.predicate;
+package com.onurbcd.eruservice.service.factory;
 
+import com.onurbcd.eruservice.persistency.predicate.BasePredicateBuilder;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 import java.lang.reflect.InvocationTargetException;
 
-@UtilityClass
-public class PredicateBuilderFactory {
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class PredicateBuilderFactory {
 
     public static <P extends BasePredicateBuilder> BasePredicateBuilder init(Class<P> clazz) {
         try {

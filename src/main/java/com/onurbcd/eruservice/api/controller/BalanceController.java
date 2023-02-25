@@ -8,7 +8,9 @@ import com.onurbcd.eruservice.service.BalanceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -35,6 +37,14 @@ public class BalanceController extends PrimeController<BalanceSaveDto, BalancePa
                      @RequestPart(value = "documents", required = false) MultipartFile[] multipartFiles) {
 
         balanceService.save(saveDto, multipartFiles, null);
+    }
+
+    @PutMapping(path = "/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(HttpStatus.OK)
+    public void update(@PathVariable("id") UUID id, @Valid @RequestPart("balance") BalanceSaveDto saveDto,
+                       @RequestPart(value = "documents", required = false) MultipartFile[] multipartFiles) {
+
+        balanceService.save(saveDto, multipartFiles, id);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.dto.balance.BalanceDto;
 import com.onurbcd.eruservice.persistency.entity.Balance;
+import com.onurbcd.eruservice.persistency.entity.Document;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -68,4 +69,10 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " left join b.documents d" +
             " where b.id = :id")
     Set<UUID> getDocumentsIds(@Param("id") UUID id);
+
+    @Query("select d" +
+            " from Balance b" +
+            " left join b.documents d" +
+            " where b.id = :id")
+    Set<Document> getDocuments(@Param("id") UUID id);
 }

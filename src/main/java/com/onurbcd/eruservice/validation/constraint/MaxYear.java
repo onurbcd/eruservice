@@ -1,6 +1,6 @@
-package com.onurbcd.eruservice.persistency.constraint;
+package com.onurbcd.eruservice.validation.constraint;
 
-import com.onurbcd.eruservice.persistency.validator.MinYearValidator;
+import com.onurbcd.eruservice.validation.validator.MaxYearValidator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
@@ -19,12 +19,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE_USE})
 @Retention(RUNTIME)
-@Repeatable(MinYear.List.class)
+@Repeatable(MaxYear.List.class)
 @Documented
-@Constraint(validatedBy = {MinYearValidator.class})
-public @interface MinYear {
+@Constraint(validatedBy = {MaxYearValidator.class})
+public @interface MaxYear {
 
-    String message() default "{javax.validation.constraints.Min.message}";
+    String message() default "{javax.validation.constraints.Max.message}";
 
     Class<?>[] groups() default {};
 
@@ -34,6 +34,6 @@ public @interface MinYear {
     @Retention(RUNTIME)
     @Documented
     @interface List {
-        MinYear[] value();
+        MaxYear[] value();
     }
 }

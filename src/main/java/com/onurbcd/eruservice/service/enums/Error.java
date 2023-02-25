@@ -43,6 +43,7 @@ public enum Error {
     DOCUMENT_SIZE_IS_ZERO("Document size is zero (empty file)"),
     FILE_ALREADY_EXISTS("File %s already exists in storage"),
     STORAGE_FILE_SAVE("Storage File Save"),
+    STORAGE_FILE_DELETE("Storage File Delete"),
     DAY_CHANGED("Balance day cannot be changed"),
     DAY_SOURCE_CHANGED("Balance source cannot be changed"),
     DAY_BALANCE_TYPE_CHANGED("Balance type cannot be changed");

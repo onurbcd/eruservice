@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -19,6 +20,6 @@ public final class CollectionUtil {
     }
 
     public static <T> boolean isEmpty(Collection<T> collection) {
-        return collection == null || collection.isEmpty();
+        return collection == null || collection.isEmpty() || collection.stream().allMatch(Objects::isNull);
     }
 }

@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.dto.day;
 
-import com.onurbcd.eruservice.persistency.constraint.MaxYear;
-import com.onurbcd.eruservice.persistency.constraint.MinYear;
+import com.onurbcd.eruservice.validation.constraint.MaxYear;
+import com.onurbcd.eruservice.validation.constraint.MinYear;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,5 +1,6 @@
-package com.onurbcd.eruservice.dto.document;
+package com.onurbcd.eruservice.service.resource;
 
+import com.onurbcd.eruservice.persistency.entity.Balance;
 import com.onurbcd.eruservice.persistency.entity.Document;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,9 +15,9 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
-public class CreateDocumentDto {
+public class CreateBalance {
 
-    private Set<Document> newDocuments;
+    private Balance balance;
 
     private Set<Document> deleteDocuments;
 }

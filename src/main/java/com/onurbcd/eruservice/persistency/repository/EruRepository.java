@@ -7,6 +7,7 @@ import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @NoRepositoryBean
@@ -18,4 +19,8 @@ public interface EruRepository<E extends Entityable, D extends Dtoable> extends 
     }
 
     int updateActive(@Param("id") UUID id, @Param("active") Boolean active);
+
+    default Optional<E> get(@Param("id") UUID id) {
+        return Optional.empty();
+    }
 }

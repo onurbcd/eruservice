@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -75,4 +76,13 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " left join b.documents d" +
             " where b.id = :id")
     Set<Document> getDocuments(@Param("id") UUID id);
+
+    @Override
+    @Query("select b" +
+            " from Balance b" +
+            " inner join fetch b.day d" +
+            " inner join fetch b.source s" +
+            " inner join fetch b.category c" +
+            " where b.id = :id")
+    Optional<Balance> get(UUID id);
 }

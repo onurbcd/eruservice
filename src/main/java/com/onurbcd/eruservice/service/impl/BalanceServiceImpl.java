@@ -26,6 +26,7 @@ import com.onurbcd.eruservice.service.resource.CreateBalance;
 import com.onurbcd.eruservice.service.validation.BalanceValidationService;
 import com.onurbcd.eruservice.util.CollectionUtil;
 import com.querydsl.core.types.Predicate;
+import jakarta.persistence.EntityManager;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -50,10 +51,13 @@ public class BalanceServiceImpl
 
     private final BalanceDocumentService balanceDocumentService;
 
+    private final EntityManager entityManager;
+
     public BalanceServiceImpl(BalanceRepository repository, BalanceToEntityMapper toEntityMapper,
                               BalanceValidationService validationService,
                               @PrimeService(Domain.BALANCE_SEQUENCE) SequenceService sequenceService,
-                              DayService dayService, BalanceDocumentService balanceDocumentService) {
+                              DayService dayService, BalanceDocumentService balanceDocumentService,
+                              EntityManager entityManager) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BalancePredicateBuilder.class);
         this.repository = repository;
@@ -61,11 +65,12 @@ public class BalanceServiceImpl
         this.sequenceService = sequenceService;
         this.dayService = dayService;
         this.balanceDocumentService = balanceDocumentService;
+        this.entityManager = entityManager;
     }
 
     @Override
     public void save(BalanceSaveDto saveDto, MultipartFile[] multipartFiles, UUID id) {
-        var currentBalance = id != null ? repository.findById(id).orElse(null) : null;
+        var currentBalance = id != null ? repository.get(id).orElse(null) : null;
         validate(saveDto, currentBalance, id);
         var createBalance = fillValues(saveDto, multipartFiles, currentBalance);
         repository.saveAndFlush(createBalance.getBalance());
@@ -93,24 +98,25 @@ public class BalanceServiceImpl
 
     @Override
     public void delete(UUID id) {
-        var balance = findByIdOrElseThrow(id);
+        var balance = getOrElseThrow(id);
+        var documents = repository.getDocuments(id);
         repository.deleteById(id);
         var sequenceParam = SequenceParamFactory.create(balance);
-        // TODO atualizar o balance do source, conforme o balanceType
-        // TODO remover os arquivos do storage se existirem, e da base de dados
         sequenceService.updateNextSequences(sequenceParam);
+        balanceDocumentService.deleteDocuments(documents);
+        // TODO atualizar o balance do source, conforme o balanceType
     }
 
     @Override
     public void updateSequence(UUID id, Direction direction) {
-        var balance = findByIdOrElseThrow(id);
+        var balance = getOrElseThrow(id);
         var sequenceParam = SequenceParamFactory.create(balance);
         sequenceService.swapSequence(sequenceParam, direction);
     }
 
     @Override
     public void swapPosition(UUID id, Short targetSequence) {
-        var balance = findByIdOrElseThrow(id);
+        var balance = getOrElseThrow(id);
         var sequenceParam = SequenceParamFactory.create(balance, targetSequence);
         sequenceService.swapPosition(sequenceParam);
     }
@@ -125,8 +131,7 @@ public class BalanceServiceImpl
         balance.setName(EruConstants.BALANCE_NAME);
         balance.setSequence(getSequence(currentBalance, saveDto.getDayCalendarDate()));
         var dayId = getDayId(saveDto, currentBalance);
-        // TODO: setar o day id com o esquema que não faz pesquisa na base de dados
-        balance.setDay(new Day(dayId));
+        balance.setDay(entityManager.getReference(Day.class, dayId));
         return CreateBalance.builder().balance(balance).deleteDocuments(createDocument.getDeleteDocuments()).build();
     }
 

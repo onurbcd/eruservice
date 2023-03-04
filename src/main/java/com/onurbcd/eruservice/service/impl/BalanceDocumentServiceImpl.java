@@ -70,6 +70,7 @@ public class BalanceDocumentServiceImpl implements BalanceDocumentService {
         return Optional
                 .ofNullable(id)
                 .map(balanceRepository::getDocuments)
+                .filter(CollectionUtil::isNotEmpty)
                 .orElse(Collections.emptySet());
     }
 

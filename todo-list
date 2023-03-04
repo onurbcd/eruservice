@@ -7,3 +7,31 @@
 4 - Implementar testes de integração, com uma base de dados real ou em memória
 
 5 - PostgreSQL95Dialect has been deprecated; use org.hibernate.dialect.PostgreSQLDialect instead
+
+- Balance
+
+    - inserir
+        - income
+            - somar ao valor do source
+        - outcome
+            - substrair ao valor do source
+    - atualizar
+        - valor não foi alterado: new 10 current 10
+            - não fazer nada
+        - valor foi alterado
+            - calcular diferença
+            - income
+                - valor maior: new 20 current 10
+                    - somar diferença ao valor do source
+                - valor menor: new 10 current 20
+                    - subtrair diferença ao valor do source
+            - outcome
+                - valor maior: new 20 current 10
+                    - subtrair diferença ao valor do source
+                - valor menor: new 10 current 20
+                    - somar diferença ao valor do source
+    - remover
+        - income
+            - substrair ao valor do source
+        - outcome
+            - somar ao valor do source

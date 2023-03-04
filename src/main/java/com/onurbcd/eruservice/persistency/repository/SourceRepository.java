@@ -31,4 +31,15 @@ public interface SourceRepository extends EruRepository<Source, SourceDto> {
 
     @Query("select sum(s.balance) from Source s")
     BigDecimal getBalanceSum();
+
+    @Modifying
+    @Query("update Source s" +
+            " set s.balance = :balance" +
+            " where s.id = :id")
+    void updateBalance(@Param("id") UUID id, @Param("balance") BigDecimal balance);
+
+    @Query("select s.balance" +
+            " from Source s" +
+            " where s.id = :id")
+    BigDecimal getBalance(@Param("id") UUID id);
 }

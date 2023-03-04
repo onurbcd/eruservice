@@ -17,6 +17,7 @@ import com.onurbcd.eruservice.persistency.repository.BalanceRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BalanceDocumentService;
 import com.onurbcd.eruservice.service.BalanceService;
+import com.onurbcd.eruservice.service.BalanceSourceService;
 import com.onurbcd.eruservice.service.DayService;
 import com.onurbcd.eruservice.service.SequenceService;
 import com.onurbcd.eruservice.service.enums.QueryType;
@@ -53,11 +54,13 @@ public class BalanceServiceImpl
 
     private final EntityManager entityManager;
 
+    private final BalanceSourceService balanceSourceService;
+
     public BalanceServiceImpl(BalanceRepository repository, BalanceToEntityMapper toEntityMapper,
                               BalanceValidationService validationService,
                               @PrimeService(Domain.BALANCE_SEQUENCE) SequenceService sequenceService,
                               DayService dayService, BalanceDocumentService balanceDocumentService,
-                              EntityManager entityManager) {
+                              EntityManager entityManager, BalanceSourceService balanceSourceService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BalancePredicateBuilder.class);
         this.repository = repository;
@@ -66,16 +69,18 @@ public class BalanceServiceImpl
         this.dayService = dayService;
         this.balanceDocumentService = balanceDocumentService;
         this.entityManager = entityManager;
+        this.balanceSourceService = balanceSourceService;
     }
 
     @Override
     public void save(BalanceSaveDto saveDto, MultipartFile[] multipartFiles, UUID id) {
         var currentBalance = id != null ? repository.get(id).orElse(null) : null;
+        var currentAmount = Optional.ofNullable(currentBalance).map(Balance::getAmount).orElse(null);
         validate(saveDto, currentBalance, id);
         var createBalance = fillValues(saveDto, multipartFiles, currentBalance);
-        repository.saveAndFlush(createBalance.getBalance());
+        var newBalance = repository.saveAndFlush(createBalance.getBalance());
         balanceDocumentService.deleteDocuments(createBalance.getDeleteDocuments());
-        // TODO atualizar o balance do source, conforme o balanceType
+        balanceSourceService.save(newBalance, currentAmount);
     }
 
     @Override
@@ -104,7 +109,7 @@ public class BalanceServiceImpl
         var sequenceParam = SequenceParamFactory.create(balance);
         sequenceService.updateNextSequences(sequenceParam);
         balanceDocumentService.deleteDocuments(documents);
-        // TODO atualizar o balance do source, conforme o balanceType
+        balanceSourceService.delete(balance);
     }
 
     @Override

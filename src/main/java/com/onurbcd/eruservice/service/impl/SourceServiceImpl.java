@@ -13,10 +13,12 @@ import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.SourceService;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.mapper.SourceToEntityMapper;
+import com.onurbcd.eruservice.service.resource.UpdateSourceBalance;
 import com.querydsl.core.types.Predicate;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 @Service
 public class SourceServiceImpl extends AbstractCrudService<Source, SourceDto, SourcePredicateBuilder, SourceSaveDto>
@@ -46,5 +48,15 @@ public class SourceServiceImpl extends AbstractCrudService<Source, SourceDto, So
         var partial = repository.getSum(predicate);
         var total = repository.getBalanceSum();
         return new BalanceSumDto(partial, total);
+    }
+
+    @Override
+    public void updateBalance(UpdateSourceBalance param) {
+        var currentBalance = Optional
+                .ofNullable(param.getSource().getBalance())
+                .orElseGet(() -> repository.getBalance(param.getSource().getId()));
+
+        var newBalance = param.getFunc().apply(currentBalance, param.getValue());
+        repository.updateBalance(param.getSource().getId(), newBalance);
     }
 }

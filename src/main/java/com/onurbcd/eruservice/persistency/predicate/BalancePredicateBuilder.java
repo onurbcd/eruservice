@@ -23,6 +23,9 @@ public class BalancePredicateBuilder extends BasePredicateBuilder {
     public static Predicate all(BalanceFilter filter) {
         return new BalancePredicateBuilder()
                 .dayCalendarDate(filter.getDayCalendarDate())
+                .dayCalendarYear(filter.getDayCalendarYear())
+                .dayCalendarMonth(filter.getDayCalendarMonth())
+                .dayCalendarDayInMonth(filter.getDayCalendarDayInMonth())
                 .sourceId(filter.getSourceId())
                 .categoryId(filter.getCategoryId())
                 .balanceType(filter.getBalanceType())
@@ -73,6 +76,30 @@ public class BalancePredicateBuilder extends BasePredicateBuilder {
     private BalancePredicateBuilder balanceType(@Nullable BalanceType balanceType) {
         if (balanceType != null) {
             builder().and(QBalance.balance.balanceType.eq(balanceType));
+        }
+
+        return this;
+    }
+
+    private BalancePredicateBuilder dayCalendarYear(@Nullable Short dayCalendarYear) {
+        if (dayCalendarYear != null) {
+            builder().and(QBalance.balance.day.calendarYear.eq(dayCalendarYear));
+        }
+
+        return this;
+    }
+
+    private BalancePredicateBuilder dayCalendarMonth(@Nullable Short dayCalendarMonth) {
+        if (dayCalendarMonth != null) {
+            builder().and(QBalance.balance.day.calendarMonth.eq(dayCalendarMonth));
+        }
+
+        return this;
+    }
+
+    private BalancePredicateBuilder dayCalendarDayInMonth(@Nullable Short dayCalendarDayInMonth) {
+        if (dayCalendarDayInMonth != null) {
+            builder().and(QBalance.balance.day.calendarDayInMonth.eq(dayCalendarDayInMonth));
         }
 
         return this;

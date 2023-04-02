@@ -20,4 +20,10 @@ public class BalanceFilter extends AbstractFilterable {
     private UUID categoryId;
 
     private BalanceType balanceType;
+
+    private Short dayCalendarYear;
+
+    private Short dayCalendarMonth;
+
+    private Short dayCalendarDayInMonth;
 }

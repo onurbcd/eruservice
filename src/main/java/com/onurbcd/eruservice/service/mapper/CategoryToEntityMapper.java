@@ -10,5 +10,8 @@ public interface CategoryToEntityMapper extends EntityMapper<CategorySaveDto, Ca
 
     @Override
     @Mapping(source = "parentId", target = "parent.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Category apply(CategorySaveDto categorySaveDto);
 }

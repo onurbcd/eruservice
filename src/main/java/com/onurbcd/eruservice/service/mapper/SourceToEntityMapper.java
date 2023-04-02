@@ -10,5 +10,8 @@ public interface SourceToEntityMapper extends EntityMapper<SourceSaveDto, Source
 
     @Override
     @Mapping(source = "incomeSourceId", target = "incomeSource.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Source apply(SourceSaveDto sourceSaveDto);
 }

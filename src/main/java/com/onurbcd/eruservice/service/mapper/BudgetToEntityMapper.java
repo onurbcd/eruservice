@@ -11,6 +11,9 @@ public interface BudgetToEntityMapper extends EntityMapper<BudgetSaveDto, Budget
 
     @Override
     @Mapping(source = "billTypeId", target = "billType.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdDate", ignore = true)
+    @Mapping(target = "lastModifiedDate", ignore = true)
     Budget apply(BudgetSaveDto budgetSaveDto);
 
     @Mapping(source = "budgetDto.billTypeId", target = "billType.id")

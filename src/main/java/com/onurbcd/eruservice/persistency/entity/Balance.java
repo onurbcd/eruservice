@@ -35,7 +35,10 @@ import java.util.Set;
 @Table(
         name = "balance",
         uniqueConstraints = {
-                @UniqueConstraint(name = "uc_balance_sequence_day_id", columnNames = {"sequence", "day_id"})
+                @UniqueConstraint(
+                        name = "uc_balance_sequence_day_id_balance_type",
+                        columnNames = {"sequence", "day_id", "balance_type"}
+                )
         }
 )
 public class Balance extends Prime implements SequenceEntity {

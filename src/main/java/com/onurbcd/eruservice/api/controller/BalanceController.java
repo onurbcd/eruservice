@@ -39,7 +39,7 @@ public class BalanceController extends PrimeController<BalanceSaveDto, BalancePa
         balanceService.save(saveDto, multipartFiles, null);
     }
 
-    @PutMapping(path = "/update/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PutMapping(path = "/save/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.OK)
     public void update(@PathVariable("id") UUID id, @Valid @RequestPart("balance") BalanceSaveDto saveDto,
                        @RequestPart(value = "documents", required = false) MultipartFile[] multipartFiles) {

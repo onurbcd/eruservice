@@ -31,7 +31,8 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " from Balance b" +
             " inner join b.day d" +
             " where d.calendarYear = :#{#sequenceParam.year}" +
-            " and d.calendarMonth = :#{#sequenceParam.month}")
+            " and d.calendarMonth = :#{#sequenceParam.month}" +
+            " and b.balanceType = :#{#sequenceParam.balanceType}")
     Short getMaxSequence(SequenceParam sequenceParam);
 
     @Override
@@ -40,7 +41,8 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " inner join b.day d" +
             " where d.calendarYear = :#{#sequenceParam.year}" +
             " and d.calendarMonth = :#{#sequenceParam.month}" +
-            " and b.sequence = :#{#sequenceParam.sequence}")
+            " and b.sequence = :#{#sequenceParam.sequence}" +
+            " and b.balanceType = :#{#sequenceParam.balanceType}")
     Boolean existsSequence(SequenceParam sequenceParam);
 
     @Override
@@ -53,7 +55,8 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             "   inner join b2.day d" +
             "   where d.calendarYear = :#{#sequenceParam.year}" +
             "   and d.calendarMonth = :#{#sequenceParam.month}" +
-            "   and b2.sequence = :#{#sequenceParam.sequence})")
+            "   and b2.sequence = :#{#sequenceParam.sequence}" +
+            "   and b2.balanceType = :#{#sequenceParam.balanceType})")
     void updateSequence(SequenceParam sequenceParam);
 
     @Override
@@ -62,7 +65,8 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " inner join b.day d" +
             " where d.calendarYear = :#{#sequenceParam.year}" +
             " and d.calendarMonth = :#{#sequenceParam.month}" +
-            " and b.sequence > :#{#sequenceParam.sequence}")
+            " and b.sequence > :#{#sequenceParam.sequence}" +
+            " and b.balanceType = :#{#sequenceParam.balanceType}")
     long countNextSequences(SequenceParam sequenceParam);
 
     @Query("select d.id" +

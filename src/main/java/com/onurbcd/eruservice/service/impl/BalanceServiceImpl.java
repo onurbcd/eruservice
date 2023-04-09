@@ -6,6 +6,7 @@ import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.balance.BalanceDto;
 import com.onurbcd.eruservice.dto.balance.BalanceSaveDto;
+import com.onurbcd.eruservice.dto.enums.BalanceType;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.dto.filter.BalanceFilter;
 import com.onurbcd.eruservice.dto.filter.Filterable;
@@ -107,6 +108,7 @@ public class BalanceServiceImpl
         var documents = repository.getDocuments(id);
         repository.deleteById(id);
         var sequenceParam = SequenceParamFactory.create(balance);
+        sequenceParam.setBalanceType(balance.getBalanceType());
         sequenceService.updateNextSequences(sequenceParam);
         balanceDocumentService.deleteDocuments(documents);
         balanceSourceService.delete(balance);
@@ -116,6 +118,7 @@ public class BalanceServiceImpl
     public void updateSequence(UUID id, Direction direction) {
         var balance = getOrElseThrow(id);
         var sequenceParam = SequenceParamFactory.create(balance);
+        sequenceParam.setBalanceType(balance.getBalanceType());
         sequenceService.swapSequence(sequenceParam, direction);
     }
 
@@ -123,6 +126,7 @@ public class BalanceServiceImpl
     public void swapPosition(UUID id, Short targetSequence) {
         var balance = getOrElseThrow(id);
         var sequenceParam = SequenceParamFactory.create(balance, targetSequence);
+        sequenceParam.setBalanceType(balance.getBalanceType());
         sequenceService.swapPosition(sequenceParam);
     }
 
@@ -134,21 +138,23 @@ public class BalanceServiceImpl
         var createDocument = balanceDocumentService.createDocuments(saveDto, multipartFiles, id);
         balance.setDocuments(createDocument.getSaveDocuments());
         balance.setName(EruConstants.BALANCE_NAME);
-        balance.setSequence(getSequence(currentBalance, saveDto.getDayCalendarDate()));
+        var sequence = getSequence(currentBalance, saveDto.getDayCalendarDate(), balance.getBalanceType());
+        balance.setSequence(sequence);
         var dayId = getDayId(saveDto, currentBalance);
         balance.setDay(entityManager.getReference(Day.class, dayId));
         return CreateBalance.builder().balance(balance).deleteDocuments(createDocument.getDeleteDocuments()).build();
     }
 
-    private Short getSequence(@Nullable Balance current, LocalDate calendarDate) {
+    private Short getSequence(@Nullable Balance current, LocalDate calendarDate, BalanceType balanceType) {
         return Optional
                 .ofNullable(current)
                 .map(Balance::getSequence)
-                .orElseGet(getNextSequence(calendarDate));
+                .orElseGet(getNextSequence(calendarDate, balanceType));
     }
 
-    private Supplier<Short> getNextSequence(LocalDate calendarDate) {
+    private Supplier<Short> getNextSequence(LocalDate calendarDate, BalanceType balanceType) {
         var sequenceParam = SequenceParamFactory.create(calendarDate);
+        sequenceParam.setBalanceType(balanceType);
         return () -> sequenceService.getNextSequence(sequenceParam);
     }
 

@@ -6,6 +6,7 @@ import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.balance.BalanceDto;
 import com.onurbcd.eruservice.dto.balance.BalanceSaveDto;
+import com.onurbcd.eruservice.dto.balance.BalanceSumDto;
 import com.onurbcd.eruservice.dto.enums.BalanceType;
 import com.onurbcd.eruservice.dto.enums.Direction;
 import com.onurbcd.eruservice.dto.filter.BalanceFilter;
@@ -27,14 +28,17 @@ import com.onurbcd.eruservice.service.mapper.BalanceToEntityMapper;
 import com.onurbcd.eruservice.service.resource.CreateBalance;
 import com.onurbcd.eruservice.service.validation.BalanceValidationService;
 import com.onurbcd.eruservice.util.CollectionUtil;
+import com.onurbcd.eruservice.util.NumberUtil;
 import com.querydsl.core.types.Predicate;
 import jakarta.persistence.EntityManager;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -130,6 +134,37 @@ public class BalanceServiceImpl
         sequenceService.swapPosition(sequenceParam);
     }
 
+    /**
+     * <ol>
+     *   <li>
+     *       Sum do amount do balance para o balanceType INCOME + filtros.
+     *   </li>
+     *   <li>
+     *       Sum do amount do balance para o balanceType OUTCOME + filtros.
+     *   </li>
+     *   <li>
+     *       Diferença entre INCOME E OUTCOME (pode ser negativo).
+     *   </li>
+     *   <li>
+     *       Size da query de acordo com os filtros de ano, mês e balanceType (para ser usado como max do sequence).
+     *   </li>
+     * </ol>
+     */
+    @Override
+    public Set<BalanceSumDto> getSum(BalanceFilter filter) {
+        var incomeValue = getSumByBalanceType(filter, BalanceType.INCOME);
+        var outcomeValue = getSumByBalanceType(filter, BalanceType.OUTCOME);
+        var diffValue = NumberUtil.subtract(incomeValue, outcomeValue);
+        var sizeValue = repository.maxSequence(filter);
+
+        return Set.of(
+                BalanceSumDto.income(incomeValue),
+                BalanceSumDto.outcome(outcomeValue),
+                BalanceSumDto.diff(diffValue),
+                BalanceSumDto.size(sizeValue)
+        );
+    }
+
     private CreateBalance fillValues(BalanceSaveDto saveDto, @Nullable MultipartFile[] multipartFiles,
                                      @Nullable Balance currentBalance) {
 
@@ -164,5 +199,11 @@ public class BalanceServiceImpl
                 .map(Balance::getDay)
                 .map(Day::getId)
                 .orElseGet(() -> dayService.createId(saveDto.getDayCalendarDate()));
+    }
+
+    public BigDecimal getSumByBalanceType(BalanceFilter filter, BalanceType balanceType) {
+        filter.setBalanceType(balanceType);
+        var incomePredicate = BalancePredicateBuilder.all(filter);
+        return repository.getSum(incomePredicate);
     }
 }

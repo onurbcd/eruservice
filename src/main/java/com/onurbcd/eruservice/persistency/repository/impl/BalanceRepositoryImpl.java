@@ -67,6 +67,8 @@ public class BalanceRepositoryImpl implements CustomRepository<BalanceDto, Balan
 
     @Override
     public BigDecimal getSum(Predicate predicate) {
-        return BigDecimal.ZERO;
+        return mainQuery(predicate)
+                .select(Projections.appending(QBalance.balance.amount.sum()))
+                .fetchFirst();
     }
 }

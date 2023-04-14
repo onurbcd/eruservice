@@ -10,6 +10,7 @@ import com.onurbcd.eruservice.util.NumberUtil;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
@@ -33,6 +34,7 @@ public class BalanceValidationServiceImpl implements BalanceValidationService {
 
     private void validateDay(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {
         Action.checkIf(id == null || equalDay(dto, balance)).orElseThrow(Error.DAY_CHANGED);
+        Action.checkIf(id != null || dayNotFuture(dto.getDayCalendarDate())).orElseThrow(Error.DAY_IN_FUTURE);
     }
 
     private boolean equalDay(BalanceSaveDto dto, @Nullable Balance balance) {
@@ -42,6 +44,13 @@ public class BalanceValidationServiceImpl implements BalanceValidationService {
 
         return DateUtil.equalDay(dto.getYear(), dto.getMonth(), dto.getDay(), balance.getSequenceYear(),
                 balance.getSequenceMonth(), balance.getDayInMonth());
+    }
+
+    private boolean dayNotFuture(LocalDate dayCalendarDate) {
+        var localDateNow = LocalDate.now();
+        var isEqual = dayCalendarDate.isEqual(localDateNow);
+        var isBefore = dayCalendarDate.isBefore(localDateNow);
+        return isEqual || isBefore;
     }
 
     private void validateSource(BalanceSaveDto dto, @Nullable Balance balance, @Nullable UUID id) {

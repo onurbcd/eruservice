@@ -47,7 +47,8 @@ public enum Error {
     DAY_CHANGED("Balance day cannot be changed"),
     DAY_SOURCE_CHANGED("Balance source cannot be changed"),
     DAY_BALANCE_TYPE_CHANGED("Balance type cannot be changed"),
-    BALANCE_OPERATION_MISSING("There is no balance operation with operation %s and balance type %s");
+    BALANCE_OPERATION_MISSING("There is no balance operation with operation %s and balance type %s"),
+    DAY_IN_FUTURE("Balance day cannot be greater than today");
 
     private final String message;
 

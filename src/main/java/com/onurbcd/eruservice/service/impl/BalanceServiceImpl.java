@@ -101,8 +101,8 @@ public class BalanceServiceImpl
     @Override
     public BalanceDto getById(UUID id) {
         var balanceDto = (BalanceDto) super.getById(id);
-        var documentsIds = repository.getDocumentsIds(id);
-        balanceDto.setDocumentsIds(CollectionUtil.isEmpty(documentsIds) ? null : documentsIds);
+        var documents = repository.getDocumentsById(id);
+        balanceDto.setDocuments(CollectionUtil.isEmpty(documents) ? null : documents);
         return balanceDto;
     }
 

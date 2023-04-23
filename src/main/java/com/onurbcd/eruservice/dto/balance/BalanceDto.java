@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.dto.balance;
 
 import com.onurbcd.eruservice.dto.PrimeDto;
+import com.onurbcd.eruservice.dto.document.DocumentDto;
 import com.onurbcd.eruservice.dto.enums.BalanceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +39,5 @@ public class BalanceDto extends PrimeDto {
 
     private BalanceType balanceType;
 
-    private Set<UUID> documentsIds;
+    private Set<DocumentDto> documents;
 }

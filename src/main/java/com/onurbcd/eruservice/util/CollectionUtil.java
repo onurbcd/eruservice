@@ -2,6 +2,7 @@ package com.onurbcd.eruservice.util;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.reflect.FieldUtils;
 import org.springframework.lang.Nullable;
 
 import java.util.Collection;
@@ -20,7 +21,24 @@ public final class CollectionUtil {
     }
 
     public static <T> boolean isEmpty(Collection<T> collection) {
-        return collection == null || collection.isEmpty() || collection.stream().allMatch(Objects::isNull);
+        return collection == null || collection.isEmpty() || collection.stream().allMatch(Objects::isNull) ||
+                collection.stream().allMatch(isObjectEmpty());
+    }
+
+    private static <T> Predicate<T> isObjectEmpty() {
+        return object -> {
+            try {
+                for (var field : FieldUtils.getAllFields(object.getClass())) {
+                    if (!Objects.isNull(FieldUtils.readField(field, object, true))) {
+                        return false;
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                return true;
+            }
+
+            return true;
+        };
     }
 
     public static <T> boolean isNotEmpty(Collection<T> collection) {

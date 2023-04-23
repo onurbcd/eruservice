@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.dto.balance.BalanceDto;
+import com.onurbcd.eruservice.dto.document.DocumentDto;
 import com.onurbcd.eruservice.dto.filter.BalanceFilter;
 import com.onurbcd.eruservice.persistency.entity.Balance;
 import com.onurbcd.eruservice.persistency.entity.Document;
@@ -78,11 +79,11 @@ public interface BalanceRepository extends EruRepository<Balance, BalanceDto>, S
             " and d.calendarMonth = :#{#filter.dayCalendarMonth}")
     long maxSequence(@Param("filter") BalanceFilter filter);
 
-    @Query("select d.id" +
+    @Query("select new com.onurbcd.eruservice.dto.document.DocumentDto(d.id, d.name, d.path, d.mimeType, d.size, d.hash)" +
             " from Balance b" +
             " left join b.documents d" +
             " where b.id = :id")
-    Set<UUID> getDocumentsIds(@Param("id") UUID id);
+    Set<DocumentDto> getDocumentsById(@Param("id") UUID id);
 
     @Query("select d" +
             " from Balance b" +

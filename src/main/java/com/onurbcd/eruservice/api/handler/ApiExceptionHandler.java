@@ -19,6 +19,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -77,6 +78,14 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         var errors = getConstraintViolationExceptionMessages(e);
         var apiError = new ApiError(Error.BAD_REQUEST, HttpStatus.BAD_REQUEST, errors);
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+    }
+
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e,
+                                                                          WebRequest request) {
+
+        var apiError = new ApiError(Error.MAX_UPLOAD_SIZE_EXCEEDED, e.getCause().getMessage(), HttpStatus.CONFLICT);
+        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
     }
 
     @ExceptionHandler(Exception.class)

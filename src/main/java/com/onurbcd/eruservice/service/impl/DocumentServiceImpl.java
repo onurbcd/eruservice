@@ -1,6 +1,7 @@
 package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.dto.document.DocumentDto;
+import com.onurbcd.eruservice.dto.document.FileDto;
 import com.onurbcd.eruservice.dto.document.MultipartFileDto;
 import com.onurbcd.eruservice.persistency.entity.Document;
 import com.onurbcd.eruservice.persistency.repository.DocumentRepository;
@@ -9,11 +10,15 @@ import com.onurbcd.eruservice.service.StorageService;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.service.mapper.DocumentToDtoMapper;
+import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.DocumentValidationService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -25,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +70,29 @@ public class DocumentServiceImpl implements DocumentService {
             storageService.deleteFile(document);
             repository.deleteUsingId(Objects.requireNonNull(document.getId()));
         }
+    }
+
+    @Override
+    public FileDto getFile(UUID id) {
+        var document = repository.findById(id).orElse(null);
+        Action.checkIfNotNull(document).orElseThrowNotFound(id);
+        Objects.requireNonNull(document);
+
+        var file = storageService.getFile(document);
+
+        var headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + document.getName() + "\"");
+        headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
+        headers.add(HttpHeaders.PRAGMA, "no-cache");
+        headers.add(HttpHeaders.EXPIRES, "0");
+
+        return FileDto
+                .builder()
+                .headers(headers)
+                .contentLength(document.getSize())
+                .contentType(MediaType.parseMediaType(document.getMimeType()))
+                .resource(new ByteArrayResource(file))
+                .build();
     }
 
     private Document create(MultipartFile multipartFile, String path) {

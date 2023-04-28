@@ -50,6 +50,19 @@ public class StorageServiceImpl implements StorageService {
         }
     }
 
+    @Override
+    public byte[] getFile(Document document) {
+        try {
+            var filePath = getFilePath(document);
+            var fileExists = Files.exists(filePath);
+            Action.checkIf(fileExists).orElseThrow(Error.FILE_DOES_NOT_EXIST, filePath.toString());
+            return Files.readAllBytes(filePath);
+        } catch (IOException e) {
+            log.error("Storage File Get", e);
+            throw new ApiException(Error.STORAGE_FILE_GET, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     private Path getFilePath(Document document) {
         var storagePath = Paths.get(config.getStoragePath(), document.getPath()).toAbsolutePath().normalize();
         return getFilePath(storagePath, document);

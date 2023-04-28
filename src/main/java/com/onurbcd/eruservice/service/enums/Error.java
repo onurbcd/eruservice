@@ -49,7 +49,9 @@ public enum Error {
     DAY_BALANCE_TYPE_CHANGED("Balance type cannot be changed"),
     BALANCE_OPERATION_MISSING("There is no balance operation with operation %s and balance type %s"),
     DAY_IN_FUTURE("Balance day cannot be greater than today"),
-    MAX_UPLOAD_SIZE_EXCEEDED("MaxUploadSizeExceeded");
+    MAX_UPLOAD_SIZE_EXCEEDED("MaxUploadSizeExceeded"),
+    FILE_DOES_NOT_EXIST("File %s does not exist in storage"),
+    STORAGE_FILE_GET("Storage File Get");
 
     private final String message;
 

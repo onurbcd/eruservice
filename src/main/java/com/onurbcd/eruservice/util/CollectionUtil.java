@@ -25,6 +25,10 @@ public final class CollectionUtil {
                 collection.stream().allMatch(isObjectEmpty());
     }
 
+    public static <T> boolean isNotEmpty(Collection<T> collection) {
+        return !isEmpty(collection);
+    }
+
     private static <T> Predicate<T> isObjectEmpty() {
         return object -> {
             try {
@@ -39,9 +43,5 @@ public final class CollectionUtil {
 
             return true;
         };
-    }
-
-    public static <T> boolean isNotEmpty(Collection<T> collection) {
-        return !isEmpty(collection);
     }
 }

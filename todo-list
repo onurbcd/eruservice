@@ -6,42 +6,6 @@
 
 4 - Implementar testes de integração, com uma base de dados real ou em memória
 
--> DocumentType
-
-    - Boleto
-
-    - Fatura
-
-    - Conta
-
-        - Para os casos da faxina, contador, vigilante ou conta da água
-
-    - DARF
-
-    - DAS
-
-    - Recibo
-
-        - para o caso do vigilante
-
-    - Papel, para o caso que não tem formato digital, mas sempre pode ser scaneado
-
--> PaymentType
-
-    - Pix
-
-    - Código de Barras
-
-        - No caso de boletos
-
-    - Transferência
-
-        - No caso de pagamentos de faturas de cartão de crédito, em que o dinheiro sai direto da conta escolhida
-
--> BillType
-
-    - Acrescentar um campo que vai ter o caminho dos arquivos do Bill
-
 -> Bill
 
     - referenceYear Short not null
@@ -66,7 +30,7 @@
 
         - só existe no caso da faxina ou adestrador, em que é marcado o dia em que aconteceu, de resto fica nulo
 
-        - min 1, mas 31
+        - min 1, max 31
 
     - documentDate Day null
 

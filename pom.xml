@@ -19,7 +19,7 @@
     <description>REST API service for managing daily routines</description>
 
     <properties>
-        <java.version>20</java.version>
+        <java.version>17</java.version>
 
         <spring.boot.version>3.1.2</spring.boot.version>
         <spring.web.version>6.0.11</spring.web.version>

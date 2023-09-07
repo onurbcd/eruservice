@@ -56,7 +56,7 @@ public class Budget extends Prime implements SequenceEntity {
 
     @NotNull
     @Column(precision = 19, scale = 4)
-    @DecimalMin(Constants.BUDGET_AMOUNT_MIN)
+    @DecimalMin(Constants.POSITIVE_AMOUNT_MIN)
     @DecimalMax(Constants.AMOUNT_MAX)
     private BigDecimal amount;
 

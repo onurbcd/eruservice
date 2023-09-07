@@ -39,7 +39,7 @@ public class BudgetSaveDto extends PrimeSaveDto {
     private UUID billTypeId;
 
     @NotNull
-    @DecimalMin(Constants.BUDGET_AMOUNT_MIN)
+    @DecimalMin(Constants.POSITIVE_AMOUNT_MIN)
     @DecimalMax(Constants.AMOUNT_MAX)
     private BigDecimal amount;
 

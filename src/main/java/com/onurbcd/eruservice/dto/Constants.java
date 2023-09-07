@@ -28,7 +28,7 @@ public final class Constants {
 
     public static final String REGEXP_URL = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
-    public static final String BUDGET_AMOUNT_MIN = "0.0001";
+    public static final String POSITIVE_AMOUNT_MIN = "0.0001";
 
     public static final String AMOUNT_MIN = "-999999999999999";
 

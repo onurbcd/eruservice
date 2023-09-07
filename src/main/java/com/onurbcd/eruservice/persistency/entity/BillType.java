@@ -4,16 +4,20 @@ import com.onurbcd.eruservice.dto.Constants;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Entity;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class BillType extends Prime {
 
     @NotNull

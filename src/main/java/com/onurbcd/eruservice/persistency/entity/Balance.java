@@ -19,9 +19,12 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
@@ -29,8 +32,10 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 @AttributeOverride(name = "name", column = @Column(insertable = false, updatable = false))
 @Table(
         name = "balance",
@@ -90,6 +95,7 @@ public class Balance extends Prime implements SequenceEntity {
             inverseJoinColumns = {@JoinColumn(name = "document_id", referencedColumnName = "id", nullable = false)},
             uniqueConstraints = {@UniqueConstraint(name = "uc_balance_document_id", columnNames = {"document_id"})}
     )
+    @Builder.Default
     private Set<Document> documents = new HashSet<>();
 
     public Short getDayInMonth() {

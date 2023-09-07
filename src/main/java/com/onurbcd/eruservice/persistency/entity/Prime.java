@@ -1,9 +1,11 @@
 package com.onurbcd.eruservice.persistency.entity;
 
 import com.onurbcd.eruservice.dto.Constants;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
@@ -16,6 +18,8 @@ import jakarta.validation.constraints.Size;
 import java.util.UUID;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@SuperBuilder
 @MappedSuperclass
 public class Prime extends Audit implements Entityable {
 

@@ -1,13 +1,16 @@
 package com.onurbcd.eruservice.persistency.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "income_source")
 @NoArgsConstructor
+@SuperBuilder
 public class IncomeSource extends Prime {
 
     @Override

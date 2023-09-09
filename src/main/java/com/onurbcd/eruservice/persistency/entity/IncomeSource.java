@@ -1,6 +1,5 @@
 package com.onurbcd.eruservice.persistency.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import jakarta.persistence.Entity;

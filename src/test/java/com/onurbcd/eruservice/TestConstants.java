@@ -11,4 +11,5 @@ public final class TestConstants {
     public static final Short YEAR = 2023;
     public static final Short MONTH = 9;
     public static final String PATH = "path";
+    public static final Short TARGET_SEQUENCE = 2;
 }

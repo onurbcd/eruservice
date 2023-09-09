@@ -35,7 +35,7 @@ jobs:
           restore-keys: ${{ runner.os }}-m2
 
       - name: JaCoCo report generation
-        run: mvn sonar:sonar -Pcoverage
+        run: mvn sonar:sonar -Pcoverage -Dsonar.projectKey=onurbcd_eruservice
 
       - name: Generate JaCoCo badge
         id: jacoco

@@ -46,6 +46,11 @@
             **/property/**/*,
             **/EruServiceApplication.java
         </sonar.coverage.exclusions>
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <sonar.language>java</sonar.language>
+        <sonar.verbose>true</sonar.verbose>
     </properties>
 
     <dependencies>

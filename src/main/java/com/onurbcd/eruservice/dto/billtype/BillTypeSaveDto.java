@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.UUID;
+
 @NoArgsConstructor
 @Getter
 @Setter
@@ -16,4 +18,7 @@ public class BillTypeSaveDto extends PrimeSaveDto {
     @NotNull
     @Size(max = Constants.SIZE_250)
     private String path;
+
+    @NotNull
+    private UUID categoryId;
 }

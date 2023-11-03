@@ -3,6 +3,7 @@ package com.onurbcd.eruservice.persistency.entity;
 import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.dto.enums.DocumentType;
 import com.onurbcd.eruservice.dto.enums.PaymentType;
+import com.onurbcd.eruservice.dto.enums.ReferenceType;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -126,6 +127,23 @@ public class Bill extends Prime {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_type", length = 8)
     private PaymentType paymentType;
+
+    @NotNull
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "budget_id", nullable = false)
+    private Budget budget;
+
+    /**
+     * É nulo porque só é preenchido quando paga a conta.
+     */
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_id", nullable = false)
+    private Source source;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reference_type", length = 5)
+    private ReferenceType referenceType;
 
     @Override
     public boolean equals(Object o) {

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -24,4 +25,17 @@ public interface BillRepository extends EruRepository<Bill, BillDto> {
             " set b.active = :active" +
             " where b.id = :id")
     int updateActive(UUID id, Boolean active);
+
+    @Override
+    @Query("select b" +
+            " from Bill b" +
+            " inner join fetch b.referenceDay r" +
+            " inner join fetch b.dueDate d" +
+            " inner join fetch b.billType bt" +
+            " inner join fetch b.budget bg" +
+            " left join fetch b.documentDate dd" +
+            " left join fetch b.paymentDate pd" +
+            " left join fetch b.source s" +
+            " where b.id = :id")
+    Optional<Bill> get(UUID id);
 }

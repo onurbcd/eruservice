@@ -10,10 +10,6 @@
 
 -> Bill
 
-    - Adicionar associação com Budget de 1 para 1 não nula
-
-    - Adicionar associação com Source de ManyToOne nula; só é preenchida ao dar baixa da conta
-
     - Criar ação para criar conta quando se recebe o documento de cobrança
 
     - Criar ação para dar baixa da conta, no dia em que se paga a conta
@@ -21,3 +17,11 @@
         - Setar o budget associado como pago
 
         - Criar Balance para registar pagamento da conta
+
+-> BillType
+
+    - Propriedade path
+
+        - adicionar regex para a-z ou A-Z ou 0-9 ou - (traço)
+
+        - adicionar size min de 3

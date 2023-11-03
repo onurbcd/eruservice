@@ -34,8 +34,10 @@ public class BillRepositoryImpl implements CustomRepository<BillDto, Bill> {
                 .innerJoin(QBill.bill.referenceDay)
                 .innerJoin(QBill.bill.dueDate)
                 .innerJoin(QBill.bill.billType)
+                .innerJoin(QBill.bill.budget)
                 .leftJoin(QBill.bill.documentDate)
                 .leftJoin(QBill.bill.paymentDate)
+                .leftJoin(QBill.bill.source)
                 .where(predicate);
     }
 
@@ -62,7 +64,12 @@ public class BillRepositoryImpl implements CustomRepository<BillDto, Bill> {
                 QBill.bill.billType.id.as("billTypeId"),
                 QBill.bill.billType.name.as("billTypeName"),
                 QBill.bill.documentType,
-                QBill.bill.paymentType
+                QBill.bill.paymentType,
+                QBill.bill.budget.id.as("budgetId"),
+                QBill.bill.budget.name.as("budgetName"),
+                QBill.bill.source.id.as("sourceId"),
+                QBill.bill.source.name.as("sourceName"),
+                QBill.bill.referenceType
         );
     }
 

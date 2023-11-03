@@ -4,6 +4,7 @@ import com.onurbcd.eruservice.dto.billtype.BillTypeDto;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -28,4 +29,9 @@ public interface BillTypeRepository extends EruRepository<BillType, BillTypeDto>
             " inner join fetch b.category c" +
             " where b.id = :id")
     Optional<BillType> get(UUID id);
+
+    @Query("select b.path" +
+            " from BillType b" +
+            " where b.id = :id")
+    String getPathById(@Param("id") UUID id);
 }

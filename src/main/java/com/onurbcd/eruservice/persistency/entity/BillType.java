@@ -26,6 +26,8 @@ public class BillType extends Prime {
     @NotNull
     @Size(max = Constants.SIZE_250)
     @Column(name = "path", nullable = false, length = Constants.SIZE_250)
+    // TODO adicionar regex para a-z ou A-Z ou 0-9 ou - (traço)
+    // TODO adicionar size min de 3
     private String path;
 
     @NotNull

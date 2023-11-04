@@ -23,7 +23,9 @@ import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.dto.filter.BudgetFilter;
 import com.onurbcd.eruservice.dto.filter.Filterable;
+import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.service.mapper.BudgetToEntityMapper;
+import com.onurbcd.eruservice.dto.budget.BudgetValuesDto;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.BudgetValidationService;
 import com.onurbcd.eruservice.util.CollectionUtil;
@@ -149,6 +151,13 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
     public void deleteAll(Short refYear, Short refMonth) {
         var count = repository.deleteAll(refYear, refMonth);
         Action.checkIf(count > 0).orElseThrow(Error.NO_ROWS_DELETED);
+    }
+
+    @Override
+    public BudgetValuesDto getBudgetValues(UUID id) {
+        return repository
+                .getBudgetValues(id)
+                .orElseThrow(ApiException.notFound(id));
     }
 
     private Short getSequence(Budget current, Budget next) {

@@ -4,7 +4,6 @@ import com.onurbcd.eruservice.config.EruConstants;
 import com.onurbcd.eruservice.dto.document.MultipartFileDto;
 import com.onurbcd.eruservice.persistency.entity.Document;
 import com.onurbcd.eruservice.service.BillDocumentService;
-import com.onurbcd.eruservice.service.BillTypeService;
 import com.onurbcd.eruservice.service.DocumentService;
 import com.onurbcd.eruservice.service.resource.BillDocParams;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +17,6 @@ import java.time.format.DateTimeFormatter;
 public class BillDocumentServiceImpl implements BillDocumentService {
 
     private final DocumentService documentService;
-
-    private final BillTypeService billTypeService;
 
     @Override
     public Document createDocument(BillDocParams billDocParams) {
@@ -36,12 +33,10 @@ public class BillDocumentServiceImpl implements BillDocumentService {
     }
 
     private String getPath(BillDocParams billDocParams) {
-        var billTypePath = billTypeService.getPathById(billDocParams.getBillTypeId());
-
         var referenceDayPath = billDocParams
                 .getReferenceDayCalendarDate()
                 .format(DateTimeFormatter.ofPattern(EruConstants.BILL_DOCUMENT_PATH_PATTERN));
 
-        return EruConstants.BILL_DOCUMENT_PATH + billTypePath + "/" + referenceDayPath;
+        return EruConstants.BILL_DOCUMENT_PATH + billDocParams.getPath() + "/" + referenceDayPath;
     }
 }

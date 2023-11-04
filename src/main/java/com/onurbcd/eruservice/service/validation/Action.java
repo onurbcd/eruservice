@@ -24,7 +24,7 @@ public class Action {
 
     public void orElseThrowNotFound(Object... args) {
         if (checkConditionNotTrue) {
-            throw new ApiException(Error.ENTITY_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
+            throw ApiException.notFound(Error.ENTITY_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
         }
     }
 

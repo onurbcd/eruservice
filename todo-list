@@ -17,11 +17,3 @@
         - Setar o budget associado como pago
 
         - Criar Balance para registar pagamento da conta
-
--> BillType
-
-    - Propriedade path
-
-        - adicionar regex para a-z ou A-Z ou 0-9 ou - (traço)
-
-        - adicionar size min de 3

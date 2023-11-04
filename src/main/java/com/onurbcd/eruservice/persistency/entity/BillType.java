@@ -6,6 +6,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,10 +25,9 @@ import lombok.experimental.SuperBuilder;
 public class BillType extends Prime {
 
     @NotNull
-    @Size(max = Constants.SIZE_250)
+    @Size(min = Constants.SIZE_3, max = Constants.SIZE_250)
+    @Pattern(regexp = Constants.REGEXP_PATH)
     @Column(name = "path", nullable = false, length = Constants.SIZE_250)
-    // TODO adicionar regex para a-z ou A-Z ou 0-9 ou - (traço)
-    // TODO adicionar size min de 3
     private String path;
 
     @NotNull

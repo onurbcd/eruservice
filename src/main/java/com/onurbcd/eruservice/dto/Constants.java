@@ -35,4 +35,6 @@ public final class Constants {
     public static final String AMOUNT_MAX = "999999999999999";
 
     public static final String FIELD_PASSWORD = "password";
+
+    public static final String REGEXP_PATH = "^[a-z|A-Z|0-9|-]+$";
 }

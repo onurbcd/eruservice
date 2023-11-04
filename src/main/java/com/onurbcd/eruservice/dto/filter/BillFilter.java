@@ -36,4 +36,6 @@ public class BillFilter extends AbstractFilterable {
     private UUID sourceId;
 
     private ReferenceType referenceType;
+
+    private Boolean closed;
 }

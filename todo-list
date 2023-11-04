@@ -10,10 +10,10 @@
 
 -> Bill
 
-    - Criar ação para criar conta quando se recebe o documento de cobrança
-
     - Criar ação para dar baixa da conta, no dia em que se paga a conta
 
         - Setar o budget associado como pago
 
         - Criar Balance para registar pagamento da conta
+
+-> Remover arquivo ou arquivos do storage se der um erro numa transação que inclui documentos multipart

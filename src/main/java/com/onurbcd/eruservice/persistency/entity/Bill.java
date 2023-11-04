@@ -145,6 +145,9 @@ public class Bill extends Prime {
     @Column(name = "reference_type", length = 5)
     private ReferenceType referenceType;
 
+    @NotNull
+    private Boolean closed;
+
     @Override
     public boolean equals(Object o) {
         return super.equals(o);

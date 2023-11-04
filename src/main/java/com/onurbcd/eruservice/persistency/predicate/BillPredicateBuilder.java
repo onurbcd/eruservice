@@ -34,6 +34,7 @@ public class BillPredicateBuilder extends BasePredicateBuilder {
                 .budgetId(filter.getBudgetId())
                 .sourceId(filter.getSourceId())
                 .referenceType(filter.getReferenceType())
+                .closed(filter.getClosed())
                 .search(filter.getSearch())
                 .active(filter.isActive())
                 .build();
@@ -127,6 +128,14 @@ public class BillPredicateBuilder extends BasePredicateBuilder {
     private BillPredicateBuilder referenceType(@Nullable ReferenceType referenceType) {
         if (referenceType != null) {
             builder().and(QBill.bill.referenceType.eq(referenceType));
+        }
+
+        return this;
+    }
+
+    private BillPredicateBuilder closed(@Nullable Boolean closed) {
+        if (closed != null) {
+            builder().and(QBill.bill.closed.eq(closed));
         }
 
         return this;

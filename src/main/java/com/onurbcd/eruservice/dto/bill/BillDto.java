@@ -61,4 +61,6 @@ public class BillDto extends PrimeDto {
     private String sourceName;
 
     private ReferenceType referenceType;
+
+    private Boolean closed;
 }

@@ -22,5 +22,6 @@ public interface BillOpenToEntityMapper extends EntityMapper<BillOpenDto, Bill> 
     @Mapping(target = "paymentType", ignore = true)
     @Mapping(source = "budgetId", target = "budget.id")
     @Mapping(target = "source", ignore = true)
+    @Mapping(target = "closed", ignore = true)
     Bill apply(BillOpenDto billOpenDto);
 }

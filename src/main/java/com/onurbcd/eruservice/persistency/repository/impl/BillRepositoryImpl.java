@@ -69,7 +69,8 @@ public class BillRepositoryImpl implements CustomRepository<BillDto, Bill> {
                 QBill.bill.budget.name.as("budgetName"),
                 QBill.bill.source.id.as("sourceId"),
                 QBill.bill.source.name.as("sourceName"),
-                QBill.bill.referenceType
+                QBill.bill.referenceType,
+                QBill.bill.closed
         );
     }
 

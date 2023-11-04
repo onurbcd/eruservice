@@ -4,6 +4,7 @@ import com.onurbcd.eruservice.config.EruConstants;
 import com.onurbcd.eruservice.dto.bill.BillCloseDto;
 import com.onurbcd.eruservice.dto.bill.BillDto;
 import com.onurbcd.eruservice.dto.bill.BillOpenDto;
+import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
 import com.onurbcd.eruservice.persistency.entity.Bill;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import com.onurbcd.eruservice.persistency.entity.Day;
@@ -68,6 +69,7 @@ public class BillServiceImpl
     public void openBill(BillOpenDto billOpenDto, MultipartFile multipartFile) {
         var bill = toEntityMapper.apply(billOpenDto);
         var budgetValues = budgetService.getBudgetValues(billOpenDto.getBudgetId());
+        // TODO verificar se o buget já está pago
         var billDocParams = BillDocParams.from(budgetValues.path(), billOpenDto.getReferenceDayCalendarDate(), multipartFile);
         var billDocument = documentService.createDocument(billDocParams);
 
@@ -101,7 +103,11 @@ public class BillServiceImpl
 
         repository.save(bill);
 
-        // TODO update budget and create balance
+        var budgetPatch = new BudgetPatchDto();
+        budgetPatch.setPaid(Boolean.TRUE);
+        budgetService.update(budgetPatch, bill.getBudget().getId());
+
+        // TODO create balance
     }
 
     private void fillDay(@Nullable LocalDate localDateIn, Consumer<Day> dayConsumer) {

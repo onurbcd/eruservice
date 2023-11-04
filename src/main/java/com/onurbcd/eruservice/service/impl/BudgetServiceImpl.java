@@ -34,6 +34,7 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -91,7 +92,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
         if (patchDto.isActive() != null) {
             updatedRowsCount = repository.updateActive(id, patchDto.getActive());
         } else if (patchDto.getPaid() != null) {
-            updatedRowsCount = repository.updatePaid(id, patchDto.getPaid());
+            updatedRowsCount = repository.updatePaid(id, patchDto.getPaid(), LocalDateTime.now());
         }
 
         Action.checkIf(updatedRowsCount == 1).orElseThrowNotFound(id);

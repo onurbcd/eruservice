@@ -69,7 +69,7 @@ public class BillServiceImpl
     public void openBill(BillOpenDto billOpenDto, MultipartFile multipartFile) {
         var bill = toEntityMapper.apply(billOpenDto);
         var budgetValues = budgetService.getBudgetValues(billOpenDto.getBudgetId());
-        // TODO verificar se o buget já está pago
+        Action.checkIf(Boolean.FALSE.equals(budgetValues.paid())).orElseThrow(Error.BILL_ALREADY_PAID);
         var billDocParams = BillDocParams.from(budgetValues.path(), billOpenDto.getReferenceDayCalendarDate(), multipartFile);
         var billDocument = documentService.createDocument(billDocParams);
 

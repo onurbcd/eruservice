@@ -52,7 +52,8 @@ public enum Error {
     MAX_UPLOAD_SIZE_EXCEEDED("MaxUploadSizeExceeded"),
     FILE_DOES_NOT_EXIST("File %s does not exist in storage"),
     STORAGE_FILE_GET("Storage File Get"),
-    BILL_ALREADY_CLOSED("Bill is already closed");
+    BILL_ALREADY_CLOSED("Bill is already closed"),
+    BILL_ALREADY_PAID("Bill is already paid");
 
     private final String message;
 

@@ -76,7 +76,7 @@ public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, Sequ
             @Param("lastModifiedDate") LocalDateTime lastModifiedDate
     );
 
-    @Query("select new com.onurbcd.eruservice.dto.budget.BudgetValuesDto(b.amount, b.billType.id, b.billType.path)" +
+    @Query("select new com.onurbcd.eruservice.dto.budget.BudgetValuesDto(b.amount, b.billType.id, b.billType.path, b.paid)" +
             " from Budget b" +
             " where b.id = :id")
     Optional<BudgetValuesDto> getBudgetValues(@Param("id") UUID id);

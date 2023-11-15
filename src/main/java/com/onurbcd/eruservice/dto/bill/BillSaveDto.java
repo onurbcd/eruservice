@@ -63,4 +63,9 @@ public class BillSaveDto extends PrimeSaveDto {
 
     @NotNull
     private ReferenceType referenceType;
+
+    @NotNull
+    private Boolean closed;
+
+    private UUID balanceId;
 }

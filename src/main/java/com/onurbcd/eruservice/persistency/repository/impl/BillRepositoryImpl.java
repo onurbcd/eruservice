@@ -38,6 +38,7 @@ public class BillRepositoryImpl implements CustomRepository<BillDto, Bill> {
                 .leftJoin(QBill.bill.documentDate)
                 .leftJoin(QBill.bill.paymentDate)
                 .leftJoin(QBill.bill.source)
+                .leftJoin(QBill.bill.balance)
                 .where(predicate);
     }
 
@@ -70,7 +71,9 @@ public class BillRepositoryImpl implements CustomRepository<BillDto, Bill> {
                 QBill.bill.source.id.as("sourceId"),
                 QBill.bill.source.name.as("sourceName"),
                 QBill.bill.referenceType,
-                QBill.bill.closed
+                QBill.bill.closed,
+                QBill.bill.balance.id.as("balanceId"),
+                QBill.bill.balance.name.as("balanceName")
         );
     }
 

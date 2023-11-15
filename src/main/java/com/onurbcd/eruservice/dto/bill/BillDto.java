@@ -63,4 +63,8 @@ public class BillDto extends PrimeDto {
     private ReferenceType referenceType;
 
     private Boolean closed;
+
+    private UUID balanceId;
+
+    private String balanceName;
 }

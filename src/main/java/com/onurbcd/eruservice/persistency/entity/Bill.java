@@ -136,17 +136,22 @@ public class Bill extends Prime {
     /**
      * É nulo porque só é preenchido quando paga a conta.
      */
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "source_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_id")
     private Source source;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "reference_type", length = 5)
+    @Column(name = "reference_type", length = 5, nullable = false)
     private ReferenceType referenceType;
 
     @NotNull
+    @Column(name = "closed", nullable = false)
     private Boolean closed;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "balance_id")
+    private Balance balance;
 
     @Override
     public boolean equals(Object o) {

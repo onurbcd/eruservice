@@ -102,10 +102,7 @@ public class BillServiceImpl
         bill.setClosed(Boolean.TRUE);
 
         repository.save(bill);
-
-        var budgetPatch = new BudgetPatchDto();
-        budgetPatch.setPaid(Boolean.TRUE);
-        budgetService.update(budgetPatch, bill.getBudget().getId());
+        budgetService.update(BudgetPatchDto.of(Boolean.TRUE), bill.getBudget().getId());
 
         // TODO create balance
     }

@@ -97,9 +97,9 @@ public class DocumentServiceImpl implements DocumentService {
 
     private Document create(MultipartFile multipartFile, String path) {
         var document = new Document();
-        document.setName(multipartFile.getOriginalFilename());
+        document.setName(Objects.requireNonNull(multipartFile.getOriginalFilename()));
         document.setPath(path);
-        document.setMimeType(multipartFile.getContentType());
+        document.setMimeType(Objects.requireNonNull(multipartFile.getContentType()));
         document.setSize(multipartFile.getSize());
         var hash = generateHash(document);
         document.setHash(hash);

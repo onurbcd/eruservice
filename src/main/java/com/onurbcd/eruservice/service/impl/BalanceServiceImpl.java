@@ -172,7 +172,7 @@ public class BalanceServiceImpl
         var id = Optional.ofNullable(currentBalance).map(Balance::getId).orElse(null);
         var createDocument = balanceDocumentService.createDocuments(saveDto, multipartFiles, id);
         balance.setDocuments(createDocument.getSaveDocuments());
-        balance.setName(EruConstants.BALANCE_NAME);
+        balance.setName(EruConstants.BOGUS_NAME);
         var sequence = getSequence(currentBalance, saveDto.getDayCalendarDate(), balance.getBalanceType());
         balance.setSequence(sequence);
         var dayId = getDayId(saveDto, currentBalance);

@@ -27,6 +27,10 @@ public class ApiException extends RuntimeException implements Supplier<ApiExcept
         this(error, error.format(args), httpStatus);
     }
 
+    public static ApiException notFound(Object... args) {
+        return new ApiException(Error.ENTITY_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
+    }
+
     @Override
     public ApiException get() {
         return this;

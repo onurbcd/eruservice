@@ -3,6 +3,7 @@ package com.onurbcd.eruservice.persistency.entity;
 import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.dto.enums.DocumentType;
 import com.onurbcd.eruservice.dto.enums.PaymentType;
+import com.onurbcd.eruservice.dto.enums.ReferenceType;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,16 +19,20 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 @AttributeOverride(name = "name", column = @Column(insertable = false, updatable = false))
 @Table(name = "bill")
 public class Bill extends Prime {
@@ -122,6 +127,31 @@ public class Bill extends Prime {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_type", length = 8)
     private PaymentType paymentType;
+
+    @NotNull
+    @OneToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "budget_id", nullable = false)
+    private Budget budget;
+
+    /**
+     * É nulo porque só é preenchido quando paga a conta.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "source_id")
+    private Source source;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "reference_type", length = 5, nullable = false)
+    private ReferenceType referenceType;
+
+    @NotNull
+    @Column(name = "closed", nullable = false)
+    private Boolean closed;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "balance_id")
+    private Balance balance;
 
     @Override
     public boolean equals(Object o) {

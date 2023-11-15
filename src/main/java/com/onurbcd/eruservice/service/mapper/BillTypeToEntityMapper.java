@@ -12,5 +12,6 @@ public interface BillTypeToEntityMapper extends EntityMapper<BillTypeSaveDto, Bi
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastModifiedDate", ignore = true)
+    @Mapping(source = "categoryId", target = "category.id")
     BillType apply(BillTypeSaveDto billTypeSaveDto);
 }

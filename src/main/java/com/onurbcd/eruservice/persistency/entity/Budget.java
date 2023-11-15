@@ -3,6 +3,7 @@ package com.onurbcd.eruservice.persistency.entity;
 import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.validation.constraint.MaxYear;
 import com.onurbcd.eruservice.validation.constraint.MinYear;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,12 +20,16 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 @AttributeOverride(name = "name", column = @Column())
 @Table(uniqueConstraints = {
         @UniqueConstraint(columnNames = {

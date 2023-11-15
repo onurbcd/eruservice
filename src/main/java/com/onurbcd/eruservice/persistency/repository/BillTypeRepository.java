@@ -4,12 +4,14 @@ import com.onurbcd.eruservice.dto.billtype.BillTypeDto;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface BillTypeRepository extends MiddlewareRepository<BillType, BillTypeDto> {
+public interface BillTypeRepository extends EruRepository<BillType, BillTypeDto> {
 
     @Override
     @Modifying
@@ -20,4 +22,16 @@ public interface BillTypeRepository extends MiddlewareRepository<BillType, BillT
     @Modifying
     @Query("update BillType b set b.active = :active where b.id = :id")
     int updateActive(UUID id, Boolean active);
+
+    @Override
+    @Query("select b" +
+            " from BillType b" +
+            " inner join fetch b.category c" +
+            " where b.id = :id")
+    Optional<BillType> get(UUID id);
+
+    @Query("select b.path" +
+            " from BillType b" +
+            " where b.id = :id")
+    String getPathById(@Param("id") UUID id);
 }

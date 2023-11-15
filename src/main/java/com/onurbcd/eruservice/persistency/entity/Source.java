@@ -3,6 +3,7 @@ package com.onurbcd.eruservice.persistency.entity;
 import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.dto.enums.CurrencyType;
 import com.onurbcd.eruservice.dto.enums.SourceType;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,13 +19,17 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "source")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Source extends Prime {
 
     @NotNull

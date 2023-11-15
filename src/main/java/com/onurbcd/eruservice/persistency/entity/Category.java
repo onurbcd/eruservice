@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.persistency.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,13 +14,17 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.experimental.SuperBuilder;
+
 import java.util.UUID;
 
 @Entity
 @Table(name = "category")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Category extends Prime {
 
     @ManyToOne(fetch = FetchType.LAZY)

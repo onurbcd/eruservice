@@ -4,11 +4,14 @@ import com.onurbcd.eruservice.dto.budget.BudgetDto;
 import com.onurbcd.eruservice.dto.budget.BudgetSumDto;
 import com.onurbcd.eruservice.persistency.entity.Budget;
 import com.onurbcd.eruservice.persistency.param.SequenceParam;
+import com.onurbcd.eruservice.dto.budget.BudgetValuesDto;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -64,6 +67,17 @@ public interface BudgetRepository extends EruRepository<Budget, BudgetDto>, Sequ
     int updateActive(UUID id, Boolean active);
 
     @Modifying
-    @Query("update Budget b set b.paid = :paid where b.id = :id")
-    int updatePaid(@Param("id") UUID id, @Param("paid") Boolean paid);
+    @Query("update Budget b" +
+            " set b.paid = :paid, b.lastModifiedDate = :lastModifiedDate" +
+            " where b.id = :id")
+    int updatePaid(
+            @Param("id") UUID id,
+            @Param("paid") Boolean paid,
+            @Param("lastModifiedDate") LocalDateTime lastModifiedDate
+    );
+
+    @Query("select new com.onurbcd.eruservice.dto.budget.BudgetValuesDto(b.amount, b.billType.id, b.billType.path, b.paid)" +
+            " from Budget b" +
+            " where b.id = :id")
+    Optional<BudgetValuesDto> getBudgetValues(@Param("id") UUID id);
 }

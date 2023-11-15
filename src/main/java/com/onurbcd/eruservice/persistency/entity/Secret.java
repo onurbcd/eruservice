@@ -1,9 +1,11 @@
 package com.onurbcd.eruservice.persistency.entity;
 
 import com.onurbcd.eruservice.dto.Constants;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.validator.constraints.URL;
 
 import jakarta.persistence.Entity;
@@ -12,8 +14,10 @@ import jakarta.validation.constraints.Size;
 
 @Entity
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Secret extends Prime {
 
     @Size(min = Constants.SIZE_5, max = Constants.SIZE_250)

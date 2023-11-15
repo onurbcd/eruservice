@@ -2,6 +2,7 @@ package com.onurbcd.eruservice.persistency.predicate;
 
 import com.onurbcd.eruservice.dto.enums.DocumentType;
 import com.onurbcd.eruservice.dto.enums.PaymentType;
+import com.onurbcd.eruservice.dto.enums.ReferenceType;
 import com.onurbcd.eruservice.dto.filter.BillFilter;
 import com.onurbcd.eruservice.persistency.entity.QBill;
 import com.querydsl.core.types.Predicate;
@@ -30,6 +31,10 @@ public class BillPredicateBuilder extends BasePredicateBuilder {
                 .billTypeId(filter.getBillTypeId())
                 .documentType(filter.getDocumentType())
                 .paymentType(filter.getPaymentType())
+                .budgetId(filter.getBudgetId())
+                .sourceId(filter.getSourceId())
+                .referenceType(filter.getReferenceType())
+                .closed(filter.getClosed())
                 .search(filter.getSearch())
                 .active(filter.isActive())
                 .build();
@@ -99,6 +104,38 @@ public class BillPredicateBuilder extends BasePredicateBuilder {
     private BillPredicateBuilder paymentType(@Nullable PaymentType paymentType) {
         if (paymentType != null) {
             builder().and(QBill.bill.paymentType.eq(paymentType));
+        }
+
+        return this;
+    }
+
+    private BillPredicateBuilder budgetId(@Nullable UUID budgetId) {
+        if (budgetId != null) {
+            builder().and(QBill.bill.budget.id.eq(budgetId));
+        }
+
+        return this;
+    }
+
+    private BillPredicateBuilder sourceId(@Nullable UUID sourceId) {
+        if (sourceId != null) {
+            builder().and(QBill.bill.source.id.eq(sourceId));
+        }
+
+        return this;
+    }
+
+    private BillPredicateBuilder referenceType(@Nullable ReferenceType referenceType) {
+        if (referenceType != null) {
+            builder().and(QBill.bill.referenceType.eq(referenceType));
+        }
+
+        return this;
+    }
+
+    private BillPredicateBuilder closed(@Nullable Boolean closed) {
+        if (closed != null) {
+            builder().and(QBill.bill.closed.eq(closed));
         }
 
         return this;

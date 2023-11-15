@@ -4,6 +4,7 @@ import com.onurbcd.eruservice.dto.PrimeDto;
 import com.onurbcd.eruservice.dto.document.DocumentDto;
 import com.onurbcd.eruservice.dto.enums.DocumentType;
 import com.onurbcd.eruservice.dto.enums.PaymentType;
+import com.onurbcd.eruservice.dto.enums.ReferenceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,4 +51,20 @@ public class BillDto extends PrimeDto {
     private DocumentType documentType;
 
     private PaymentType paymentType;
+
+    private UUID budgetId;
+
+    private String budgetName;
+
+    private UUID sourceId;
+
+    private String sourceName;
+
+    private ReferenceType referenceType;
+
+    private Boolean closed;
+
+    private UUID balanceId;
+
+    private String balanceName;
 }

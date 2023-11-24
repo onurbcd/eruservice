@@ -9,6 +9,7 @@ import com.onurbcd.eruservice.service.BillService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -32,11 +33,10 @@ public class BillController extends PrimeController<BillSaveDto, BillPatchDto, B
     }
 
     @PostMapping(path = "/openBill", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @ResponseStatus(HttpStatus.CREATED)
-    public void openBill(@Valid @RequestPart("billOpen") BillOpenDto billOpenDto,
-                         @RequestPart(value = "billDocument") MultipartFile multipartFile) {
+    public ResponseEntity<Void> openBill(@Valid @RequestPart("billOpen") BillOpenDto billOpenDto,
+                                         @RequestPart(value = "billDocument") MultipartFile multipartFile) {
 
-        billService.openBill(billOpenDto, multipartFile);
+        return getCreated(billService.openBill(billOpenDto, multipartFile));
     }
 
     @PutMapping(path = "/closeBill/{id}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})

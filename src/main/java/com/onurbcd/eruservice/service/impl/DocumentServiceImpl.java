@@ -60,6 +60,13 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
+    public Document saveOne(MultipartFileDto dto) {
+        validationService.validate(dto.getMultipartFile());
+        var document = create(dto.getMultipartFile(), dto.getPath(), dto.getName());
+        return repository.save(document);
+    }
+
+    @Override
     public Page<DocumentDto> getAll(Pageable pageable) {
         return repository.findAll(pageable).map(toDtoMapper);
     }
@@ -96,8 +103,12 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     private Document create(MultipartFile multipartFile, String path) {
+        return create(multipartFile, path, Objects.requireNonNull(multipartFile.getOriginalFilename()));
+    }
+
+    private Document create(MultipartFile multipartFile, String path, String name) {
         var document = new Document();
-        document.setName(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        document.setName(name);
         document.setPath(path);
         document.setMimeType(Objects.requireNonNull(multipartFile.getContentType()));
         document.setSize(multipartFile.getSize());

@@ -66,11 +66,20 @@ public class BillServiceImpl
     }
 
     @Override
-    public void openBill(BillOpenDto billOpenDto, MultipartFile multipartFile) {
+    public UUID openBill(BillOpenDto billOpenDto, MultipartFile multipartFile) {
         var bill = toEntityMapper.apply(billOpenDto);
         var budgetValues = budgetService.getBudgetValues(billOpenDto.getBudgetId());
         Action.checkIf(Boolean.FALSE.equals(budgetValues.paid())).orElseThrow(Error.BILL_ALREADY_PAID);
-        var billDocParams = BillDocParams.from(budgetValues.path(), billOpenDto.getReferenceDayCalendarDate(), multipartFile);
+
+        var billDocParams = BillDocParams
+                .builder()
+                .path(budgetValues.path())
+                .referenceDayCalendarDate(billOpenDto.getReferenceDayCalendarDate())
+                .multipartFile(multipartFile)
+                .documentType(billOpenDto.getDocumentType())
+                .referenceType(billOpenDto.getReferenceType())
+                .build();
+
         var billDocument = documentService.createDocument(billDocParams);
 
         bill.setName(EruConstants.BOGUS_NAME);
@@ -82,7 +91,8 @@ public class BillServiceImpl
         bill.setBillType(entityManager.getReference(BillType.class, budgetValues.billTypeId()));
         bill.setClosed(Boolean.FALSE);
 
-        repository.save(bill);
+        bill = repository.save(bill);
+        return bill.getId();
     }
 
     @Override
@@ -90,7 +100,16 @@ public class BillServiceImpl
         var bill = getOrElseThrow(id);
         Action.checkIf(Boolean.FALSE.equals(bill.getClosed())).orElseThrow(Error.BILL_ALREADY_CLOSED);
         var path = billTypeService.getPathById(bill.getBillType().getId());
-        var billDocParams = BillDocParams.from(path, bill.getReferenceDay().getCalendarDate(), multipartFile);
+
+        var billDocParams = BillDocParams
+                .builder()
+                .path(path)
+                .referenceDayCalendarDate(bill.getReferenceDay().getCalendarDate())
+                .multipartFile(multipartFile)
+                .documentType(bill.getDocumentType())
+                .referenceType(bill.getReferenceType())
+                .build();
+
         var receipt = documentService.createDocument(billDocParams);
 
         bill.setName(EruConstants.BOGUS_NAME);

@@ -17,4 +17,8 @@ public class MultipartFileDto {
     private String path;
 
     private MultipartFile[] multipartFiles;
+
+    private String name;
+
+    private MultipartFile multipartFile;
 }

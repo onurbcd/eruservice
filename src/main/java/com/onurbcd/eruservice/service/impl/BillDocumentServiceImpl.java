@@ -2,13 +2,14 @@ package com.onurbcd.eruservice.service.impl;
 
 import com.onurbcd.eruservice.config.EruConstants;
 import com.onurbcd.eruservice.dto.document.MultipartFileDto;
+import com.onurbcd.eruservice.dto.enums.ReferenceType;
 import com.onurbcd.eruservice.persistency.entity.Document;
 import com.onurbcd.eruservice.service.BillDocumentService;
 import com.onurbcd.eruservice.service.DocumentService;
 import com.onurbcd.eruservice.service.resource.BillDocParams;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
 
@@ -21,22 +22,53 @@ public class BillDocumentServiceImpl implements BillDocumentService {
     @Override
     public Document createDocument(BillDocParams billDocParams) {
         var path = getPath(billDocParams);
+        var name = getName(billDocParams);
 
         var multipartFileDto = MultipartFileDto
                 .builder()
                 .path(path)
-                .multipartFiles(new MultipartFile[]{billDocParams.getMultipartFile()})
+                .multipartFile(billDocParams.getMultipartFile())
+                .name(name)
                 .build();
 
-        var documents = documentService.save(multipartFileDto);
-        return documents.iterator().next();
+        return documentService.saveOne(multipartFileDto);
     }
 
     private String getPath(BillDocParams billDocParams) {
-        var referenceDayPath = billDocParams
-                .getReferenceDayCalendarDate()
-                .format(DateTimeFormatter.ofPattern(EruConstants.BILL_DOCUMENT_PATH_PATTERN));
+        var pathBuilder = new StringBuilder()
+                .append(EruConstants.BILL_DOCUMENT_PATH)
+                .append(billDocParams.getPath());
 
-        return EruConstants.BILL_DOCUMENT_PATH + billDocParams.getPath() + "/" + referenceDayPath;
+        if (ReferenceType.YEAR != billDocParams.getReferenceType()) {
+            var referenceDayPath = billDocParams
+                    .getReferenceDayCalendarDate()
+                    .format(DateTimeFormatter.ofPattern(EruConstants.BILL_DOCUMENT_PATH_PATTERN));
+
+            pathBuilder
+                    .append("/")
+                    .append(referenceDayPath);
+        }
+
+        return pathBuilder.toString();
+    }
+
+    private String getName(BillDocParams billDocParams) {
+        var referencePart = ReferenceType.YEAR == billDocParams.getReferenceType() ?
+                Integer.toString(billDocParams.getReferenceDayCalendarDate().getYear()) :
+                org.apache.commons.lang3.StringUtils.leftPad(
+                        Integer.toString(billDocParams.getReferenceDayCalendarDate().getMonthValue()),
+                        2,
+                        "0"
+                );
+
+        var extension = StringUtils.getFilenameExtension(billDocParams.getMultipartFile().getOriginalFilename());
+
+        return new StringBuilder()
+                .append(referencePart)
+                .append("-")
+                .append(billDocParams.getDocumentType().getName())
+                .append(".")
+                .append(extension != null ? extension : "pdf")
+                .toString();
     }
 }

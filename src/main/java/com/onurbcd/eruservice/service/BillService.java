@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface BillService extends CrudService {
 
     @Transactional
-    void openBill(BillOpenDto billOpenDto, MultipartFile multipartFile);
+    UUID openBill(BillOpenDto billOpenDto, MultipartFile multipartFile);
 
     @Transactional
     void closeBill(UUID id, BillCloseDto billCloseDto, MultipartFile multipartFile);

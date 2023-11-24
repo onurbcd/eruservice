@@ -14,6 +14,8 @@ public interface DocumentService {
 
     Set<Document> save(MultipartFileDto dto);
 
+    Document saveOne(MultipartFileDto dto);
+
     Page<DocumentDto> getAll(Pageable pageable);
 
     void delete(Set<Document> documents);

@@ -2,8 +2,10 @@ package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.dto.bill.BillDto;
 import com.onurbcd.eruservice.persistency.entity.Bill;
+import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -39,4 +41,9 @@ public interface BillRepository extends EruRepository<Bill, BillDto> {
             " left join fetch b.balance bl" +
             " where b.id = :id")
     Optional<Bill> get(UUID id);
+
+    @Query("select count(*)" +
+            " from Bill b" +
+            " where b.budget.id = :budgetId")
+    long countByBudgetId(@Param("budgetId") UUID budgetId);
 }

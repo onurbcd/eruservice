@@ -68,6 +68,8 @@ public class BillServiceImpl
     @Override
     public UUID openBill(BillOpenDto billOpenDto, MultipartFile multipartFile) {
         var bill = toEntityMapper.apply(billOpenDto);
+        var countByBudgetId = repository.countByBudgetId(billOpenDto.getBudgetId());
+        Action.checkIf(countByBudgetId < 1).orElseThrow(Error.BILL_ALREADY_OPENED);
         var budgetValues = budgetService.getBudgetValues(billOpenDto.getBudgetId());
         Action.checkIf(Boolean.FALSE.equals(budgetValues.paid())).orElseThrow(Error.BILL_ALREADY_PAID);
 

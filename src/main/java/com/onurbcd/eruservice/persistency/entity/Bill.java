@@ -14,6 +14,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Min;
@@ -34,7 +35,7 @@ import java.math.BigDecimal;
 @Setter
 @SuperBuilder
 @AttributeOverride(name = "name", column = @Column(insertable = false, updatable = false))
-@Table(name = "bill")
+@Table(name = "bill", uniqueConstraints = @UniqueConstraint(name = "uc_bill_budget_id", columnNames = "budget_id"))
 public class Bill extends Prime {
 
     /**
@@ -130,7 +131,7 @@ public class Bill extends Prime {
 
     @NotNull
     @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "budget_id", nullable = false)
+    @JoinColumn(name = "budget_id", nullable = false, unique = true)
     private Budget budget;
 
     /**

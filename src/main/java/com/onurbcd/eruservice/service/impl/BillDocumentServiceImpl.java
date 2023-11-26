@@ -42,7 +42,7 @@ public class BillDocumentServiceImpl implements BillDocumentService {
         if (ReferenceType.YEAR != billDocParams.getReferenceType()) {
             var referenceDayPath = billDocParams
                     .getReferenceDayCalendarDate()
-                    .format(DateTimeFormatter.ofPattern(EruConstants.BILL_DOCUMENT_PATH_PATTERN));
+                    .format(DateTimeFormatter.ofPattern(EruConstants.YEAR_PATTERN));
 
             pathBuilder
                     .append("/")
@@ -66,7 +66,7 @@ public class BillDocumentServiceImpl implements BillDocumentService {
         return new StringBuilder()
                 .append(referencePart)
                 .append("-")
-                .append(billDocParams.getDocumentType().getName())
+                .append(billDocParams.getDocumentType().getCode())
                 .append(".")
                 .append(extension != null ? extension : "pdf")
                 .toString();

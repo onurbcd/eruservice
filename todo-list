@@ -6,14 +6,8 @@
 
 4 - Implementar testes de integração, com uma base de dados real ou em memória
 
+5 - Remover arquivo ou arquivos do storage se der um erro numa transação que inclui documentos multipart;
+    OU
+    Criar o documento, mas só gravar no storage no final da transação de base de dados.
+
 ------------------------------------------------------------------------------------------------------------------------
-
--> Bill
-
-    - Criar ação para dar baixa da conta, no dia em que se paga a conta
-
-        - Setar o budget associado como pago
-
-        - Criar Balance para registar pagamento da conta
-
--> Remover arquivo ou arquivos do storage se der um erro numa transação que inclui documentos multipart

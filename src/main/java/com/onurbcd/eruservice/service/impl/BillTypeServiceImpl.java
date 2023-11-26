@@ -3,12 +3,14 @@ package com.onurbcd.eruservice.service.impl;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.billtype.BillTypeDto;
 import com.onurbcd.eruservice.dto.billtype.BillTypeSaveDto;
+import com.onurbcd.eruservice.dto.billtype.BillTypeValuesDto;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import com.onurbcd.eruservice.persistency.predicate.BillTypePredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BillTypeRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
 import com.onurbcd.eruservice.service.BillTypeService;
 import com.onurbcd.eruservice.service.enums.QueryType;
+import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.service.mapper.BillTypeToEntityMapper;
 import org.springframework.stereotype.Service;
 
@@ -35,7 +37,9 @@ public class BillTypeServiceImpl
     }
 
     @Override
-    public String getPathById(UUID id) {
-        return repository.getPathById(id);
+    public BillTypeValuesDto getValues(UUID id) {
+        return repository
+                .getValues(id)
+                .orElseThrow(ApiException.notFound(id));
     }
 }

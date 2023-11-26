@@ -12,6 +12,7 @@ import com.onurbcd.eruservice.persistency.entity.Source;
 import com.onurbcd.eruservice.persistency.predicate.BillPredicateBuilder;
 import com.onurbcd.eruservice.persistency.repository.BillRepository;
 import com.onurbcd.eruservice.service.AbstractCrudService;
+import com.onurbcd.eruservice.service.BillBalanceService;
 import com.onurbcd.eruservice.service.BillDocumentService;
 import com.onurbcd.eruservice.service.BillService;
 import com.onurbcd.eruservice.service.BillTypeService;
@@ -20,6 +21,7 @@ import com.onurbcd.eruservice.service.DayService;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.enums.QueryType;
 import com.onurbcd.eruservice.service.mapper.BillOpenToEntityMapper;
+import com.onurbcd.eruservice.service.resource.BillBalanceParams;
 import com.onurbcd.eruservice.service.resource.BillDocParams;
 import com.onurbcd.eruservice.service.validation.Action;
 import jakarta.persistence.EntityManager;
@@ -51,9 +53,12 @@ public class BillServiceImpl
 
     private final BillTypeService billTypeService;
 
+    private final BillBalanceService billBalanceService;
+
     protected BillServiceImpl(BillRepository repository, BillOpenToEntityMapper toEntityMapper, DayService dayService,
                               EntityManager entityManager, BillDocumentService documentService,
-                              BudgetService budgetService, BillTypeService billTypeService) {
+                              BudgetService budgetService, BillTypeService billTypeService,
+                              BillBalanceService billBalanceService) {
 
         super(repository, toEntityMapper, QueryType.CUSTOM, BillPredicateBuilder.class);
         this.repository = repository;
@@ -63,6 +68,7 @@ public class BillServiceImpl
         this.documentService = documentService;
         this.budgetService = budgetService;
         this.billTypeService = billTypeService;
+        this.billBalanceService = billBalanceService;
     }
 
     @Override
@@ -101,11 +107,11 @@ public class BillServiceImpl
     public void closeBill(UUID id, BillCloseDto billCloseDto, MultipartFile multipartFile) {
         var bill = getOrElseThrow(id);
         Action.checkIf(Boolean.FALSE.equals(bill.getClosed())).orElseThrow(Error.BILL_ALREADY_CLOSED);
-        var path = billTypeService.getPathById(bill.getBillType().getId());
+        var billTypeValues = billTypeService.getValues(bill.getBillType().getId());
 
         var billDocParams = BillDocParams
                 .builder()
-                .path(path)
+                .path(billTypeValues.path())
                 .referenceDayCalendarDate(bill.getReferenceDay().getCalendarDate())
                 .multipartFile(multipartFile)
                 .documentType(bill.getDocumentType())
@@ -114,18 +120,26 @@ public class BillServiceImpl
 
         var receipt = documentService.createDocument(billDocParams);
 
+        var billBalanceParams = BillBalanceParams
+                .builder()
+                .billCloseDto(billCloseDto)
+                .bill(bill)
+                .categoryId(billTypeValues.categoryId())
+                .build();
+
+        var balance = billBalanceService.saveBalance(billBalanceParams);
+
         bill.setName(EruConstants.BOGUS_NAME);
         fillDay(billCloseDto.getPaymentDateCalendarDate(), bill::setPaymentDate);
+        bill.setReceipt(receipt);
         bill.setObservation(billCloseDto.getObservation());
         bill.setPaymentType(billCloseDto.getPaymentType());
         bill.setSource(entityManager.getReference(Source.class, billCloseDto.getSourceId()));
-        bill.setReceipt(receipt);
         bill.setClosed(Boolean.TRUE);
+        bill.setBalance(balance);
 
         repository.save(bill);
         budgetService.update(BudgetPatchDto.of(Boolean.TRUE), bill.getBudget().getId());
-
-        // TODO create balance
     }
 
     private void fillDay(@Nullable LocalDate localDateIn, Consumer<Day> dayConsumer) {

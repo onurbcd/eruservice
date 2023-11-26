@@ -165,6 +165,18 @@ public class BalanceServiceImpl
         );
     }
 
+    @Override
+    public Balance save(BalanceSaveDto saveDto) {
+        var balance = (Balance) super.fillValues(saveDto, null);
+        var sequence = getSequence(null, saveDto.getDayCalendarDate(), saveDto.getBalanceType());
+        var dayId = getDayId(saveDto, null);
+        balance.setDay(entityManager.getReference(Day.class, dayId));
+        balance.setSequence(sequence);
+        var newBalance = repository.save(balance);
+        balanceSourceService.save(newBalance, null);
+        return newBalance;
+    }
+
     private CreateBalance fillValues(BalanceSaveDto saveDto, @Nullable MultipartFile[] multipartFiles,
                                      @Nullable Balance currentBalance) {
 

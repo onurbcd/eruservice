@@ -47,5 +47,5 @@ public enum DocumentType {
      */
     IPTU("iptu");
 
-    private final String name;
+    private final String code;
 }

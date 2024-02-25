@@ -31,8 +31,6 @@ public class BillFilter extends AbstractFilterable {
 
     private PaymentType paymentType;
 
-    private UUID budgetId;
-
     private UUID sourceId;
 
     private ReferenceType referenceType;

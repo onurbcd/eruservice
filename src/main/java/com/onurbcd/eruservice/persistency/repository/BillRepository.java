@@ -2,7 +2,6 @@ package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.dto.bill.BillDto;
 import com.onurbcd.eruservice.persistency.entity.Bill;
-import com.onurbcd.eruservice.persistency.param.SequenceParam;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

@@ -80,14 +80,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
     }
 
-    @ExceptionHandler(MaxUploadSizeExceededException.class)
-    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(MaxUploadSizeExceededException e,
-                                                                          WebRequest request) {
-
-        var apiError = new ApiError(Error.MAX_UPLOAD_SIZE_EXCEEDED, e.getCause().getMessage(), HttpStatus.CONFLICT);
-        return handleExceptionInternal(e, apiError, new HttpHeaders(), HttpStatus.CONFLICT, request);
-    }
-
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Object> handleInternalServerError(Exception e, WebRequest request) {
         return controlException(e, request);
@@ -133,6 +125,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
                                                                      @NonNull WebRequest request) {
 
         var apiError = new ApiError(Error.MISSING_SERVLET_REQUEST_PART, ex.getMessage(), (HttpStatus) status);
+        return handleExceptionInternal(ex, apiError, headers, status, request);
+    }
+
+    @Override
+    protected ResponseEntity<Object> handleMaxUploadSizeExceededException(@NonNull MaxUploadSizeExceededException ex,
+                                                                          @NonNull HttpHeaders headers,
+                                                                          @NonNull HttpStatusCode status,
+                                                                          @NonNull WebRequest request) {
+
+        var apiError = new ApiError(Error.MAX_UPLOAD_SIZE_EXCEEDED, ex.getMessage(), (HttpStatus) status);
         return handleExceptionInternal(ex, apiError, headers, status, request);
     }
 

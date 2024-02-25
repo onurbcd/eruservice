@@ -36,14 +36,14 @@ public class BillSaveDto extends PrimeSaveDto {
     @DecimalMax(Constants.AMOUNT_MAX)
     private BigDecimal value;
 
-    private LocalDate paymentDateCalendarDate; // close
+    private LocalDate paymentDateCalendarDate;
 
     private UUID billDocumentId;
 
-    private UUID receiptId; // close
+    private UUID receiptId;
 
     @Size(max = Constants.SIZE_250)
-    private String observation; // open and close
+    private String observation;
 
     @Min(1)
     private Short installment;
@@ -54,12 +54,12 @@ public class BillSaveDto extends PrimeSaveDto {
     @NotNull
     private DocumentType documentType;
 
-    private PaymentType paymentType; // close
+    private PaymentType paymentType;
 
     @NotNull
     private UUID budgetId;
 
-    private UUID sourceId; // close
+    private UUID sourceId;
 
     @NotNull
     private ReferenceType referenceType;

@@ -5,6 +5,8 @@ import com.onurbcd.eruservice.dto.bill.BillCloseDto;
 import com.onurbcd.eruservice.dto.bill.BillDto;
 import com.onurbcd.eruservice.dto.bill.BillOpenDto;
 import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
+import com.onurbcd.eruservice.dto.filter.BillFilter;
+import com.onurbcd.eruservice.dto.filter.Filterable;
 import com.onurbcd.eruservice.persistency.entity.Bill;
 import com.onurbcd.eruservice.persistency.entity.BillType;
 import com.onurbcd.eruservice.persistency.entity.Day;
@@ -24,6 +26,7 @@ import com.onurbcd.eruservice.service.mapper.BillOpenToEntityMapper;
 import com.onurbcd.eruservice.service.resource.BillBalanceParams;
 import com.onurbcd.eruservice.service.resource.BillDocParams;
 import com.onurbcd.eruservice.service.validation.Action;
+import com.querydsl.core.types.Predicate;
 import jakarta.persistence.EntityManager;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -140,6 +143,11 @@ public class BillServiceImpl
 
         repository.save(bill);
         budgetService.update(BudgetPatchDto.of(Boolean.TRUE), bill.getBudget().getId());
+    }
+
+    @Override
+    protected Predicate getPredicate(Filterable filter) {
+        return BillPredicateBuilder.all((BillFilter) filter);
     }
 
     private void fillDay(@Nullable LocalDate localDateIn, Consumer<Day> dayConsumer) {

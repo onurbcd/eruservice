@@ -31,7 +31,6 @@ public class BillPredicateBuilder extends BasePredicateBuilder {
                 .billTypeId(filter.getBillTypeId())
                 .documentType(filter.getDocumentType())
                 .paymentType(filter.getPaymentType())
-                .budgetId(filter.getBudgetId())
                 .sourceId(filter.getSourceId())
                 .referenceType(filter.getReferenceType())
                 .closed(filter.getClosed())
@@ -104,14 +103,6 @@ public class BillPredicateBuilder extends BasePredicateBuilder {
     private BillPredicateBuilder paymentType(@Nullable PaymentType paymentType) {
         if (paymentType != null) {
             builder().and(QBill.bill.paymentType.eq(paymentType));
-        }
-
-        return this;
-    }
-
-    private BillPredicateBuilder budgetId(@Nullable UUID budgetId) {
-        if (budgetId != null) {
-            builder().and(QBill.bill.budget.id.eq(budgetId));
         }
 
         return this;

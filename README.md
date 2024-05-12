@@ -15,10 +15,6 @@ docker run -p5432:5432 --name postgres -e POSTGRES_PASSWORD=secret -e POSTGRES_U
 $ docker network create eru-network
 # add postgres container to eru-network
 $ docker network connect eru-network postgres
-# pull maven image
-$ docker pull maven:3.8.6-openjdk-18-slim
-# pull jdk image
-$ docker pull openjdk:18-alpine
 # build eru-service container
 $ docker build -t eru-service:1.0.0 .
 # run eru-service container

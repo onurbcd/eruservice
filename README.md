@@ -20,3 +20,14 @@ $ docker build -t eru-service:1.0.0 .
 # run eru-service container
 $ docker run --net eru-network -p8069:8069 --name eru-service -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/eru-service-prd -d eru-service:1.0.0
 ```
+
+## Update Maven Wrapper Version
+
+```shell
+# View current version
+$ ./mvnw --version
+# Update version
+$ ./mvnw -N wrapper:wrapper -Dmaven=3.9.8
+# Check installed version
+$ ./mvnw --version
+```

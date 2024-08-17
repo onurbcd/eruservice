@@ -6,7 +6,6 @@ import com.onurbcd.eruservice.property.AdminProperties;
 import com.onurbcd.eruservice.service.helper.Cryptoable;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.BadPaddingException;
@@ -51,7 +50,7 @@ public class CryptoHelper implements Cryptoable {
                  NoSuchPaddingException e) {
 
             log.error("crypt", e);
-            throw new ApiException(Error.CRYPTO, e.toString(), HttpStatus.CONFLICT);
+            throw new ApiException(Error.CRYPTO, e.toString());
         }
     }
 
@@ -61,7 +60,7 @@ public class CryptoHelper implements Cryptoable {
             return Base64.getEncoder().encodeToString(cipherText);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             log.error("encrypt", e);
-            throw new ApiException(Error.CRYPTO, e.toString(), HttpStatus.CONFLICT);
+            throw new ApiException(Error.CRYPTO, e.toString());
         }
     }
 
@@ -72,7 +71,7 @@ public class CryptoHelper implements Cryptoable {
             return new String(plainText);
         } catch (IllegalBlockSizeException | BadPaddingException e) {
             log.error("decrypt", e);
-            throw new ApiException(Error.CRYPTO, e.toString(), HttpStatus.CONFLICT);
+            throw new ApiException(Error.CRYPTO, e.toString());
         }
     }
 }

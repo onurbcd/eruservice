@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.service.validation;
 
-import org.springframework.web.multipart.MultipartFile;
+import com.onurbcd.eruservice.bogus.MultipartFile;
 
 public interface DocumentValidationService {
 

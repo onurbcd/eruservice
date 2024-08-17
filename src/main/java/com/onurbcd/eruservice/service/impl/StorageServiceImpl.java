@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.bogus.MultipartFile;
 import com.onurbcd.eruservice.persistency.entity.Document;
 import com.onurbcd.eruservice.property.AdminProperties;
 import com.onurbcd.eruservice.service.StorageService;
@@ -8,10 +9,8 @@ import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.service.validation.Action;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -35,7 +34,7 @@ public class StorageServiceImpl implements StorageService {
             Files.copy(inputStream, filePath);
         } catch (IOException e) {
             log.error("Storage File Save", e);
-            throw new ApiException(Error.STORAGE_FILE_SAVE, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException(Error.STORAGE_FILE_SAVE, e.toString());
         }
     }
 
@@ -46,7 +45,7 @@ public class StorageServiceImpl implements StorageService {
             Files.deleteIfExists(filePath);
         } catch (IOException e) {
             log.error("Storage File Delete", e);
-            throw new ApiException(Error.STORAGE_FILE_DELETE, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException(Error.STORAGE_FILE_DELETE, e.toString());
         }
     }
 
@@ -59,7 +58,7 @@ public class StorageServiceImpl implements StorageService {
             return Files.readAllBytes(filePath);
         } catch (IOException e) {
             log.error("Storage File Get", e);
-            throw new ApiException(Error.STORAGE_FILE_GET, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException(Error.STORAGE_FILE_GET, e.toString());
         }
     }
 

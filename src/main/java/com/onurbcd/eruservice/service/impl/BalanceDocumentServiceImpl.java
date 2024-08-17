@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.bogus.MultipartFile;
 import com.onurbcd.eruservice.config.EruConstants;
 import com.onurbcd.eruservice.dto.balance.BalanceSaveDto;
 import com.onurbcd.eruservice.persistency.repository.BalanceRepository;
@@ -12,7 +13,6 @@ import com.onurbcd.eruservice.util.CollectionUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;

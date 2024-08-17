@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.config.annotations.PrimeService;
+/*import com.onurbcd.eruservice.config.annotations.PrimeService;
 import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.filter.IncomeSourceFilter;
 import com.onurbcd.eruservice.dto.incomesource.IncomeSourcePatchDto;
@@ -17,4 +17,4 @@ public class IncomeSourceController
     public IncomeSourceController(@PrimeService(Domain.INCOME_SOURCE) CrudService service) {
         super(service);
     }
-}
+}*/

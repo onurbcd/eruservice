@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.Dtoable;
+/*import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.dto.filter.Filterable;
 import com.onurbcd.eruservice.service.CrudService;
 import lombok.RequiredArgsConstructor;
@@ -75,4 +75,4 @@ public class PrimeController<S extends Dtoable, P extends Dtoable, F extends Fil
 
         return ResponseEntity.created(location).build();
     }
-}
+}*/

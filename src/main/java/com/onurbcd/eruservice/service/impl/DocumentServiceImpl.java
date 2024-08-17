@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.bogus.MultipartFile;
 import com.onurbcd.eruservice.dto.document.DocumentDto;
 import com.onurbcd.eruservice.dto.document.FileDto;
 import com.onurbcd.eruservice.dto.document.MultipartFileDto;
@@ -16,11 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
@@ -87,17 +84,17 @@ public class DocumentServiceImpl implements DocumentService {
 
         var file = storageService.getFile(document);
 
-        var headers = new HttpHeaders();
+        /*var headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=\"" + document.getName() + "\"");
         headers.add(HttpHeaders.CACHE_CONTROL, "no-cache, no-store, must-revalidate");
         headers.add(HttpHeaders.PRAGMA, "no-cache");
-        headers.add(HttpHeaders.EXPIRES, "0");
+        headers.add(HttpHeaders.EXPIRES, "0");*/
 
         return FileDto
                 .builder()
-                .headers(headers)
+                // .headers(headers)
                 .contentLength(document.getSize())
-                .contentType(MediaType.parseMediaType(document.getMimeType()))
+                // .contentType(MediaType.parseMediaType(document.getMimeType()))
                 .resource(new ByteArrayResource(file))
                 .build();
     }
@@ -127,7 +124,7 @@ public class DocumentServiceImpl implements DocumentService {
             messageDigest.update(transformedName.getBytes(StandardCharsets.UTF_8));
             return new BigInteger(1, messageDigest.digest()).toString(RADIX);
         } catch (NoSuchAlgorithmException e) {
-            throw new ApiException(Error.DOCUMENT_GENERATE_HASH, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException(Error.DOCUMENT_GENERATE_HASH, e.toString());
         }
     }
 }

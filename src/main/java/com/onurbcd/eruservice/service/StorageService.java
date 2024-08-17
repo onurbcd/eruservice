@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.service;
 
+import com.onurbcd.eruservice.bogus.MultipartFile;
 import com.onurbcd.eruservice.persistency.entity.Document;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface StorageService {
 

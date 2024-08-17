@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.config.annotations.PrimeService;
+/*import com.onurbcd.eruservice.config.annotations.PrimeService;
 import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.secret.SecretPatchDto;
 import com.onurbcd.eruservice.dto.secret.SecretSaveDto;
@@ -16,4 +16,4 @@ public class SecretController extends PrimeController<SecretSaveDto, SecretPatch
     public SecretController(@PrimeService(Domain.SECRET) CrudService service) {
         super(service);
     }
-}
+}*/

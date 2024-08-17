@@ -5,7 +5,6 @@ import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.util.NumberUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -39,7 +38,6 @@ public enum BalanceOperation {
                 .filter(balanceOperation -> balanceOperation.operation == operation &&
                         balanceOperation.balanceType == balanceType)
                 .findFirst()
-                .orElseThrow(new ApiException(Error.BALANCE_OPERATION_MISSING, HttpStatus.INTERNAL_SERVER_ERROR,
-                        operation.name(), balanceType.name()));
+                .orElseThrow(new ApiException(Error.BALANCE_OPERATION_MISSING, operation.name(), balanceType.name()));
     }
 }

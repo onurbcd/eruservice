@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.enums.Direction;
+/*import com.onurbcd.eruservice.dto.enums.Direction;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,4 +18,4 @@ public interface SequenceApi {
     @PatchMapping("/{id}/{target}/swap-position")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void swapPosition(@PathVariable("id") UUID id, @PathVariable("target") Short targetSequence);
-}
+}*/

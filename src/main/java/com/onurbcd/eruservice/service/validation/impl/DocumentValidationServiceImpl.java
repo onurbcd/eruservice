@@ -1,10 +1,10 @@
 package com.onurbcd.eruservice.service.validation.impl;
 
+import com.onurbcd.eruservice.bogus.MultipartFile;
 import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.validation.Action;
 import com.onurbcd.eruservice.service.validation.DocumentValidationService;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class DocumentValidationServiceImpl implements DocumentValidationService {

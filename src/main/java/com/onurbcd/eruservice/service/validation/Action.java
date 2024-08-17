@@ -4,7 +4,6 @@ import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;
 import com.onurbcd.eruservice.util.CollectionUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.http.HttpStatus;
 
 import java.util.Collection;
 
@@ -18,13 +17,13 @@ public class Action {
 
     public void orElseThrow(Error error, Object... args) {
         if (checkConditionNotTrue) {
-            throw new ApiException(error, HttpStatus.CONFLICT, args);
+            throw new ApiException(error, args);
         }
     }
 
     public void orElseThrowNotFound(Object... args) {
         if (checkConditionNotTrue) {
-            throw ApiException.notFound(Error.ENTITY_DOES_NOT_EXIST, HttpStatus.NOT_FOUND, args);
+            throw ApiException.notFound(Error.ENTITY_DOES_NOT_EXIST, args);
         }
     }
 

@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.document.DocumentDto;
+/*import com.onurbcd.eruservice.dto.document.DocumentDto;
 import com.onurbcd.eruservice.service.DocumentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -41,4 +41,4 @@ public class DocumentController {
                 .contentType(fileDto.getContentType())
                 .body(fileDto.getResource());
     }
-}
+}*/

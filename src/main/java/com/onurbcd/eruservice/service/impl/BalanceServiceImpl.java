@@ -1,5 +1,6 @@
 package com.onurbcd.eruservice.service.impl;
 
+import com.onurbcd.eruservice.bogus.MultipartFile;
 import com.onurbcd.eruservice.config.EruConstants;
 import com.onurbcd.eruservice.config.annotations.PrimeService;
 import com.onurbcd.eruservice.config.enums.Domain;
@@ -33,7 +34,6 @@ import com.querydsl.core.types.Predicate;
 import jakarta.persistence.EntityManager;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

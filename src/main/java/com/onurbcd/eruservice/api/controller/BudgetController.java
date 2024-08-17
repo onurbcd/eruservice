@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
+/*import com.onurbcd.eruservice.dto.budget.BudgetPatchDto;
 import com.onurbcd.eruservice.dto.budget.BudgetSaveDto;
 import com.onurbcd.eruservice.dto.budget.CopyBudgetDto;
 import com.onurbcd.eruservice.dto.budget.SumDto;
@@ -59,4 +59,4 @@ public class BudgetController extends PrimeController<BudgetSaveDto, BudgetPatch
     public void deleteAll(@PathVariable("year") Short refYear, @PathVariable("month") Short refMonth) {
         budgetService.deleteAll(refYear, refMonth);
     }
-}
+}*/

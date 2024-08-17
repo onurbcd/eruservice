@@ -5,7 +5,6 @@ import com.onurbcd.eruservice.service.enums.Error;
 import com.onurbcd.eruservice.service.exception.ApiException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -18,7 +17,7 @@ public final class PredicateBuilderFactory {
         } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException |
                  InstantiationException | InvocationTargetException | ExceptionInInitializerError e) {
 
-            throw new ApiException(Error.INTERNAL_SERVER_ERROR, e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ApiException(Error.INTERNAL_SERVER_ERROR, e.toString());
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.config.annotations.PrimeService;
+/*import com.onurbcd.eruservice.config.annotations.PrimeService;
 import com.onurbcd.eruservice.config.enums.Domain;
 import com.onurbcd.eruservice.dto.category.CategoryPatchDto;
 import com.onurbcd.eruservice.dto.category.CategorySaveDto;
@@ -16,4 +16,4 @@ public class CategoryController extends PrimeController<CategorySaveDto, Categor
     public CategoryController(@PrimeService(Domain.CATEGORY) CrudService service) {
         super(service);
     }
-}
+}*/

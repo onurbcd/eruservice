@@ -1,6 +1,6 @@
 package com.onurbcd.eruservice.api.controller;
 
-import com.onurbcd.eruservice.dto.billtype.BillTypePatchDto;
+/*import com.onurbcd.eruservice.dto.billtype.BillTypePatchDto;
 import com.onurbcd.eruservice.dto.billtype.BillTypeSaveDto;
 import com.onurbcd.eruservice.dto.filter.BillTypeFilter;
 import com.onurbcd.eruservice.service.BillTypeService;
@@ -14,4 +14,4 @@ public class BillTypeController extends PrimeController<BillTypeSaveDto, BillTyp
     public BillTypeController(BillTypeService billTypeService) {
         super(billTypeService);
     }
-}
+}*/

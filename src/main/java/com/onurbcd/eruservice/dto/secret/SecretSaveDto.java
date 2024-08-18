@@ -15,10 +15,7 @@ import lombok.experimental.SuperBuilder;
 public class SecretSaveDto extends PrimeSaveDto {
 
     private String description;
-
     private String link;
-
     private String username;
-
     private String password;
 }

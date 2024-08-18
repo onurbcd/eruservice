@@ -11,10 +11,7 @@ import lombok.Setter;
 public class SecretDto extends PrimeDto {
 
     private String description;
-
     private String link;
-
     private String username;
-
     private String password;
 }

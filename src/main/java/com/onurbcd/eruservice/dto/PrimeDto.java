@@ -12,9 +12,7 @@ import java.util.UUID;
 public class PrimeDto extends AuditDto implements Dtoable {
 
     private UUID id;
-
     private String name;
-
     private Boolean active;
 
     @Override

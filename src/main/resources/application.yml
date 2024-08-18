@@ -29,6 +29,10 @@ spring:
     interactive:
       enabled: true
 
+logging:
+  level:
+    root: off
+
 admin:
   crypto:
     algorithm: AES

@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public interface CrudService {
 
-    void save(Dtoable dto, @Nullable UUID id);
+    String save(Dtoable dto, @Nullable UUID id);
 
     void validate(Dtoable dto, @Nullable Entityable entity, @Nullable UUID id);
 

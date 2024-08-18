@@ -29,11 +29,12 @@ public class BillTypeServiceImpl
     }
 
     @Override
-    public void save(Dtoable dto, UUID id) {
+    public String save(Dtoable dto, UUID id) {
         var currentBillType = id != null ? repository.get(id).orElse(null) : null;
         validate(dto, currentBillType, id);
         var newBillType = (BillType) fillValues(dto, currentBillType);
-        repository.save(newBillType);
+        newBillType = repository.save(newBillType);
+        return newBillType.getId().toString();
     }
 
     @Override

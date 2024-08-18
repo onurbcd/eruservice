@@ -10,6 +10,6 @@ public class PromptConfig implements PromptProvider {
 
     @Override
     public AttributedString getPrompt() {
-        return new AttributedString("erucli:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
+        return new AttributedString("eru-shell:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
     }
 }

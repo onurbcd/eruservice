@@ -42,17 +42,19 @@ public class CategoryService
 
     @Override
     @Transactional
-    public void save(Dtoable dto, UUID id) {
+    public String save(Dtoable dto, UUID id) {
         var categoryDto = (CategorySaveDto) dto;
         var current = id != null ? (CategoryDto) getById(id) : null;
         validationService.validate(categoryDto, current, id);
         var parent = id == null ? (CategoryDto) getById(categoryDto.getParentId()) : null;
         var category = fillValues(categoryDto, current, parent);
-        repository.save(category);
+        category = repository.save(category);
 
         if (id == null && Boolean.TRUE.equals(parent.getLastBranch())) {
             repository.updateLastBranch(Boolean.FALSE, parent.getId());
         }
+
+        return category.getId().toString();
     }
 
     @Override

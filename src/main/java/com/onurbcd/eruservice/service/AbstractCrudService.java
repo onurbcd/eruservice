@@ -50,11 +50,12 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
     }
 
     @Override
-    public void save(Dtoable dto, @Nullable UUID id) {
+    public String save(Dtoable dto, @Nullable UUID id) {
         var currentEntity = id != null ? repository.findById(id).orElse(null) : null;
         validate(dto, currentEntity, id);
         @SuppressWarnings("unchecked") var newEntity = (E) fillValues(dto, currentEntity);
-        repository.save(newEntity);
+        newEntity = repository.save(newEntity);
+        return newEntity.getId().toString();
     }
 
     @Override

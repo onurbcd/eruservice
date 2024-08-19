@@ -1,5 +1,7 @@
 package com.onurbcd.eruservice.command.helper;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onurbcd.eruservice.command.enums.EruTable;
 import com.onurbcd.eruservice.dto.Dtoable;
 import com.onurbcd.eruservice.util.LocalDateTimeFormatter;
@@ -17,7 +19,12 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class ShellHelper {
 
+    private final ObjectMapper eruMapper;
     private final LocalDateTimeFormatter localDateTimeFormatter;
+
+    public String printJson(Dtoable dtoable) throws JsonProcessingException {
+        return eruMapper.writerWithDefaultPrettyPrinter().writeValueAsString(dtoable);
+    }
 
     public String printTable(Page<Dtoable> page, EruTable table) {
         var tableModel = new BeanListTableModel<>(page.getContent(), table.getHeaders());

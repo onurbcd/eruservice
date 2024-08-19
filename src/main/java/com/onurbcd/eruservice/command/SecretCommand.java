@@ -1,7 +1,6 @@
 package com.onurbcd.eruservice.command;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.onurbcd.eruservice.command.enums.EruTable;
 import com.onurbcd.eruservice.command.helper.ShellHelper;
 import com.onurbcd.eruservice.dto.Constants;
@@ -32,7 +31,6 @@ import java.util.UUID;
 public class SecretCommand {
 
     private final SecretService service;
-    private final ObjectMapper eruMapper;
     private final ShellHelper shellHelper;
 
     @ShellMethod(key = "secret-create", value = "Create a secret.")
@@ -80,8 +78,7 @@ public class SecretCommand {
             @NotNull
             UUID id
     ) throws JsonProcessingException {
-        var secret = service.getById(id);
-        return eruMapper.writerWithDefaultPrettyPrinter().writeValueAsString(secret);
+        return shellHelper.printJson(service.getById(id));
     }
 
     @ShellMethod(key = "secret-get-all", value = "Get secrets list.")
@@ -106,11 +103,12 @@ public class SecretCommand {
             @ShellOption(value = {"search", "-f"}, help = "Filter's search option.", defaultValue = ShellOption.NULL)
             String search
     ) {
-        var page = service.getAll(
-                PageRequest.of(pageNumber - 1, pageSize, direction, property),
-                SecretFilter.of(active, search)
+        return shellHelper.printTable(
+                service.getAll(
+                        PageRequest.of(pageNumber - 1, pageSize, direction, property),
+                        SecretFilter.of(active, search)
+                ),
+                EruTable.SECRET
         );
-
-        return shellHelper.printTable(page, EruTable.SECRET);
     }
 }

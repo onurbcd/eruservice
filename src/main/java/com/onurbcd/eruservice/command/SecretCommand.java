@@ -33,8 +33,8 @@ public class SecretCommand {
     private final SecretService service;
     private final ShellHelper shellHelper;
 
-    @ShellMethod(key = "secret-create", value = "Create a secret.")
-    public String create(
+    @ShellMethod(key = "secret-save", value = "Create or update a secret.")
+    public String save(
             @ShellOption(value = {"name", "-n"}, help = "The unique name of the secret.")
             @NotBlank
             @Size(min = 3, max = 50)
@@ -57,7 +57,10 @@ public class SecretCommand {
             @ShellOption(value = {"password", "-p"}, help = "The password to the secret app.")
             @NotBlank
             @Size(min = 3, max = 50)
-            String password
+            String password,
+
+            @ShellOption(value = {"id", "-i"}, help = "The secret's id.", defaultValue = ShellOption.NULL)
+            UUID id
     ) {
         var secretSaveDto = SecretSaveDto
                 .builder()
@@ -69,7 +72,7 @@ public class SecretCommand {
                 .password(password.normalizeSpace())
                 .build();
 
-        return service.save(secretSaveDto, null);
+        return service.save(secretSaveDto, id);
     }
 
     @ShellMethod(key = "secret-get", value = "Get secret by id.")

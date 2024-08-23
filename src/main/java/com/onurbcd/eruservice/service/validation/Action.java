@@ -23,7 +23,7 @@ public class Action {
 
     public void orElseThrowNotFound(Object... args) {
         if (checkConditionNotTrue) {
-            throw ApiException.notFound(Error.ENTITY_DOES_NOT_EXIST, args);
+            throw ApiException.notFound(args);
         }
     }
 

@@ -75,6 +75,16 @@ public class SecretCommand {
         return service.save(secretSaveDto, id);
     }
 
+    @ShellMethod(key = "secret-delete", value = "Delete secret by id.")
+    public String delete(
+            @ShellOption(value = {"id", "-i"}, help = "The secret's id.")
+            @NotNull
+            UUID id
+    ) {
+        service.delete(id);
+        return String.format("Secret with id: '%s' deleted with success.", id);
+    }
+
     @ShellMethod(key = "secret-get", value = "Get secret by id.")
     public String get(
             @ShellOption(value = {"id", "-i"}, help = "The secret's id.")

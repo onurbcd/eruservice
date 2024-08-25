@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.dto.filter;
 
-import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
+@SuperBuilder
 public class BillTypeFilter extends AbstractFilterable {
 }

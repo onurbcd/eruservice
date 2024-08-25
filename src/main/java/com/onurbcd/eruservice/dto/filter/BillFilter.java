@@ -4,13 +4,13 @@ import com.onurbcd.eruservice.dto.enums.DocumentType;
 import com.onurbcd.eruservice.dto.enums.PaymentType;
 import com.onurbcd.eruservice.dto.enums.ReferenceType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@NoArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 public class BillFilter extends AbstractFilterable {

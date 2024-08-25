@@ -3,12 +3,12 @@ package com.onurbcd.eruservice.dto.filter;
 import com.onurbcd.eruservice.dto.enums.CurrencyType;
 import com.onurbcd.eruservice.dto.enums.SourceType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-@NoArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 public class SourceFilter extends AbstractFilterable {

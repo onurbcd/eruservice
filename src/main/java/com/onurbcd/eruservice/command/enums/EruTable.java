@@ -10,7 +10,8 @@ import java.util.LinkedHashMap;
 public enum EruTable {
 
     SECRET(getSecretHeaders()),
-    DAY(getDayHeaders());
+    DAY(getDayHeaders()),
+    INCOME_SOURCE(getIncomeSourceHeaders());
 
     private final LinkedHashMap<String, Object> headers;
 
@@ -33,5 +34,15 @@ public enum EruTable {
         dayHeaders.put("calendarYear", "Calendar Year");
         dayHeaders.put("calendarMonth", "Calendar Month");
         return dayHeaders;
+    }
+
+    private static LinkedHashMap<String, Object> getIncomeSourceHeaders() {
+        var incomeSourceHeaders = LinkedHashMap.<String, Object>newLinkedHashMap(9);
+        incomeSourceHeaders.put("id", "Id");
+        incomeSourceHeaders.put("name", "Name");
+        incomeSourceHeaders.put("active", "Active");
+        incomeSourceHeaders.put("createdDate", "Created Date");
+        incomeSourceHeaders.put("lastModifiedDate", "Last Modified Date");
+        return incomeSourceHeaders;
     }
 }

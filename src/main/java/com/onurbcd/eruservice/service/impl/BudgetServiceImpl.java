@@ -90,7 +90,7 @@ public class BudgetServiceImpl extends AbstractCrudService<Budget, BudgetDto, Bu
         var updatedRowsCount = 0;
 
         if (patchDto.isActive() != null) {
-            updatedRowsCount = repository.updateActive(id, patchDto.getActive());
+            updatedRowsCount = repository.updateActive(id, patchDto.isActive());
         } else if (patchDto.getPaid() != null) {
             updatedRowsCount = repository.updatePaid(id, patchDto.getPaid(), LocalDateTime.now());
         }

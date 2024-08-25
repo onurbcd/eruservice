@@ -96,7 +96,7 @@ public class SecretCommand {
         return shellHelper.printJson(service.getById(id));
     }
 
-    @ShellMethod(key = "secret-get-all", value = "Get secrets list.")
+    @ShellMethod(key = "secret-get-all", value = "Get secret's list.")
     public String getAll(
             @ShellOption(value = {"pageNumber", "-n"}, help = "The page's number.", defaultValue = "1")
             @Min(1)

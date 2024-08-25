@@ -9,7 +9,8 @@ import java.util.LinkedHashMap;
 @Getter
 public enum EruTable {
 
-    SECRET(getSecretHeaders());
+    SECRET(getSecretHeaders()),
+    DAY(getDayHeaders());
 
     private final LinkedHashMap<String, Object> headers;
 
@@ -25,5 +26,12 @@ public enum EruTable {
         secretHeaders.put("createdDate", "Created Date");
         secretHeaders.put("lastModifiedDate", "Last Modified Date");
         return secretHeaders;
+    }
+
+    private static LinkedHashMap<String, Object> getDayHeaders() {
+        var dayHeaders = LinkedHashMap.<String, Object>newLinkedHashMap(9);
+        dayHeaders.put("calendarYear", "Calendar Year");
+        dayHeaders.put("calendarMonth", "Calendar Month");
+        return dayHeaders;
     }
 }

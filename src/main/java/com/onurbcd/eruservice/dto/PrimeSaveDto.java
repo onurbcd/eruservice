@@ -1,20 +1,21 @@
 package com.onurbcd.eruservice.dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
-@SuperBuilder
-public class PrimeSaveDto implements Dtoable {
+public abstract class PrimeSaveDto implements Dtoable {
 
     private String name;
+
+    @Getter(AccessLevel.NONE)
     private Boolean active;
 
     @Override

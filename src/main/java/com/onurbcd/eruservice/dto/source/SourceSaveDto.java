@@ -5,16 +5,17 @@ import com.onurbcd.eruservice.dto.PrimeSaveDto;
 import com.onurbcd.eruservice.dto.enums.CurrencyType;
 import com.onurbcd.eruservice.dto.enums.SourceType;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotNull;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@NoArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 public class SourceSaveDto extends PrimeSaveDto {

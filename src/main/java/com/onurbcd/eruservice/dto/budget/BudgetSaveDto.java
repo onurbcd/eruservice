@@ -5,7 +5,6 @@ import com.onurbcd.eruservice.dto.PrimeSaveDto;
 import com.onurbcd.eruservice.validation.constraint.MaxYear;
 import com.onurbcd.eruservice.validation.constraint.MinYear;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.validation.constraints.DecimalMax;
@@ -13,10 +12,12 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.experimental.SuperBuilder;
+
 import java.math.BigDecimal;
 import java.util.UUID;
 
-@NoArgsConstructor
+@SuperBuilder
 @Getter
 @Setter
 public class BudgetSaveDto extends PrimeSaveDto {

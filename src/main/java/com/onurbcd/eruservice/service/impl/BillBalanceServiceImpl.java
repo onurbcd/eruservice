@@ -28,19 +28,20 @@ public class BillBalanceServiceImpl implements BillBalanceService {
     }
 
     private BalanceSaveDto createBalanceSaveDto(BillBalanceParams params) {
-        var balanceSaveDto = new BalanceSaveDto();
-        balanceSaveDto.setName(EruConstants.BOGUS_NAME);
-        balanceSaveDto.setActive(Boolean.TRUE);
-        balanceSaveDto.setSequence(Short.MAX_VALUE);
-        balanceSaveDto.setDayCalendarDate(params.getBillCloseDto().getPaymentDateCalendarDate());
-        balanceSaveDto.setSourceId(params.getBillCloseDto().getSourceId());
-        balanceSaveDto.setCategoryId(params.getCategoryId());
-        balanceSaveDto.setAmount(params.getBill().getValue());
-        balanceSaveDto.setCode(EruConstants.BILL_CLOSE_CODE);
-        balanceSaveDto.setDescription(createDescription(params));
-        balanceSaveDto.setBalanceType(BalanceType.OUTCOME);
-        balanceSaveDto.setDocumentsIds(null);
-        return balanceSaveDto;
+        return BalanceSaveDto
+                .builder()
+                .name(EruConstants.BOGUS_NAME)
+                .active(Boolean.TRUE)
+                .sequence(Short.MAX_VALUE)
+                .dayCalendarDate(params.getBillCloseDto().getPaymentDateCalendarDate())
+                .sourceId(params.getBillCloseDto().getSourceId())
+                .categoryId(params.getCategoryId())
+                .amount(params.getBill().getValue())
+                .code(EruConstants.BILL_CLOSE_CODE)
+                .description(createDescription(params))
+                .balanceType(BalanceType.OUTCOME)
+                .documentsIds(null)
+                .build();
     }
 
     private String createDescription(BillBalanceParams params) {

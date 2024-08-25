@@ -22,7 +22,7 @@ public class MaxYearValidator implements ConstraintValidator<MaxYear, Short> {
             var hibernateContext = context.unwrap(HibernateConstraintValidatorContext.class);
             hibernateContext.addMessageParameter("value", currentYear);
             hibernateContext.disableDefaultConstraintViolation();
-            hibernateContext.buildConstraintViolationWithTemplate("{javax.validation.constraints.Max.message}")
+            hibernateContext.buildConstraintViolationWithTemplate("The year cannot be greater than {value}")
                     .addConstraintViolation();
         }
 

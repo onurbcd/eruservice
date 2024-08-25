@@ -2,9 +2,8 @@ package com.onurbcd.eruservice.dto.day;
 
 import com.onurbcd.eruservice.validation.constraint.MaxYear;
 import com.onurbcd.eruservice.validation.constraint.MinYear;
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
@@ -13,8 +12,7 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 
-@NoArgsConstructor
-@AllArgsConstructor
+@Builder
 @Getter
 @Setter
 public class CreateMonthDto {
@@ -28,6 +26,14 @@ public class CreateMonthDto {
     @Min(1)
     @Max(12)
     private Short calendarMonth;
+
+    public static CreateMonthDto of(Short calendarYear, Short calendarMonth) {
+        return CreateMonthDto
+                .builder()
+                .calendarYear(calendarYear)
+                .calendarMonth(calendarMonth)
+                .build();
+    }
 
     @Override
     public boolean equals(Object o) {

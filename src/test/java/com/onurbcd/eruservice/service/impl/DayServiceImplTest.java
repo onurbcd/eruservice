@@ -26,7 +26,7 @@ class DayServiceImplTest {
 
     @Test
     void createMonthTest() {
-        var dto = new CreateMonthDto((short) 2022, (short) 1);
+        var dto = CreateMonthDto.of((short) 2022, (short) 1);
         Mockito.doNothing().when(validationService).validate(dto);
         Mockito.when(repository.saveAll(Mockito.anyCollection())).thenReturn(Collections.emptyList());
         service.createMonth(dto);

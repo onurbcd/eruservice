@@ -28,7 +28,7 @@ public class MinYearValidator implements ConstraintValidator<MinYear, Short> {
             var hibernateContext = context.unwrap(HibernateConstraintValidatorContext.class);
             hibernateContext.addMessageParameter("value", config.getMinYear());
             hibernateContext.disableDefaultConstraintViolation();
-            hibernateContext.buildConstraintViolationWithTemplate("{javax.validation.constraints.Min.message}")
+            hibernateContext.buildConstraintViolationWithTemplate("The year cannot be less than {value}")
                     .addConstraintViolation();
         }
 

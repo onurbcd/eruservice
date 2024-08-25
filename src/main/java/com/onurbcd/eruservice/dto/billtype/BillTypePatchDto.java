@@ -1,8 +1,8 @@
 package com.onurbcd.eruservice.dto.billtype;
 
 import com.onurbcd.eruservice.dto.PrimePatchDto;
-import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
+@SuperBuilder
 public class BillTypePatchDto extends PrimePatchDto {
 }

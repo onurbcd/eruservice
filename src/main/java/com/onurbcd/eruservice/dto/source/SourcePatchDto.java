@@ -1,8 +1,8 @@
 package com.onurbcd.eruservice.dto.source;
 
 import com.onurbcd.eruservice.dto.PrimePatchDto;
-import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
-@NoArgsConstructor
+@SuperBuilder
 public class SourcePatchDto extends PrimePatchDto {
 }

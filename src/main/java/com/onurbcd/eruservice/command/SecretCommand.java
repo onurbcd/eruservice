@@ -5,6 +5,7 @@ import com.onurbcd.eruservice.command.enums.EruTable;
 import com.onurbcd.eruservice.command.helper.ShellHelper;
 import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.dto.filter.SecretFilter;
+import com.onurbcd.eruservice.dto.secret.SecretPatchDto;
 import com.onurbcd.eruservice.dto.secret.SecretSaveDto;
 import com.onurbcd.eruservice.service.impl.SecretService;
 import com.onurbcd.eruservice.util.Extension;
@@ -72,7 +73,8 @@ public class SecretCommand {
                 .password(password.normalizeSpace())
                 .build();
 
-        return service.save(secretSaveDto, id);
+        var returnId = service.save(secretSaveDto, id);
+        return String.format("Secret with id: '%s' saved with success.", returnId);
     }
 
     @ShellMethod(key = "secret-delete", value = "Delete secret by id.")
@@ -123,5 +125,18 @@ public class SecretCommand {
                 ),
                 EruTable.SECRET
         );
+    }
+
+    @ShellMethod(key = "secret-update", value = "Update secret's status by id.")
+    public String update(
+            @ShellOption(value = {"id", "-i"}, help = "The secret's id.")
+            @NotNull
+            UUID id,
+
+            @ShellOption(value = {"active", "-a"}, help = "The secret's status.", defaultValue = "false")
+            Boolean active
+    ) {
+        service.update(SecretPatchDto.builder().active(active).build(), id);
+        return String.format("Secret with id: '%s' updated with success.", id);
     }
 }

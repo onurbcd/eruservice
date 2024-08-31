@@ -6,7 +6,6 @@ import lombok.experimental.SuperBuilder;
 public abstract class AbstractFilterable implements Filterable {
 
     private Boolean active;
-
     private String search;
 
     @Override

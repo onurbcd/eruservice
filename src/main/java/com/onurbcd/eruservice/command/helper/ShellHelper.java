@@ -31,7 +31,9 @@ public class ShellHelper {
         var tableBuilder = new TableBuilder(new BeanListTableModel<>(page.getContent(), table.getHeaders()))
                 .addFullBorder(BorderStyle.fancy_heavy)
                 .on(CellMatchers.ofType(LocalDateTime.class))
-                .addFormatter(localDateTimeFormatter);
+                .addFormatter(localDateTimeFormatter)
+                .on(CellMatchers.ofType(Number.class))
+                .addAligner(SimpleHorizontalAligner.right);
 
         var pageInfo = String.format("%nNumber Of Elements: %d%nCurrent Page: %d%nTotal Elements: %d%nTotal Pages: %d",
                 page.getNumberOfElements(), page.getNumber() + 1, page.getTotalElements(), page.getTotalPages());

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface CategoryValidationService {
 
-    void validate(CategorySaveDto dto, @Nullable CategoryDto current, @Nullable UUID id);
+    void validate(CategorySaveDto saveDto, @Nullable CategoryDto current, @Nullable UUID id);
 
     void validateDelete(CategoryDto dto);
 }

@@ -15,9 +15,12 @@ import java.util.UUID;
 public class CategoryValidationServiceImpl implements CategoryValidationService {
 
     @Override
-    public void validate(CategorySaveDto dto, CategoryDto current, UUID id) {
-        Action.checkIf(id != null || dto.getParentId() != null).orElseThrow(Error.CATEGORY_PARENT_IS_NULL);
+    public void validate(CategorySaveDto saveDto, CategoryDto current, UUID id) {
+        Action.checkIf(id != null || saveDto.getParentId() != null).orElseThrow(Error.CATEGORY_PARENT_IS_NULL);
         Action.checkIf(id == null || notLevelOne(current)).orElseThrow(Error.CATEGORY_LEVEL_ONE_IS_UNCHANGEABLE);
+
+        Action.checkIf(id == null || saveDto.getParentId().equals(current.getParentId()))
+                .orElseThrow(Error.CATEGORY_PARENT_IS_UNCHANGEABLE);
     }
 
     @Override

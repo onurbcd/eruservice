@@ -9,9 +9,11 @@ import org.mapstruct.Mapping;
 public interface CategoryToEntityMapper extends EntityMapper<CategorySaveDto, Category> {
 
     @Override
-    @Mapping(source = "parentId", target = "parent.id")
-    @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdDate", ignore = true)
     @Mapping(target = "lastModifiedDate", ignore = true)
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "parent.id", source = "parentId")
+    @Mapping(target = "level", ignore = true)
+    @Mapping(target = "lastBranch", ignore = true)
     Category apply(CategorySaveDto categorySaveDto);
 }

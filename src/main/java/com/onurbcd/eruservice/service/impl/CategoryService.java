@@ -43,11 +43,11 @@ public class CategoryService
     @Override
     @Transactional
     public String save(Dtoable dto, UUID id) {
-        var categoryDto = (CategorySaveDto) dto;
+        var categorySaveDto = (CategorySaveDto) dto;
         var current = id != null ? (CategoryDto) getById(id) : null;
-        validationService.validate(categoryDto, current, id);
-        var parent = id == null ? (CategoryDto) getById(categoryDto.getParentId()) : null;
-        var category = fillValues(categoryDto, current, parent);
+        validationService.validate(categorySaveDto, current, id);
+        var parent = id == null ? (CategoryDto) getById(categorySaveDto.getParentId()) : null;
+        var category = fillValues(categorySaveDto, current, parent);
         category = repository.save(category);
 
         if (id == null && Boolean.TRUE.equals(parent.getLastBranch())) {
@@ -74,11 +74,13 @@ public class CategoryService
         return CategoryPredicateBuilder.all((CategoryFilter) filter);
     }
 
-    private Category fillValues(CategorySaveDto dto, @Nullable CategoryDto current, @Nullable CategoryDto parent) {
-        var category = toEntityMapper.apply(dto);
+    private Category fillValues(CategorySaveDto categorySaveDto, @Nullable CategoryDto current,
+                                @Nullable CategoryDto parent) {
+
+        var category = toEntityMapper.apply(categorySaveDto);
         category.setCreatedDate(current != null ? current.getCreatedDate() : null);
         category.setId(current != null ? current.getId() : null);
-        category.setParent(new Category(current != null ? current.getParentId() : dto.getParentId()));
+        category.setParent(new Category(current != null ? current.getParentId() : categorySaveDto.getParentId()));
         category.setLevel(current != null ? current.getLevel() : (short) (Objects.requireNonNull(parent).getLevel() + 1));
         category.setLastBranch(current != null ? current.getLastBranch() : Boolean.TRUE);
         return category;

@@ -13,12 +13,8 @@ import java.util.UUID;
 public class CategoryDto extends PrimeDto {
 
     private UUID parentId;
-
     private String parentName;
-
     private Short level;
-
     private Boolean lastBranch;
-
     private String description;
 }

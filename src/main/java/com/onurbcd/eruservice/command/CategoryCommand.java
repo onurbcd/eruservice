@@ -16,14 +16,11 @@ import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
 import org.springframework.shell.component.context.ComponentContext;
 import org.springframework.shell.component.flow.ComponentFlow;
-import org.springframework.shell.component.flow.SelectItem;
 import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @ShellComponent
@@ -136,31 +133,16 @@ public class CategoryCommand {
             descriptionDefaultValue = category.getDescription() != null ? category.getDescription() : ShellOption.NULL;
         }
 
+        var items = service.getItems(id);
+
         return flowBuilder
                 .clone()
                 .reset()
                 .withStringInput(NAME).name("* Name:").defaultValue(nameDefaultValue).and()
-                .withSingleItemSelector(PARENT_ID).name("* Parent:").selectItems(getCategories(id)).defaultSelect(parentDefaultValue).max(20).and()
+                .withSingleItemSelector(PARENT_ID).name("* Parent:").selectItems(items).defaultSelect(parentDefaultValue).max(items.size()).and()
                 .withStringInput(DESCRIPTION).name("Description:").defaultValue(descriptionDefaultValue).and()
                 .build()
                 .run()
                 .getContext();
-    }
-
-    private List<SelectItem> getCategories(@Nullable UUID id) {
-        var categories = service.getAll(PageRequest.of(0, 20), CategoryFilter.builder().build());
-        var items = new ArrayList<SelectItem>();
-
-        for (var dto : categories.getContent()) {
-            var category = (CategoryDto) dto;
-
-            if (id != null && id.equals(category.getId())) {
-                continue;
-            }
-
-            items.add(SelectItem.of(category.getName(), category.getId().toString()));
-        }
-
-        return items;
     }
 }

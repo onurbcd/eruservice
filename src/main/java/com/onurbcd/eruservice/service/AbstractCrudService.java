@@ -13,7 +13,9 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
+import org.springframework.shell.component.flow.SelectItem;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.function.Function;
 
@@ -103,6 +105,15 @@ public abstract class AbstractCrudService<E extends Entityable, D extends Dtoabl
         return QueryType.JPA.equals(queryType)
                 ? repository.findAll(predicate, pageable).map(toDtoMapper)
                 : (Page<Dtoable>) repository.getAll(predicate, pageable);
+    }
+
+    @Override
+    public List<SelectItem> getItems(UUID id) {
+        return repository
+                .getItems(id)
+                .stream()
+                .map(categoryItem -> SelectItem.of(categoryItem.getName(), categoryItem.getId().toString()))
+                .toList();
     }
 
     protected E findByIdOrElseThrow(UUID id) {

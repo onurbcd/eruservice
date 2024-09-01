@@ -6,8 +6,10 @@ import com.onurbcd.eruservice.dto.filter.Filterable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.lang.Nullable;
+import org.springframework.shell.component.flow.SelectItem;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface CrudService {
@@ -27,4 +29,6 @@ public interface CrudService {
 
     @Transactional
     void update(Dtoable dto, UUID id);
+
+    List<SelectItem> getItems(@Nullable UUID id);
 }

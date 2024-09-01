@@ -16,10 +16,8 @@ import com.onurbcd.eruservice.service.mapper.CategoryToEntityMapper;
 import com.onurbcd.eruservice.service.validation.CategoryValidationService;
 import com.querydsl.core.types.Predicate;
 import org.springframework.lang.Nullable;
-import org.springframework.shell.component.flow.SelectItem;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -67,14 +65,6 @@ public class CategoryService
         if (childrenCount == 0) {
             repository.updateLastBranch(Boolean.TRUE, category.getParentId());
         }
-    }
-
-    public List<SelectItem> getItems(UUID id) {
-        return repository
-                .getItems(id)
-                .stream()
-                .map(categoryItem -> SelectItem.of(categoryItem.getName(), categoryItem.getId().toString()))
-                .toList();
     }
 
     @Override

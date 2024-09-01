@@ -1,7 +1,7 @@
 package com.onurbcd.eruservice.persistency.repository;
 
 import com.onurbcd.eruservice.dto.category.CategoryDto;
-import com.onurbcd.eruservice.dto.category.CategoryItemDto;
+import com.onurbcd.eruservice.dto.ItemDto;
 import com.onurbcd.eruservice.persistency.entity.Category;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -31,9 +31,11 @@ public interface CategoryRepository extends EruRepository<Category, CategoryDto>
     @Query("update Category c set c.active = :active where c.id = :id")
     int updateActive(UUID id, Boolean active);
 
-    @Query("select new com.onurbcd.eruservice.dto.category.CategoryItemDto(c.id, c.name)" +
+    @Override
+    @Query("select new com.onurbcd.eruservice.dto.ItemDto(c.id, c.name)" +
             " from Category c" +
-            " where c.id != :id" +
+            " where :id is null" +
+            " or c.id != :id" +
             " order by c.name")
-    List<CategoryItemDto> getItems(@Param("id") UUID id);
+    List<ItemDto> getItems(UUID id);
 }

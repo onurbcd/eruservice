@@ -14,23 +14,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.lang.Nullable;
-import org.springframework.shell.component.context.ComponentContext;
 import org.springframework.shell.component.flow.ComponentFlow;
 import org.springframework.shell.standard.ShellCommandGroup;
 import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellOption;
 
+import java.util.Optional;
 import java.util.UUID;
+
+import static com.onurbcd.eruservice.command.CommandConstants.*;
 
 @ShellComponent
 @ShellCommandGroup("Category")
 @RequiredArgsConstructor
 public class CategoryCommand {
-
-    private static final String NAME = "name";
-    private static final String PARENT_ID = "parentId";
-    private static final String DESCRIPTION = "description";
 
     private final CategoryService service;
     private final ComponentFlow.Builder flowBuilder;
@@ -41,11 +39,8 @@ public class CategoryCommand {
             @ShellOption(value = {"id", "-i"}, help = "The category's id.", defaultValue = ShellOption.NULL)
             UUID id
     ) {
-        var result = runSaveFlow(id);
-
-        var returnId = service.save(CategorySaveDto.of(result.get(NAME, String.class),
-                result.get(PARENT_ID, String.class), result.get(DESCRIPTION, String.class)), id);
-
+        var categorySaveDto = runSaveFlow(id);
+        var returnId = service.save(categorySaveDto, id);
         return "Category with id: '%s' saved with success.".formatted(returnId);
     }
 
@@ -121,28 +116,21 @@ public class CategoryCommand {
         return String.format("Category with id: '%s' updated with success.", id);
     }
 
-    private ComponentContext<?> runSaveFlow(@Nullable UUID id) {
-        String nameDefaultValue = null;
-        String parentDefaultValue = null;
-        var descriptionDefaultValue = ShellOption.NULL;
-
-        if (id != null) {
-            var category = (CategoryDto) service.getById(id);
-            nameDefaultValue = category.getName();
-            parentDefaultValue = category.getParentName();
-            descriptionDefaultValue = category.getDescription() != null ? category.getDescription() : ShellOption.NULL;
-        }
-
+    private CategorySaveDto runSaveFlow(@Nullable UUID id) {
+        var category = Optional.ofNullable(id).map(i -> (CategoryDto) service.getById(i)).orElse(null);
+        var name = Optional.ofNullable(category).map(CategoryDto::getName).orElse(null);
+        var parent = Optional.ofNullable(category).map(CategoryDto::getParentName).orElse(null);
+        var description = Optional.ofNullable(category).map(CategoryDto::getDescription).orElse(ShellOption.NULL);
         var items = service.getItems(id);
 
-        return flowBuilder
-                .clone()
-                .reset()
-                .withStringInput(NAME).name("* Name:").defaultValue(nameDefaultValue).and()
-                .withSingleItemSelector(PARENT_ID).name("* Parent:").selectItems(items).defaultSelect(parentDefaultValue).max(items.size()).and()
-                .withStringInput(DESCRIPTION).name("Description:").defaultValue(descriptionDefaultValue).and()
-                .build()
-                .run()
-                .getContext();
+        var result = flowBuilder.clone().reset()
+                .withStringInput(NAME).name(NAME_LABEL).defaultValue(name).and()
+                .withSingleItemSelector(PARENT_ID).name(PARENT_ID_LABEL).selectItems(items).defaultSelect(parent).max(items.size()).and()
+                .withStringInput(DESCRIPTION).name(DESCRIPTION_LABEL).defaultValue(description).and()
+                .build().run().getContext();
+
+        return CategorySaveDto.of(result.get(NAME, String.class),
+                Optional.ofNullable(category).map(CategoryDto::isActive).orElse(Boolean.TRUE),
+                result.get(PARENT_ID, String.class), result.get(DESCRIPTION, String.class));
     }
 }

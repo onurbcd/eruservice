@@ -12,7 +12,8 @@ public enum EruTable {
     SECRET(getSecretHeaders()),
     DAY(getDayHeaders()),
     INCOME_SOURCE(getIncomeSourceHeaders()),
-    CATEGORY(getCategoryHeaders());
+    CATEGORY(getCategoryHeaders()),
+    BILL_TYPE(getBillTypeHeaders());
 
     private final LinkedHashMap<String, Object> headers;
 
@@ -43,6 +44,14 @@ public enum EruTable {
         categoryHeaders.put("level", "Level");
         categoryHeaders.put("lastBranch", "Last Branch");
         categoryHeaders.put("description", "Description");
+        return categoryHeaders;
+    }
+
+    private static LinkedHashMap<String, Object> getBillTypeHeaders() {
+        var categoryHeaders = getDefaultHeaders(8);
+        categoryHeaders.put("path", "Path");
+        categoryHeaders.put("categoryId", "Category Id");
+        categoryHeaders.put("categoryName", "Category Name");
         return categoryHeaders;
     }
 

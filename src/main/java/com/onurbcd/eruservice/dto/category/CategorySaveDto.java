@@ -20,11 +20,11 @@ public class CategorySaveDto extends PrimeSaveDto {
     private UUID parentId;
     private String description;
 
-    public static CategorySaveDto of(String name, String parentId, @Nullable String description) {
+    public static CategorySaveDto of(String name, Boolean active, String parentId, @Nullable String description) {
         return CategorySaveDto
                 .builder()
                 .name(name.normalizeSpace())
-                .active(Boolean.TRUE)
+                .active(active)
                 .parentId(UUID.fromString(parentId))
                 .description(description.defaultToNull())
                 .build();

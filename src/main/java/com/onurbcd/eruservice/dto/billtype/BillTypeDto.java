@@ -13,8 +13,6 @@ import java.util.UUID;
 public class BillTypeDto extends PrimeDto {
 
     private String path;
-
     private UUID categoryId;
-
     private String categoryName;
 }

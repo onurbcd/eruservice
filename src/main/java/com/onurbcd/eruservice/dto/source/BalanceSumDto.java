@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 public class BalanceSumDto {
 
     private BigDecimal partial;
-
     private BigDecimal total;
 
     public BalanceSumDto(@Nullable BigDecimal partial, @Nullable BigDecimal total) {

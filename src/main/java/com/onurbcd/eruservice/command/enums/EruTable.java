@@ -13,7 +13,9 @@ public enum EruTable {
     DAY(getDayHeaders()),
     INCOME_SOURCE(getIncomeSourceHeaders()),
     CATEGORY(getCategoryHeaders()),
-    BILL_TYPE(getBillTypeHeaders());
+    BILL_TYPE(getBillTypeHeaders()),
+    SOURCE(getSourceHeaders()),
+    SOURCE_BALANCE_SUM(getSourceBalanceSumHeaders());
 
     private final LinkedHashMap<String, Object> headers;
 
@@ -53,6 +55,23 @@ public enum EruTable {
         categoryHeaders.put("categoryId", "Category Id");
         categoryHeaders.put("categoryName", "Category Name");
         return categoryHeaders;
+    }
+
+    private static LinkedHashMap<String, Object> getSourceHeaders() {
+        var sourceHeaders = getDefaultHeaders(10);
+        sourceHeaders.put("incomeSourceId", "Income Source Id");
+        sourceHeaders.put("incomeSourceName", "Income Source Name");
+        sourceHeaders.put("sourceType", "Source Type");
+        sourceHeaders.put("currencyType", "Currency Type");
+        sourceHeaders.put("balance", "Balance");
+        return sourceHeaders;
+    }
+
+    private static LinkedHashMap<String, Object> getSourceBalanceSumHeaders() {
+        var sourceBalanceSumHeaders = LinkedHashMap.<String, Object>newLinkedHashMap(2);
+        sourceBalanceSumHeaders.put("partial", "Partial");
+        sourceBalanceSumHeaders.put("total", "Total");
+        return sourceBalanceSumHeaders;
     }
 
     private static LinkedHashMap<String, Object> getDefaultHeaders(int numMappings) {

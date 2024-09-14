@@ -16,12 +16,8 @@ import java.util.UUID;
 public class SourceDto extends PrimeDto {
 
     private UUID incomeSourceId;
-
     private String incomeSourceName;
-
     private SourceType sourceType;
-
     private CurrencyType currencyType;
-
     private BigDecimal balance;
 }

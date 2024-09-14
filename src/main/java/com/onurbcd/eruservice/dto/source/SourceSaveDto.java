@@ -1,15 +1,13 @@
 package com.onurbcd.eruservice.dto.source;
 
-import com.onurbcd.eruservice.dto.Constants;
 import com.onurbcd.eruservice.dto.PrimeSaveDto;
 import com.onurbcd.eruservice.dto.enums.CurrencyType;
 import com.onurbcd.eruservice.dto.enums.SourceType;
+import com.onurbcd.eruservice.util.Extension;
 import lombok.Getter;
 import lombok.Setter;
 
-import jakarta.validation.constraints.DecimalMax;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
+import lombok.experimental.ExtensionMethod;
 import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
@@ -18,19 +16,25 @@ import java.util.UUID;
 @SuperBuilder
 @Getter
 @Setter
+@ExtensionMethod({Extension.class})
 public class SourceSaveDto extends PrimeSaveDto {
 
-    @NotNull
     private UUID incomeSourceId;
-
-    @NotNull
     private SourceType sourceType;
-
-    @NotNull
     private CurrencyType currencyType;
-
-    @NotNull
-    @DecimalMin(Constants.AMOUNT_MIN)
-    @DecimalMax(Constants.AMOUNT_MAX)
     private BigDecimal balance;
+
+    public static SourceSaveDto of(String name, Boolean active, String incomeSourceId, String sourceType,
+                                   String currencyType, String balance) {
+
+        return SourceSaveDto
+                .builder()
+                .name(name.normalizeSpace())
+                .active(active)
+                .incomeSourceId(UUID.fromString(incomeSourceId))
+                .sourceType(SourceType.valueOf(sourceType))
+                .currencyType(CurrencyType.valueOf(currencyType))
+                .balance(new BigDecimal(balance))
+                .build();
+    }
 }

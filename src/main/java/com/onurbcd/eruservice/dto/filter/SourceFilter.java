@@ -14,8 +14,19 @@ import java.util.UUID;
 public class SourceFilter extends AbstractFilterable {
 
     private UUID incomeSourceId;
-
     private SourceType sourceType;
-
     private CurrencyType currencyType;
+
+    public static SourceFilter of(Boolean active, String search, UUID incomeSourceId, SourceType sourceType,
+                                  CurrencyType currencyType) {
+
+        return SourceFilter
+                .builder()
+                .active(active)
+                .search(search)
+                .incomeSourceId(incomeSourceId)
+                .sourceType(sourceType)
+                .currencyType(currencyType)
+                .build();
+    }
 }

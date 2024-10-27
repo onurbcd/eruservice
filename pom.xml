@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.3</version>
+        <version>3.3.5</version>
         <relativePath/>
         <!-- lookup parent from repository -->
     </parent>
@@ -21,16 +21,16 @@
     <properties>
         <java.version>21</java.version>
 
-        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <mapstruct.version>1.6.2</mapstruct.version>
         <querydsl.apt.version>5.1.0</querydsl.apt.version>
         <querydsl.jpa.version>5.1.0</querydsl.jpa.version>
         <jsr305.version>3.0.2</jsr305.version>
 
-        <spring.boot.maven.plugin.version>3.2.3</spring.boot.maven.plugin.version>
-        <maven.compiler.plugin.version>3.12.1</maven.compiler.plugin.version>
+        <spring.boot.maven.plugin.version>3.3.5</spring.boot.maven.plugin.version>
+        <maven.compiler.plugin.version>3.13.0</maven.compiler.plugin.version>
         <lombok.version>1.18.30</lombok.version>
         <apt.maven.plugin.version>1.1.3</apt.maven.plugin.version>
-        <jacoco.maven.plugin.version>0.8.11</jacoco.maven.plugin.version>
+        <jacoco.maven.plugin.version>0.8.12</jacoco.maven.plugin.version>
         <sonar.jacoco.plugin.version>1.3.0.1538</sonar.jacoco.plugin.version>
 
         <sonar.organization>onurbcd</sonar.organization>
@@ -129,6 +129,11 @@
             <groupId>com.google.code.findbugs</groupId>
             <artifactId>jsr305</artifactId>
             <version>${jsr305.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
 
         <!-- TESTS -->

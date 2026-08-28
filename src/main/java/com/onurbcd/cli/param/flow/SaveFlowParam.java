@@ -80,4 +80,13 @@ public class SaveFlowParam {
                 .filesPath(filesPath)
                 .build();
     }
+
+    public static SaveFlowParam bill(List<SelectItem> budgetItems, List<SelectItem> sourceItems, String filesPath) {
+        return SaveFlowParam.builder()
+                .type(FlowType.BILL)
+                .budgetItems(budgetItems)
+                .sourceItems(sourceItems)
+                .filesPath(filesPath)
+                .build();
+    }
 }

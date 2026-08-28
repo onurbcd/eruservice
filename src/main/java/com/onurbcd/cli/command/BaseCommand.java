@@ -79,8 +79,9 @@ public abstract class BaseCommand {
 
     @Nullable
     private PrimeSaveDto runSaveFlow(CommandParam commandParam) {
-        var preParams = preSaveFlow(commandParam);
         var dto = (PrimeDto) Optional.ofNullable(commandParam.getId()).map(crudService::getById).orElse(null);
+        commandParam.setDto(dto);
+        var preParams = preSaveFlow(commandParam);
         var params = SaveFlowParamFactory.create(dto, preParams);
         var flow = FlowFactory.create(flowBuilder, params);
         var result = FlowUtil.runFlowSafely(flow);

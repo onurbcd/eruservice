@@ -6,6 +6,7 @@ import com.onurbcd.cli.exception.ApiException;
 import com.onurbcd.cli.param.MultipartFile;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.shell.component.flow.SelectItem;
 
@@ -49,7 +50,12 @@ public final class FileUtil {
                 .toList();
     }
 
+    @Nullable
     public static MultipartFile fileToMultipartFile(String filePath) {
+        if (StringUtils.isBlank(filePath)) {
+            return null;
+        }
+
         try {
             return fileToMultipart(filePath);
         } catch (IOException e) {

@@ -14,7 +14,6 @@ public final class Constant {
     public static final String ANSI_RED = "\u001B[31m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_YELLOW = "\u001B[33m";
-    public static final String ANSI_BLUE_BACKGROUND = "\u001B[44m";
     public static final String ANSI_RESET = "\u001B[0m";
 
     /*
@@ -190,6 +189,8 @@ public final class Constant {
     public static final String SOURCE_ID_ID = "sourceId";
     public static final String RECEIPT_ID = "receipt";
     public static final String BILL_ID_ID = "billId";
+    public static final String LINKED_DOCUMENT_ID = "documentId";
+    public static final String LINKED_RECEIPT_ID = "receiptId";
 
     /*
      * FLOW LABELS
@@ -232,4 +233,6 @@ public final class Constant {
     public static final String SOURCE_ID_LABEL = "* Source:";
     public static final String RECEIPT_LABEL = "Receipt:";
     public static final String BILL_ID_LABEL = "* Bill:";
+    public static final String LINKED_DOCUMENT_LABEL = "Linked Document:";
+    public static final String LINKED_RECEIPT_LABEL = "Linked Receipt:";
 }

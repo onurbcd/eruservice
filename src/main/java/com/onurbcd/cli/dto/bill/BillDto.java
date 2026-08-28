@@ -4,13 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.onurbcd.cli.dto.PrimeDto;
 import com.onurbcd.cli.dto.document.DocumentDto;
 import com.onurbcd.cli.enums.DocumentType;
+import com.onurbcd.cli.enums.PaymentType;
 import com.onurbcd.cli.enums.ReferenceType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Optional;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -41,4 +44,20 @@ public class BillDto extends PrimeDto {
     private Boolean closed;
     private UUID balanceId;
     private String balanceName;
+    private PaymentType paymentType;
+    private UUID sourceId;
+
+    @Nullable
+    public UUID getBillDocumentId() {
+        return Optional.ofNullable(billDocument)
+                .map(DocumentDto::getId)
+                .orElse(null);
+    }
+
+    @Nullable
+    public UUID getReceiptId() {
+        return Optional.ofNullable(receipt)
+                .map(DocumentDto::getId)
+                .orElse(null);
+    }
 }

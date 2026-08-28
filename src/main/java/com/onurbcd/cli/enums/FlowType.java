@@ -10,5 +10,6 @@ public enum FlowType {
     INCOME_SOURCE,
     SECRET,
     BILL_OPEN,
-    BILL_CLOSE
+    BILL_CLOSE,
+    BILL
 }

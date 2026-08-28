@@ -2,6 +2,7 @@ package com.onurbcd.cli.factory;
 
 import com.onurbcd.cli.dto.PrimeDto;
 import com.onurbcd.cli.dto.balance.BalanceDto;
+import com.onurbcd.cli.dto.bill.BillDto;
 import com.onurbcd.cli.dto.billtype.BillTypeDto;
 import com.onurbcd.cli.dto.budget.BudgetDto;
 import com.onurbcd.cli.dto.category.CategoryDto;
@@ -27,6 +28,7 @@ public final class SaveFlowParamFactory {
             case SOURCE -> SourceSaveFlowParam.of((SourceDto) dto, params);
             case BILL_OPEN -> BillOpenSaveFlowParam.of(params);
             case BILL_CLOSE -> BillCloseSaveFlowParam.of(params);
+            case BILL -> BillSaveFlowParam.of((BillDto) dto, params);
         };
     }
 }

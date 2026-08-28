@@ -5,6 +5,7 @@ import com.onurbcd.cli.dto.Dtoable;
 import com.onurbcd.cli.dto.bill.BillCloseDto;
 import com.onurbcd.cli.dto.bill.BillDto;
 import com.onurbcd.cli.dto.bill.BillOpenDto;
+import com.onurbcd.cli.dto.bill.BillSaveDto;
 import com.onurbcd.cli.dto.budget.BudgetPatchDto;
 import com.onurbcd.cli.dto.filter.BillFilter;
 import com.onurbcd.cli.dto.filter.Filterable;
@@ -23,6 +24,7 @@ import com.onurbcd.cli.util.Constant;
 import com.onurbcd.cli.validator.Action;
 import com.querydsl.core.types.Predicate;
 import jakarta.persistence.EntityManager;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.lang.Nullable;
 import org.springframework.shell.component.flow.SelectItem;
 import org.springframework.stereotype.Service;
@@ -70,6 +72,7 @@ public class BillService extends AbstractCrudService<Bill, BillDto, BillPredicat
         return switch (dto) {
             case BillOpenDto billOpenDto -> openBill(billOpenDto);
             case BillCloseDto billCloseDto -> closeBill(billCloseDto.getBillId(), billCloseDto);
+            case BillSaveDto billSaveDto -> saveBill(id, billSaveDto);
             default -> throw new IllegalArgumentException("Unsupported DTO type: " + dto.getClass().getSimpleName());
         };
     }
@@ -166,6 +169,10 @@ public class BillService extends AbstractCrudService<Bill, BillDto, BillPredicat
         bill = repository.save(bill);
         budgetService.update(BudgetPatchDto.of(Boolean.TRUE), bill.getBudget().getId());
         return bill.getId().toString();
+    }
+
+    private String saveBill(UUID id, BillSaveDto billSaveDto) {
+        return StringUtils.EMPTY;
     }
 
     private void fillDay(@Nullable LocalDate localDateIn, Consumer<Day> dayConsumer) {

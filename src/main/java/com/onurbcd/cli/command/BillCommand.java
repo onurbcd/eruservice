@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.onurbcd.cli.annotation.MaxYear;
 import com.onurbcd.cli.annotation.MinYear;
 import com.onurbcd.cli.config.property.AdminProperties;
+import com.onurbcd.cli.dto.bill.BillDto;
 import com.onurbcd.cli.enums.Error;
 import com.onurbcd.cli.enums.EruTable;
 import com.onurbcd.cli.enums.FlowType;
@@ -47,6 +48,24 @@ public class BillCommand extends BaseCommand {
         this.config = config;
     }
 
+    @ShellMethod(key = "bill-save", value = "Update a bill.")
+    public String save(
+            @ShellOption(value = {"id", "-i"}, help = "The bill's id.", defaultValue = ShellOption.NULL)
+            @NotNull
+            UUID id
+    ) {
+        return baseSave(CommandParam.of(FlowType.BILL, id));
+    }
+
+    @ShellMethod(key = "bill-get", value = "Get bill by id.")
+    public String get(
+            @ShellOption(value = {"id", "-i"}, help = "The bill's id.")
+            @NotNull
+            UUID id
+    ) throws JsonProcessingException {
+        return baseGet(id);
+    }
+
     @ShellMethod(key = "bill-open", value = "Open a bill.")
     public String openBill(
             @ShellOption(value = {"year", "-y"}, help = "The reference year.", defaultValue = ShellOption.NULL)
@@ -77,27 +96,29 @@ public class BillCommand extends BaseCommand {
         return baseSave(CommandParam.of(FlowType.BILL_CLOSE, year, month));
     }
 
-    @ShellMethod(key = "bill-get", value = "Get bill by id.")
-    public String get(
-            @ShellOption(value = {"id", "-i"}, help = "The bill's id.")
-            @NotNull
-            UUID id
-    ) throws JsonProcessingException {
-        return baseGet(id);
-    }
-
     @Override
     protected SaveFlowParam preSaveFlow(CommandParam params) {
-        var year = DateUtil.orCurrentYear(params.getYear());
-        var month = DateUtil.orCurrentMonth(params.getMonth());
-
         switch (params.getFlowType()) {
+            case BILL -> {
+                var dto = (BillDto) params.getDto();
+                Short year = (short) dto.getReferenceDayCalendarDate().getYear();
+                Short month = (short) dto.getReferenceDayCalendarDate().getMonthValue();
+                var budgetItems = budgetService.getMonthlyBudget(year, month);
+                Action.checkIfNotEmpty(budgetItems).orElseThrow(Error.BUDGET_REQUIRED, month, year);
+                var sourceItems = sourceService.getItems(null);
+                Action.checkIfNotEmpty(sourceItems).orElseThrow(Error.SOURCE_REQUIRED);
+                return SaveFlowParam.bill(budgetItems, sourceItems, config.getFilesPath());
+            }
             case BILL_OPEN -> {
+                var year = DateUtil.orCurrentYear(params.getYear());
+                var month = DateUtil.orCurrentMonth(params.getMonth());
                 var budgetItems = budgetService.getMonthlyBudget(year, month);
                 Action.checkIfNotEmpty(budgetItems).orElseThrow(Error.BUDGET_REQUIRED, month, year);
                 return SaveFlowParam.billOpen(budgetItems, config.getFilesPath());
             }
             case BILL_CLOSE -> {
+                var year = DateUtil.orCurrentYear(params.getYear());
+                var month = DateUtil.orCurrentMonth(params.getMonth());
                 var billItems = service.getOpenBills(year, month);
                 Action.checkIfNotEmpty(billItems).orElseThrow(Error.OPEN_BILLS_REQUIRED, month, year);
                 var sourceItems = sourceService.getItems(null);

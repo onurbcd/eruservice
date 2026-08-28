@@ -5,7 +5,9 @@ import com.onurbcd.cli.dto.PrimeSaveDto;
 import com.onurbcd.cli.dto.balance.BalanceDto;
 import com.onurbcd.cli.dto.balance.BalanceSaveDto;
 import com.onurbcd.cli.dto.bill.BillCloseDto;
+import com.onurbcd.cli.dto.bill.BillDto;
 import com.onurbcd.cli.dto.bill.BillOpenDto;
+import com.onurbcd.cli.dto.bill.BillSaveDto;
 import com.onurbcd.cli.dto.billtype.BillTypeDto;
 import com.onurbcd.cli.dto.billtype.BillTypeSaveDto;
 import com.onurbcd.cli.dto.budget.BudgetDto;
@@ -38,6 +40,7 @@ public final class SaveDtoFactory {
             case SOURCE -> SourceSaveDto.of(context, (SourceDto) dto);
             case BILL_OPEN -> BillOpenDto.of(context);
             case BILL_CLOSE -> BillCloseDto.of(context);
+            case BILL -> BillSaveDto.of(context, (BillDto) dto);
         };
     }
 }

@@ -1,8 +1,10 @@
 package com.onurbcd.cli.param;
 
+import com.onurbcd.cli.dto.PrimeDto;
 import com.onurbcd.cli.enums.FlowType;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
@@ -15,6 +17,9 @@ public class CommandParam {
     private Short year;
     private Short month;
 
+    @Setter
+    private PrimeDto dto;
+
     public static CommandParam of(UUID id) {
         return CommandParam.builder()
                 .id(id)
@@ -26,6 +31,13 @@ public class CommandParam {
                 .flowType(flowType)
                 .year(year)
                 .month(month)
+                .build();
+    }
+
+    public static CommandParam of(FlowType flowType, UUID id) {
+        return CommandParam.builder()
+                .flowType(flowType)
+                .id(id)
                 .build();
     }
 }

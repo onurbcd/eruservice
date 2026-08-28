@@ -7,6 +7,8 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.shell.component.flow.ComponentFlow;
 
+import java.util.List;
+
 import static com.onurbcd.cli.util.FlowBuilderWrapper.init;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -23,6 +25,7 @@ public final class FlowFactory {
             case BUDGET -> createBudgetSaveFlow(builder, (BudgetSaveFlowParam) params);
             case BILL_OPEN -> createBillOpenSaveFlow(builder, (BillOpenSaveFlowParam) params);
             case BILL_CLOSE -> createBillCloseSaveFlow(builder, (BillCloseSaveFlowParam) params);
+            case BILL -> createBillSaveFlow(builder, (BillSaveFlowParam) params);
         };
     }
 
@@ -121,5 +124,34 @@ public final class FlowFactory {
                 .select(FlowField.SOURCE_ID, params.getSourceItems())
                 .select(FlowField.RECEIPT, params.getFilesNames())
                 .execute();
+    }
+
+    private static FlowSupplier createBillSaveFlow(ComponentFlow.Builder builder, BillSaveFlowParam params) {
+        return () -> {
+            var wrapper = init(builder)
+                    .input(FlowField.REFERENCE_DAY, params.getReferenceDay())
+                    .input(FlowField.DOCUMENT_DATE, params.getDocumentDate())
+                    .input(FlowField.DUE_DATE, params.getDueDate())
+                    .input(FlowField.PAYMENT_DATE, params.getPaymentDate());
+
+            if (params.getBillDocumentItem() != null) {
+                wrapper.select(FlowField.LINKED_DOCUMENT, List.of(params.getBillDocumentItem()), params.getBillDocument());
+            }
+
+            if (params.getReceiptItem() != null) {
+                wrapper.select(FlowField.LINKED_RECEIPT, List.of(params.getReceiptItem()), params.getReceipt());
+            }
+
+            return wrapper.input(FlowField.OBSERVATION, params.getObservation())
+                    .input(FlowField.INSTALLMENT, params.getInstallment())
+                    .select(FlowField.DOCUMENT_TYPE, params.getDocumentTypeItems(), params.getDocumentType())
+                    .select(FlowField.BUDGET, params.getBudgetItems(), params.getBudget())
+                    .select(FlowField.REFERENCE_TYPE, params.getReferenceTypeItems(), params.getReferenceType())
+                    .select(FlowField.DOCUMENT, params.getFilesNames())
+                    .select(FlowField.RECEIPT, params.getFilesNames())
+                    .select(FlowField.PAYMENT_TYPE, params.getPaymentTypeItems(), params.getPaymentType())
+                    .select(FlowField.SOURCE_ID, params.getSourceItems(), params.getSource())
+                    .execute();
+        };
     }
 }

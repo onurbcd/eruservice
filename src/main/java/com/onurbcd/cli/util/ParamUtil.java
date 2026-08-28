@@ -1,8 +1,10 @@
 package com.onurbcd.cli.util;
 
+import com.onurbcd.cli.dto.document.DocumentDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.lang.Nullable;
+import org.springframework.shell.component.flow.SelectItem;
 import org.springframework.shell.standard.ShellOption;
 
 import java.math.BigDecimal;
@@ -72,6 +74,7 @@ public final class ParamUtil {
                 .orElse(ShellOption.NULL);
     }
 
+    @Nullable
     public static <T> Short getNullShort(@Nullable T input, Function<T, Short> fn) {
         return Optional.ofNullable(input)
                 .map(fn)
@@ -85,6 +88,7 @@ public final class ParamUtil {
                 .collect(Collectors.toSet());
     }
 
+    @Nullable
     public static <T> Set<UUID> getNullUUIDSet(@Nullable T input, Function<T, Set<UUID>> fn) {
         return Optional.ofNullable(input)
                 .map(fn)
@@ -103,5 +107,26 @@ public final class ParamUtil {
         }
 
         return defaultProperties;
+    }
+
+    public static <T> String getUUID(@Nullable T input, Function<T, UUID> fn) {
+        return Optional.ofNullable(input)
+                .map(fn)
+                .map(UUID::toString)
+                .orElse(ShellOption.NULL);
+    }
+
+    public static <T> UUID getNullUUID(@Nullable T input, Function<T, UUID> fn) {
+        return Optional.ofNullable(input)
+                .map(fn)
+                .orElse(null);
+    }
+
+    @Nullable
+    public static <T> SelectItem getDocItem(@Nullable T input, Function<T, DocumentDto> fn) {
+        return Optional.ofNullable(input)
+                .map(fn)
+                .map(doc -> SelectItem.of(doc.getName(), doc.getId().toString(), true, true))
+                .orElse(null);
     }
 }

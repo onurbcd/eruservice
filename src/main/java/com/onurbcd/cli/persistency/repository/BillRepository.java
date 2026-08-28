@@ -39,6 +39,7 @@ public interface BillRepository extends EruRepository<Bill, BillDto> {
             " left join fetch b.documentDate dd" +
             " left join fetch b.paymentDate pd" +
             " left join fetch b.balance bl" +
+            " left join fetch bl.source s" +
             " where b.id = :id")
     Optional<Bill> get(UUID id);
 
